@@ -1,0 +1,101 @@
+{
+  "fluid-unknown" : {
+    "name" : "fluid-unknown",
+    "localised_name" : [
+      "fluid-name.fluid-unknown"
+    ],
+    "order" : "",
+    "default_temperature" : 0,
+    "max_temperature" : 0,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "water" : {
+    "name" : "water",
+    "localised_name" : [
+      "fluid-name.water"
+    ],
+    "order" : "a[fluid]-a[water]",
+    "default_temperature" : 15,
+    "max_temperature" : 100,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "crude-oil" : {
+    "name" : "crude-oil",
+    "localised_name" : [
+      "fluid-name.crude-oil"
+    ],
+    "order" : "a[fluid]-b[crude-oil]",
+    "default_temperature" : 25,
+    "max_temperature" : 25,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "steam" : {
+    "name" : "steam",
+    "localised_name" : [
+      "fluid-name.steam"
+    ],
+    "order" : "a[fluid]-b[steam]",
+    "default_temperature" : 15,
+    "max_temperature" : 1000,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "heavy-oil" : {
+    "name" : "heavy-oil",
+    "localised_name" : [
+      "fluid-name.heavy-oil"
+    ],
+    "order" : "a[fluid]-c[heavy-oil]",
+    "default_temperature" : 25,
+    "max_temperature" : 25,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "light-oil" : {
+    "name" : "light-oil",
+    "localised_name" : [
+      "fluid-name.light-oil"
+    ],
+    "order" : "a[fluid]-d[light-oil]",
+    "default_temperature" : 25,
+    "max_temperature" : 25,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "petroleum-gas" : {
+    "name" : "petroleum-gas",
+    "localised_name" : [
+      "fluid-name.petroleum-gas"
+    ],
+    "order" : "a[fluid]-e[petroleum-gas]",
+    "default_temperature" : 25,
+    "max_temperature" : 25,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "sulfuric-acid" : {
+    "name" : "sulfuric-acid",
+    "localised_name" : [
+      "fluid-name.sulfuric-acid"
+    ],
+    "order" : "a[fluid]-f[sulfuric-acid]",
+    "default_temperature" : 25,
+    "max_temperature" : 25,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  },
+  "lubricant" : {
+    "name" : "lubricant",
+    "localised_name" : [
+      "fluid-name.lubricant"
+    ],
+    "order" : "e[lubricant]",
+    "default_temperature" : 25,
+    "max_temperature" : 25,
+    "fuel_value" : 0,
+    "emissions_multiplier" : 1
+  }
+}

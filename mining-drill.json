@@ -1,0 +1,113 @@
+{
+  "burner-mining-drill" : {
+    "name" : "burner-mining-drill",
+    "localised_name" : [
+      "entity-name.burner-mining-drill"
+    ],
+    "energy_usage" : 150000,
+    "mining_speed" : 0.25,
+    "resource_categories" : {
+      "basic-solid" : true
+    },
+    "allowed_effects" : {
+      "consumption" : false,
+      "speed" : false,
+      "productivity" : false,
+      "pollution" : false
+    },
+    "friendly_map_color" : {
+      "r" : 0,
+      "g" : 96,
+      "b" : 145,
+      "a" : 255
+    },
+    "enemy_map_color" : {
+      "r" : 255,
+      "g" : 25,
+      "b" : 25,
+      "a" : 255
+    },
+    "energy_source" : {
+      "burner" : {
+        "effectivity" : 1,
+        "fuel_categories" : {
+          "chemical" : true
+        },
+        "emissions" : 1.3333333333333e-06
+      }
+    },
+    "pollution" : 12
+  },
+  "electric-mining-drill" : {
+    "name" : "electric-mining-drill",
+    "localised_name" : [
+      "entity-name.electric-mining-drill"
+    ],
+    "energy_usage" : 90000,
+    "mining_speed" : 0.5,
+    "resource_categories" : {
+      "basic-solid" : true
+    },
+    "allowed_effects" : {
+      "consumption" : true,
+      "speed" : true,
+      "productivity" : true,
+      "pollution" : true
+    },
+    "friendly_map_color" : {
+      "r" : 0,
+      "g" : 96,
+      "b" : 145,
+      "a" : 255
+    },
+    "enemy_map_color" : {
+      "r" : 255,
+      "g" : 25,
+      "b" : 25,
+      "a" : 255
+    },
+    "energy_source" : {
+      "electric" : {
+        "drain" : 0,
+        "emissions" : 1.8518518518519e-06
+      }
+    },
+    "pollution" : 10
+  },
+  "pumpjack" : {
+    "name" : "pumpjack",
+    "localised_name" : [
+      "entity-name.pumpjack"
+    ],
+    "energy_usage" : 90000,
+    "mining_speed" : 1,
+    "resource_categories" : {
+      "basic-fluid" : true
+    },
+    "allowed_effects" : {
+      "consumption" : true,
+      "speed" : true,
+      "productivity" : true,
+      "pollution" : true
+    },
+    "friendly_map_color" : {
+      "r" : 0,
+      "g" : 96,
+      "b" : 145,
+      "a" : 255
+    },
+    "enemy_map_color" : {
+      "r" : 255,
+      "g" : 25,
+      "b" : 25,
+      "a" : 255
+    },
+    "energy_source" : {
+      "electric" : {
+        "drain" : 0,
+        "emissions" : 1.8518518518519e-06
+      }
+    },
+    "pollution" : 10
+  }
+}

@@ -1,0 +1,8173 @@
+{
+  "automation" : {
+    "name" : "automation",
+    "localised_name" : [
+      "technology-name.automation"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "assembling-machine-1"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "long-handed-inserter"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 10,
+    "research_unit_energy" : 600,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "automation-2" : {
+    "name" : "automation-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.automation"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "assembling-machine-2"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 40,
+    "research_unit_energy" : 900,
+    "max_level" : 2,
+    "prerequisites" : [
+      "electronics",
+      "steel-processing",
+      "logistic-science-pack"
+    ]
+  },
+  "automation-3" : {
+    "name" : "automation-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.automation"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "assembling-machine-3"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "speed-module",
+      "production-science-pack"
+    ]
+  },
+  "electronics" : {
+    "name" : "electronics",
+    "localised_name" : [
+      "technology-name.electronics"
+    ],
+    "effects" : {
+      
+    },
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 30,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "automation"
+    ]
+  },
+  "fast-inserter" : {
+    "name" : "fast-inserter",
+    "localised_name" : [
+      "technology-name.fast-inserter"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fast-inserter"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "filter-inserter"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 30,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "electronics"
+    ]
+  },
+  "advanced-electronics" : {
+    "name" : "advanced-electronics",
+    "localised_name" : [
+      "technology-name.advanced-electronics"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "advanced-circuit"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "plastics"
+    ]
+  },
+  "advanced-electronics-2" : {
+    "name" : "advanced-electronics-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.advanced-electronics"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "processing-unit"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "chemical-science-pack"
+    ]
+  },
+  "circuit-network" : {
+    "name" : "circuit-network",
+    "localised_name" : [
+      "technology-name.circuit-network"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "red-wire"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "green-wire"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "arithmetic-combinator"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "decider-combinator"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "constant-combinator"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "power-switch"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "programmable-speaker"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "electronics",
+      "logistic-science-pack"
+    ]
+  },
+  "explosives" : {
+    "name" : "explosives",
+    "localised_name" : [
+      "technology-name.explosives"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "explosives"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "sulfur-processing"
+    ]
+  },
+  "logistics" : {
+    "name" : "logistics",
+    "localised_name" : [
+      "technology-name.logistics"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "underground-belt"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "splitter"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 20,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "logistics-2" : {
+    "name" : "logistics-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.logistics"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fast-transport-belt"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fast-underground-belt"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fast-splitter"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "logistics",
+      "logistic-science-pack"
+    ]
+  },
+  "logistics-3" : {
+    "name" : "logistics-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.logistics"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "express-transport-belt"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "express-underground-belt"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "express-splitter"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 900,
+    "max_level" : 3,
+    "prerequisites" : [
+      "production-science-pack",
+      "lubricant"
+    ]
+  },
+  "optics" : {
+    "name" : "optics",
+    "localised_name" : [
+      "technology-name.optics"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "small-lamp"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 10,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "laser" : {
+    "name" : "laser",
+    "localised_name" : [
+      "technology-name.laser"
+    ],
+    "effects" : {
+      
+    },
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "optics",
+      "battery",
+      "chemical-science-pack"
+    ]
+  },
+  "solar-energy" : {
+    "name" : "solar-energy",
+    "localised_name" : [
+      "technology-name.solar-energy"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "solar-panel"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "optics",
+      "electronics",
+      "steel-processing",
+      "logistic-science-pack"
+    ]
+  },
+  "gun-turret" : {
+    "name" : "gun-turret",
+    "localised_name" : [
+      "technology-name.gun-turret"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "gun-turret"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 10,
+    "research_unit_energy" : 600,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "laser-turret" : {
+    "name" : "laser-turret",
+    "localised_name" : [
+      "technology-name.laser-turret"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "laser-turret"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "laser",
+      "military-science-pack"
+    ]
+  },
+  "stone-wall" : {
+    "name" : "stone-wall",
+    "localised_name" : [
+      "technology-name.stone-wall"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "stone-wall"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 10,
+    "research_unit_energy" : 600,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "gate" : {
+    "name" : "gate",
+    "localised_name" : [
+      "technology-name.gate"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "gate"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "stone-wall",
+      "military-2"
+    ]
+  },
+  "engine" : {
+    "name" : "engine",
+    "localised_name" : [
+      "technology-name.engine"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "engine-unit"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "steel-processing",
+      "logistic-science-pack"
+    ]
+  },
+  "electric-engine" : {
+    "name" : "electric-engine",
+    "localised_name" : [
+      "technology-name.electric-engine"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "electric-engine-unit"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "lubricant"
+    ]
+  },
+  "lubricant" : {
+    "name" : "lubricant",
+    "localised_name" : [
+      "technology-name.lubricant"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "lubricant"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-oil-processing"
+    ]
+  },
+  "battery" : {
+    "name" : "battery",
+    "localised_name" : [
+      "technology-name.battery"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "battery"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "sulfur-processing"
+    ]
+  },
+  "landfill" : {
+    "name" : "landfill",
+    "localised_name" : [
+      "technology-name.landfill"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "landfill"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "logistic-science-pack"
+    ]
+  },
+  "braking-force-1" : {
+    "name" : "braking-force-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.braking-force"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "train-braking-force-bonus",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "railway",
+      "chemical-science-pack"
+    ]
+  },
+  "braking-force-2" : {
+    "name" : "braking-force-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.braking-force"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "train-braking-force-bonus",
+        "modifier" : 0.15
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "braking-force-1"
+    ]
+  },
+  "braking-force-3" : {
+    "name" : "braking-force-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.braking-force"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "train-braking-force-bonus",
+        "modifier" : 0.15
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 3,
+    "prerequisites" : [
+      "braking-force-2"
+    ]
+  },
+  "braking-force-4" : {
+    "name" : "braking-force-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.braking-force"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "train-braking-force-bonus",
+        "modifier" : 0.15
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 350,
+    "research_unit_energy" : 1800,
+    "max_level" : 4,
+    "prerequisites" : [
+      "braking-force-3"
+    ]
+  },
+  "braking-force-5" : {
+    "name" : "braking-force-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.braking-force"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "train-braking-force-bonus",
+        "modifier" : 0.15
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 450,
+    "research_unit_energy" : 2100,
+    "max_level" : 5,
+    "prerequisites" : [
+      "braking-force-4"
+    ]
+  },
+  "braking-force-6" : {
+    "name" : "braking-force-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.braking-force"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "train-braking-force-bonus",
+        "modifier" : 0.15
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 550,
+    "research_unit_energy" : 2700,
+    "max_level" : 6,
+    "prerequisites" : [
+      "braking-force-5"
+    ]
+  },
+  "braking-force-7" : {
+    "name" : "braking-force-7",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.braking-force"
+      ],
+      " 7"
+    ],
+    "effects" : [
+      {
+        "type" : "train-braking-force-bonus",
+        "modifier" : 0.15
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 650,
+    "research_unit_energy" : 3600,
+    "max_level" : 7,
+    "prerequisites" : [
+      "braking-force-6"
+    ]
+  },
+  "chemical-science-pack" : {
+    "name" : "chemical-science-pack",
+    "localised_name" : [
+      "technology-name.chemical-science-pack"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "chemical-science-pack"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 600,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-electronics",
+      "sulfur-processing"
+    ]
+  },
+  "logistic-science-pack" : {
+    "name" : "logistic-science-pack",
+    "localised_name" : [
+      "technology-name.logistic-science-pack"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-science-pack"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 300,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "military-science-pack" : {
+    "name" : "military-science-pack",
+    "localised_name" : [
+      "technology-name.military-science-pack"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "military-science-pack"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 30,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military-2",
+      "stone-wall"
+    ]
+  },
+  "production-science-pack" : {
+    "name" : "production-science-pack",
+    "localised_name" : [
+      "technology-name.production-science-pack"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "production-science-pack"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "productivity-module",
+      "advanced-material-processing-2",
+      "railway"
+    ]
+  },
+  "space-science-pack" : {
+    "name" : "space-science-pack",
+    "localised_name" : [
+      "technology-name.space-science-pack"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "satellite"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 2000,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "rocket-silo",
+      "electric-energy-accumulators",
+      "solar-energy"
+    ]
+  },
+  "steel-processing" : {
+    "name" : "steel-processing",
+    "localised_name" : [
+      "technology-name.steel-processing"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "steel-plate"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "steel-chest"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 300,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "utility-science-pack" : {
+    "name" : "utility-science-pack",
+    "localised_name" : [
+      "technology-name.utility-science-pack"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "utility-science-pack"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "robotics",
+      "advanced-electronics-2",
+      "low-density-structure"
+    ]
+  },
+  "advanced-material-processing" : {
+    "name" : "advanced-material-processing",
+    "localised_name" : [
+      "technology-name.advanced-material-processing"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "steel-furnace"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "steel-processing",
+      "logistic-science-pack"
+    ]
+  },
+  "steel-axe" : {
+    "name" : "steel-axe",
+    "localised_name" : [
+      "technology-name.steel-axe"
+    ],
+    "effects" : [
+      {
+        "type" : "character-mining-speed",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "steel-processing"
+    ]
+  },
+  "advanced-material-processing-2" : {
+    "name" : "advanced-material-processing-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.advanced-material-processing"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "electric-furnace"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "advanced-material-processing",
+      "chemical-science-pack"
+    ]
+  },
+  "concrete" : {
+    "name" : "concrete",
+    "localised_name" : [
+      "technology-name.concrete"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "concrete"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "hazard-concrete"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "refined-concrete"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "refined-hazard-concrete"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-material-processing",
+      "automation-2"
+    ]
+  },
+  "electric-energy-accumulators" : {
+    "name" : "electric-energy-accumulators",
+    "localised_name" : [
+      "technology-name.electric-energy-accumulators-1"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "accumulator"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "electric-energy-distribution-1",
+      "battery"
+    ]
+  },
+  "electric-energy-distribution-1" : {
+    "name" : "electric-energy-distribution-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.electric-energy-distribution"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "medium-electric-pole"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "big-electric-pole"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 120,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "electronics",
+      "steel-processing",
+      "logistic-science-pack"
+    ]
+  },
+  "electric-energy-distribution-2" : {
+    "name" : "electric-energy-distribution-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.electric-energy-distribution"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "substation"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 2700,
+    "max_level" : 2,
+    "prerequisites" : [
+      "electric-energy-distribution-1",
+      "chemical-science-pack"
+    ]
+  },
+  "railway" : {
+    "name" : "railway",
+    "localised_name" : [
+      "technology-name.railway"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rail"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "locomotive"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "cargo-wagon"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "logistics-2",
+      "engine"
+    ]
+  },
+  "fluid-wagon" : {
+    "name" : "fluid-wagon",
+    "localised_name" : [
+      "technology-name.fluid-wagon"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fluid-wagon"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "railway",
+      "fluid-handling"
+    ]
+  },
+  "automated-rail-transportation" : {
+    "name" : "automated-rail-transportation",
+    "localised_name" : [
+      "technology-name.automated-rail-transportation"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "train-stop"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "railway"
+    ]
+  },
+  "rail-signals" : {
+    "name" : "rail-signals",
+    "localised_name" : [
+      "technology-name.rail-signals"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rail-signal"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rail-chain-signal"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "automated-rail-transportation"
+    ]
+  },
+  "robotics" : {
+    "name" : "robotics",
+    "localised_name" : [
+      "technology-name.robotics"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "flying-robot-frame"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "electric-engine",
+      "battery"
+    ]
+  },
+  "construction-robotics" : {
+    "name" : "construction-robotics",
+    "localised_name" : [
+      "technology-name.construction-robotics"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "roboport"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-chest-passive-provider"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-chest-storage"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "construction-robot"
+      },
+      {
+        "type" : "ghost-time-to-live",
+        "modifier" : 36288000
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "robotics"
+    ]
+  },
+  "logistic-robotics" : {
+    "name" : "logistic-robotics",
+    "localised_name" : [
+      "technology-name.logistic-robotics"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "roboport"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-chest-passive-provider"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-chest-storage"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-robot"
+      },
+      {
+        "type" : "character-logistic-requests",
+        "modifier" : true
+      },
+      {
+        "type" : "character-logistic-trash-slots",
+        "modifier" : 30
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "robotics"
+    ]
+  },
+  "logistic-system" : {
+    "name" : "logistic-system",
+    "localised_name" : [
+      "technology-name.logistic-system"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-chest-active-provider"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-chest-requester"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "logistic-chest-buffer"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "utility-science-pack",
+      "logistic-robotics"
+    ]
+  },
+  "personal-roboport-equipment" : {
+    "name" : "personal-roboport-equipment",
+    "localised_name" : [
+      "technology-name.personal-roboport-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "personal-roboport-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "construction-robotics",
+      "solar-panel-equipment"
+    ]
+  },
+  "personal-roboport-mk2-equipment" : {
+    "name" : "personal-roboport-mk2-equipment",
+    "localised_name" : [
+      "technology-name.personal-roboport-mk2-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "personal-roboport-mk2-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "personal-roboport-equipment",
+      "utility-science-pack"
+    ]
+  },
+  "worker-robots-speed-1" : {
+    "name" : "worker-robots-speed-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-speed"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-speed",
+        "modifier" : 0.35
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "robotics"
+    ]
+  },
+  "worker-robots-speed-2" : {
+    "name" : "worker-robots-speed-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-speed"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-speed",
+        "modifier" : 0.4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "worker-robots-speed-1"
+    ]
+  },
+  "worker-robots-speed-3" : {
+    "name" : "worker-robots-speed-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-speed"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-speed",
+        "modifier" : 0.45
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "worker-robots-speed-2"
+    ]
+  },
+  "worker-robots-speed-4" : {
+    "name" : "worker-robots-speed-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-speed"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-speed",
+        "modifier" : 0.55
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 3600,
+    "max_level" : 4,
+    "prerequisites" : [
+      "worker-robots-speed-3"
+    ]
+  },
+  "mining-productivity-1" : {
+    "name" : "mining-productivity-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.mining-productivity"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "mining-drill-productivity-bonus",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 3600,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-electronics"
+    ]
+  },
+  "mining-productivity-2" : {
+    "name" : "mining-productivity-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.mining-productivity"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "mining-drill-productivity-bonus",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 3600,
+    "max_level" : 2,
+    "prerequisites" : [
+      "mining-productivity-1"
+    ]
+  },
+  "mining-productivity-3" : {
+    "name" : "mining-productivity-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.mining-productivity"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "mining-drill-productivity-bonus",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 1000,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "mining-productivity-2"
+    ]
+  },
+  "mining-productivity-4" : {
+    "name" : "mining-productivity-4",
+    "localised_name" : [
+      "technology-name.mining-productivity"
+    ],
+    "effects" : [
+      {
+        "type" : "mining-drill-productivity-bonus",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "2500*(L - 3)",
+    "prerequisites" : [
+      "mining-productivity-3",
+      "space-science-pack"
+    ]
+  },
+  "worker-robots-speed-5" : {
+    "name" : "worker-robots-speed-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-speed"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-speed",
+        "modifier" : 0.65
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 3600,
+    "max_level" : 5,
+    "prerequisites" : [
+      "worker-robots-speed-4"
+    ]
+  },
+  "worker-robots-speed-6" : {
+    "name" : "worker-robots-speed-6",
+    "localised_name" : [
+      "technology-name.worker-robots-speed"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-speed",
+        "modifier" : 0.65
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "2^(L-6)*1000",
+    "prerequisites" : [
+      "worker-robots-speed-5",
+      "space-science-pack"
+    ]
+  },
+  "worker-robots-storage-1" : {
+    "name" : "worker-robots-storage-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-storage"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-storage",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "robotics"
+    ]
+  },
+  "worker-robots-storage-2" : {
+    "name" : "worker-robots-storage-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-storage"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-storage",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 2,
+    "prerequisites" : [
+      "worker-robots-storage-1"
+    ]
+  },
+  "worker-robots-storage-3" : {
+    "name" : "worker-robots-storage-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.worker-robots-storage"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "worker-robot-storage",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 450,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "worker-robots-storage-2"
+    ]
+  },
+  "toolbelt" : {
+    "name" : "toolbelt",
+    "localised_name" : [
+      "technology-name.toolbelt"
+    ],
+    "effects" : [
+      {
+        "type" : "character-inventory-slots-bonus",
+        "modifier" : 10
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "logistic-science-pack"
+    ]
+  },
+  "research-speed-1" : {
+    "name" : "research-speed-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.research-speed"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "laboratory-speed",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "automation-2"
+    ]
+  },
+  "research-speed-2" : {
+    "name" : "research-speed-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.research-speed"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "laboratory-speed",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "research-speed-1"
+    ]
+  },
+  "research-speed-3" : {
+    "name" : "research-speed-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.research-speed"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "laboratory-speed",
+        "modifier" : 0.4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 3,
+    "prerequisites" : [
+      "research-speed-2"
+    ]
+  },
+  "research-speed-4" : {
+    "name" : "research-speed-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.research-speed"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "laboratory-speed",
+        "modifier" : 0.5
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 1800,
+    "max_level" : 4,
+    "prerequisites" : [
+      "research-speed-3"
+    ]
+  },
+  "research-speed-5" : {
+    "name" : "research-speed-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.research-speed"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "laboratory-speed",
+        "modifier" : 0.5
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 1800,
+    "max_level" : 5,
+    "prerequisites" : [
+      "research-speed-4"
+    ]
+  },
+  "research-speed-6" : {
+    "name" : "research-speed-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.research-speed"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "laboratory-speed",
+        "modifier" : 0.6
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 1800,
+    "max_level" : 6,
+    "prerequisites" : [
+      "research-speed-5"
+    ]
+  },
+  "stack-inserter" : {
+    "name" : "stack-inserter",
+    "localised_name" : [
+      "technology-name.stack-inserter"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "stack-inserter"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "stack-filter-inserter"
+      },
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "fast-inserter",
+      "logistics-2",
+      "advanced-electronics"
+    ]
+  },
+  "inserter-capacity-bonus-1" : {
+    "name" : "inserter-capacity-bonus-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.inserter-capacity-bonus"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "stack-inserter"
+    ]
+  },
+  "inserter-capacity-bonus-2" : {
+    "name" : "inserter-capacity-bonus-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.inserter-capacity-bonus"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "inserter-stack-size-bonus",
+        "modifier" : 1
+      },
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "inserter-capacity-bonus-1"
+    ]
+  },
+  "inserter-capacity-bonus-3" : {
+    "name" : "inserter-capacity-bonus-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.inserter-capacity-bonus"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 3,
+    "prerequisites" : [
+      "inserter-capacity-bonus-2"
+    ]
+  },
+  "inserter-capacity-bonus-4" : {
+    "name" : "inserter-capacity-bonus-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.inserter-capacity-bonus"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 4,
+    "prerequisites" : [
+      "inserter-capacity-bonus-3"
+    ]
+  },
+  "inserter-capacity-bonus-5" : {
+    "name" : "inserter-capacity-bonus-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.inserter-capacity-bonus"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 1800,
+    "max_level" : 5,
+    "prerequisites" : [
+      "inserter-capacity-bonus-4"
+    ]
+  },
+  "inserter-capacity-bonus-6" : {
+    "name" : "inserter-capacity-bonus-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.inserter-capacity-bonus"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 1800,
+    "max_level" : 6,
+    "prerequisites" : [
+      "inserter-capacity-bonus-5"
+    ]
+  },
+  "inserter-capacity-bonus-7" : {
+    "name" : "inserter-capacity-bonus-7",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.inserter-capacity-bonus"
+      ],
+      " 7"
+    ],
+    "effects" : [
+      {
+        "type" : "inserter-stack-size-bonus",
+        "modifier" : 1
+      },
+      {
+        "type" : "stack-inserter-capacity-bonus",
+        "modifier" : 2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 600,
+    "research_unit_energy" : 1800,
+    "max_level" : 7,
+    "prerequisites" : [
+      "inserter-capacity-bonus-6"
+    ]
+  },
+  "oil-processing" : {
+    "name" : "oil-processing",
+    "localised_name" : [
+      "technology-name.oil-processing"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "pumpjack"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "oil-refinery"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "chemical-plant"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "basic-oil-processing"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "solid-fuel-from-petroleum-gas"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "fluid-handling"
+    ]
+  },
+  "fluid-handling" : {
+    "name" : "fluid-handling",
+    "localised_name" : [
+      "technology-name.fluid-handling"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "storage-tank"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "pump"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fill-water-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-water-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fill-sulfuric-acid-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-sulfuric-acid-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fill-crude-oil-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-crude-oil-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fill-heavy-oil-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-heavy-oil-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fill-light-oil-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-light-oil-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fill-petroleum-gas-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-petroleum-gas-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fill-lubricant-barrel"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "empty-lubricant-barrel"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "automation-2",
+      "engine"
+    ]
+  },
+  "advanced-oil-processing" : {
+    "name" : "advanced-oil-processing",
+    "localised_name" : [
+      "technology-name.advanced-oil-processing"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "advanced-oil-processing"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "heavy-oil-cracking"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "light-oil-cracking"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "solid-fuel-from-heavy-oil"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "solid-fuel-from-light-oil"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "chemical-science-pack"
+    ]
+  },
+  "coal-liquefaction" : {
+    "name" : "coal-liquefaction",
+    "localised_name" : [
+      "technology-name.coal-liquefaction"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "coal-liquefaction"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-oil-processing",
+      "production-science-pack"
+    ]
+  },
+  "sulfur-processing" : {
+    "name" : "sulfur-processing",
+    "localised_name" : [
+      "technology-name.sulfur-processing"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "sulfuric-acid"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "sulfur"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "oil-processing"
+    ]
+  },
+  "plastics" : {
+    "name" : "plastics",
+    "localised_name" : [
+      "technology-name.plastics"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "plastic-bar"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "oil-processing"
+    ]
+  },
+  "artillery" : {
+    "name" : "artillery",
+    "localised_name" : [
+      "technology-name.artillery"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "artillery-wagon"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "artillery-turret"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "artillery-shell"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "artillery-targeting-remote"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 2000,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military-4",
+      "tank"
+    ]
+  },
+  "spidertron" : {
+    "name" : "spidertron",
+    "localised_name" : [
+      "technology-name.spidertron"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "spidertron"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "spidertron-remote"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 2500,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military-4",
+      "exoskeleton-equipment",
+      "fusion-reactor-equipment",
+      "rocketry",
+      "rocket-control-unit",
+      "effectivity-module-3"
+    ]
+  },
+  "military" : {
+    "name" : "military",
+    "localised_name" : [
+      "technology-name.military"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "submachine-gun"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "shotgun"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "shotgun-shell"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 10,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : {
+      
+    }
+  },
+  "atomic-bomb" : {
+    "name" : "atomic-bomb",
+    "localised_name" : [
+      "technology-name.atomic-bomb"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "atomic-bomb"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 5000,
+    "research_unit_energy" : 2700,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military-4",
+      "kovarex-enrichment-process",
+      "rocket-control-unit",
+      "rocketry"
+    ]
+  },
+  "military-2" : {
+    "name" : "military-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.military"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "piercing-rounds-magazine"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "grenade"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 20,
+    "research_unit_energy" : 900,
+    "max_level" : 2,
+    "prerequisites" : [
+      "military",
+      "steel-processing",
+      "logistic-science-pack"
+    ]
+  },
+  "uranium-ammo" : {
+    "name" : "uranium-ammo",
+    "localised_name" : [
+      "technology-name.uranium-ammo"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "uranium-rounds-magazine"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "uranium-cannon-shell"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "explosive-uranium-cannon-shell"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 1000,
+    "research_unit_energy" : 2700,
+    "max_level" : 1,
+    "prerequisites" : [
+      "uranium-processing",
+      "military-4",
+      "tank"
+    ]
+  },
+  "military-3" : {
+    "name" : "military-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.military"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "poison-capsule"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "slowdown-capsule"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "combat-shotgun"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 3,
+    "prerequisites" : [
+      "chemical-science-pack",
+      "military-science-pack"
+    ]
+  },
+  "military-4" : {
+    "name" : "military-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.military"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "piercing-shotgun-shell"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "cluster-grenade"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 2700,
+    "max_level" : 4,
+    "prerequisites" : [
+      "military-3",
+      "utility-science-pack",
+      "explosives"
+    ]
+  },
+  "automobilism" : {
+    "name" : "automobilism",
+    "localised_name" : [
+      "technology-name.automobilism"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "car"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "logistics-2",
+      "engine"
+    ]
+  },
+  "flammables" : {
+    "name" : "flammables",
+    "localised_name" : [
+      "technology-name.flammables"
+    ],
+    "effects" : {
+      
+    },
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "oil-processing"
+    ]
+  },
+  "flamethrower" : {
+    "name" : "flamethrower",
+    "localised_name" : [
+      "technology-name.flamethrower"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "flamethrower"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "flamethrower-ammo"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "flamethrower-turret"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "flammables",
+      "military-science-pack"
+    ]
+  },
+  "tank" : {
+    "name" : "tank",
+    "localised_name" : [
+      "technology-name.tank"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "tank"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "cannon-shell"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "explosive-cannon-shell"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 250,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "automobilism",
+      "military-3",
+      "explosives"
+    ]
+  },
+  "land-mine" : {
+    "name" : "land-mine",
+    "localised_name" : [
+      "technology-name.land-mine"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "land-mine"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "explosives",
+      "military-science-pack"
+    ]
+  },
+  "rocketry" : {
+    "name" : "rocketry",
+    "localised_name" : [
+      "technology-name.rocketry"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rocket-launcher"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rocket"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 120,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "explosives",
+      "flammables",
+      "military-science-pack"
+    ]
+  },
+  "explosive-rocketry" : {
+    "name" : "explosive-rocketry",
+    "localised_name" : [
+      "technology-name.explosive-rocketry"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "explosive-rocket"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "rocketry",
+      "military-3"
+    ]
+  },
+  "energy-weapons-damage-1" : {
+    "name" : "energy-weapons-damage-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.energy-weapons-damage"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "laser",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "laser",
+      "military-science-pack"
+    ]
+  },
+  "refined-flammables-1" : {
+    "name" : "refined-flammables-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.refined-flammables"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "flamethrower",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "flamethrower-turret",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "flamethrower"
+    ]
+  },
+  "stronger-explosives-1" : {
+    "name" : "stronger-explosives-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.stronger-explosives"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "grenade",
+        "modifier" : 0.25
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military-2"
+    ]
+  },
+  "weapon-shooting-speed-1" : {
+    "name" : "weapon-shooting-speed-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.weapon-shooting-speed"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "bullet",
+        "modifier" : 0.1
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military"
+    ]
+  },
+  "artillery-shell-range-1" : {
+    "name" : "artillery-shell-range-1",
+    "localised_name" : [
+      "technology-name.artillery-shell-range"
+    ],
+    "effects" : [
+      {
+        "type" : "artillery-range",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "2^L*1000",
+    "prerequisites" : [
+      "artillery",
+      "space-science-pack"
+    ]
+  },
+  "artillery-shell-speed-1" : {
+    "name" : "artillery-shell-speed-1",
+    "localised_name" : [
+      "technology-name.artillery-shell-speed"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "artillery-shell",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "1000+3^(L-1)*1000",
+    "prerequisites" : [
+      "artillery",
+      "space-science-pack"
+    ]
+  },
+  "physical-projectile-damage-1" : {
+    "name" : "physical-projectile-damage-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.physical-projectile-damage"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "bullet",
+        "modifier" : 0.1
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "gun-turret",
+        "modifier" : 0.1
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military"
+    ]
+  },
+  "energy-weapons-damage-2" : {
+    "name" : "energy-weapons-damage-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.energy-weapons-damage"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "laser",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "energy-weapons-damage-1"
+    ]
+  },
+  "physical-projectile-damage-2" : {
+    "name" : "physical-projectile-damage-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.physical-projectile-damage"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "bullet",
+        "modifier" : 0.1
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "gun-turret",
+        "modifier" : 0.1
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "physical-projectile-damage-1"
+    ]
+  },
+  "refined-flammables-2" : {
+    "name" : "refined-flammables-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.refined-flammables"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "flamethrower",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "flamethrower-turret",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "refined-flammables-1"
+    ]
+  },
+  "stronger-explosives-2" : {
+    "name" : "stronger-explosives-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.stronger-explosives"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "grenade",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "landmine",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "stronger-explosives-1"
+    ]
+  },
+  "weapon-shooting-speed-2" : {
+    "name" : "weapon-shooting-speed-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.weapon-shooting-speed"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "bullet",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "weapon-shooting-speed-1"
+    ]
+  },
+  "energy-weapons-damage-3" : {
+    "name" : "energy-weapons-damage-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.energy-weapons-damage"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "laser",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "energy-weapons-damage-2"
+    ]
+  },
+  "physical-projectile-damage-3" : {
+    "name" : "physical-projectile-damage-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.physical-projectile-damage"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "bullet",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "gun-turret",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "physical-projectile-damage-2"
+    ]
+  },
+  "refined-flammables-3" : {
+    "name" : "refined-flammables-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.refined-flammables"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "flamethrower",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "flamethrower-turret",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "refined-flammables-2"
+    ]
+  },
+  "stronger-explosives-3" : {
+    "name" : "stronger-explosives-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.stronger-explosives"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "rocket",
+        "modifier" : 0.3
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "grenade",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "landmine",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "stronger-explosives-2"
+    ]
+  },
+  "weapon-shooting-speed-3" : {
+    "name" : "weapon-shooting-speed-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.weapon-shooting-speed"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "bullet",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "rocket",
+        "modifier" : 0.5
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "weapon-shooting-speed-2"
+    ]
+  },
+  "energy-weapons-damage-4" : {
+    "name" : "energy-weapons-damage-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.energy-weapons-damage"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "laser",
+        "modifier" : 0.4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 3600,
+    "max_level" : 4,
+    "prerequisites" : [
+      "energy-weapons-damage-3"
+    ]
+  },
+  "physical-projectile-damage-4" : {
+    "name" : "physical-projectile-damage-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.physical-projectile-damage"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "bullet",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "gun-turret",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 3600,
+    "max_level" : 4,
+    "prerequisites" : [
+      "physical-projectile-damage-3"
+    ]
+  },
+  "refined-flammables-4" : {
+    "name" : "refined-flammables-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.refined-flammables"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "flamethrower",
+        "modifier" : 0.3
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "flamethrower-turret",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 3600,
+    "max_level" : 4,
+    "prerequisites" : [
+      "refined-flammables-3"
+    ]
+  },
+  "stronger-explosives-4" : {
+    "name" : "stronger-explosives-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.stronger-explosives"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "rocket",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "grenade",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "landmine",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 3600,
+    "max_level" : 4,
+    "prerequisites" : [
+      "stronger-explosives-3"
+    ]
+  },
+  "weapon-shooting-speed-4" : {
+    "name" : "weapon-shooting-speed-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.weapon-shooting-speed"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "bullet",
+        "modifier" : 0.3
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.3
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "rocket",
+        "modifier" : 0.7
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 3600,
+    "max_level" : 4,
+    "prerequisites" : [
+      "weapon-shooting-speed-3"
+    ]
+  },
+  "energy-weapons-damage-5" : {
+    "name" : "energy-weapons-damage-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.energy-weapons-damage"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "laser",
+        "modifier" : 0.5
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "beam",
+        "modifier" : 0.4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 3600,
+    "max_level" : 5,
+    "prerequisites" : [
+      "energy-weapons-damage-4"
+    ]
+  },
+  "physical-projectile-damage-5" : {
+    "name" : "physical-projectile-damage-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.physical-projectile-damage"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "bullet",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "gun-turret",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "cannon-shell",
+        "modifier" : 0.9
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 3600,
+    "max_level" : 5,
+    "prerequisites" : [
+      "physical-projectile-damage-4"
+    ]
+  },
+  "refined-flammables-5" : {
+    "name" : "refined-flammables-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.refined-flammables"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "flamethrower",
+        "modifier" : 0.3
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "flamethrower-turret",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 3600,
+    "max_level" : 5,
+    "prerequisites" : [
+      "refined-flammables-4"
+    ]
+  },
+  "stronger-explosives-5" : {
+    "name" : "stronger-explosives-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.stronger-explosives"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "rocket",
+        "modifier" : 0.5
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "grenade",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "landmine",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 3600,
+    "max_level" : 5,
+    "prerequisites" : [
+      "stronger-explosives-4"
+    ]
+  },
+  "weapon-shooting-speed-5" : {
+    "name" : "weapon-shooting-speed-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.weapon-shooting-speed"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "bullet",
+        "modifier" : 0.3
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "cannon-shell",
+        "modifier" : 0.8
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "rocket",
+        "modifier" : 0.9
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 500,
+    "research_unit_energy" : 3600,
+    "max_level" : 5,
+    "prerequisites" : [
+      "weapon-shooting-speed-4"
+    ]
+  },
+  "energy-weapons-damage-6" : {
+    "name" : "energy-weapons-damage-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.energy-weapons-damage"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "laser",
+        "modifier" : 0.7
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "electric",
+        "modifier" : 0.7
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "beam",
+        "modifier" : 0.6
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 600,
+    "research_unit_energy" : 3600,
+    "max_level" : 6,
+    "prerequisites" : [
+      "energy-weapons-damage-5"
+    ]
+  },
+  "energy-weapons-damage-7" : {
+    "name" : "energy-weapons-damage-7",
+    "localised_name" : [
+      "technology-name.energy-weapons-damage"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "laser",
+        "modifier" : 0.7
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "electric",
+        "modifier" : 0.7
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "beam",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "2^(L-7)*1000",
+    "prerequisites" : [
+      "energy-weapons-damage-6",
+      "space-science-pack"
+    ]
+  },
+  "physical-projectile-damage-6" : {
+    "name" : "physical-projectile-damage-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.physical-projectile-damage"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "bullet",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "gun-turret",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "cannon-shell",
+        "modifier" : 1.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 600,
+    "research_unit_energy" : 3600,
+    "max_level" : 6,
+    "prerequisites" : [
+      "physical-projectile-damage-5"
+    ]
+  },
+  "physical-projectile-damage-7" : {
+    "name" : "physical-projectile-damage-7",
+    "localised_name" : [
+      "technology-name.physical-projectile-damage"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "bullet",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "gun-turret",
+        "modifier" : 0.7
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "cannon-shell",
+        "modifier" : 1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "2^(L-7)*1000",
+    "prerequisites" : [
+      "physical-projectile-damage-6",
+      "space-science-pack"
+    ]
+  },
+  "refined-flammables-6" : {
+    "name" : "refined-flammables-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.refined-flammables"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "flamethrower",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "flamethrower-turret",
+        "modifier" : 0.4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 600,
+    "research_unit_energy" : 3600,
+    "max_level" : 6,
+    "prerequisites" : [
+      "refined-flammables-5"
+    ]
+  },
+  "refined-flammables-7" : {
+    "name" : "refined-flammables-7",
+    "localised_name" : [
+      "technology-name.refined-flammables"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "flamethrower",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "turret-attack",
+        "turret_id" : "flamethrower-turret",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "2^(L-7)*1000",
+    "prerequisites" : [
+      "refined-flammables-6",
+      "space-science-pack"
+    ]
+  },
+  "stronger-explosives-6" : {
+    "name" : "stronger-explosives-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.stronger-explosives"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "rocket",
+        "modifier" : 0.6
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "grenade",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "landmine",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 600,
+    "research_unit_energy" : 3600,
+    "max_level" : 6,
+    "prerequisites" : [
+      "stronger-explosives-5"
+    ]
+  },
+  "stronger-explosives-7" : {
+    "name" : "stronger-explosives-7",
+    "localised_name" : [
+      "technology-name.stronger-explosives"
+    ],
+    "effects" : [
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "rocket",
+        "modifier" : 0.5
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "grenade",
+        "modifier" : 0.2
+      },
+      {
+        "type" : "ammo-damage",
+        "ammo_category" : "landmine",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 3600,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "2^(L-7)*1000",
+    "prerequisites" : [
+      "stronger-explosives-6",
+      "space-science-pack"
+    ]
+  },
+  "weapon-shooting-speed-6" : {
+    "name" : "weapon-shooting-speed-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.weapon-shooting-speed"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "bullet",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "shotgun-shell",
+        "modifier" : 0.4
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "cannon-shell",
+        "modifier" : 1.5
+      },
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "rocket",
+        "modifier" : 1.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 600,
+    "research_unit_energy" : 3600,
+    "max_level" : 6,
+    "prerequisites" : [
+      "weapon-shooting-speed-5"
+    ]
+  },
+  "laser-shooting-speed-1" : {
+    "name" : "laser-shooting-speed-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.laser-shooting-speed"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "laser",
+        "modifier" : 0.1
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "laser",
+      "military-science-pack"
+    ]
+  },
+  "laser-shooting-speed-2" : {
+    "name" : "laser-shooting-speed-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.laser-shooting-speed"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "laser",
+        "modifier" : 0.2
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "laser-shooting-speed-1"
+    ]
+  },
+  "laser-shooting-speed-3" : {
+    "name" : "laser-shooting-speed-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.laser-shooting-speed"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "laser",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "laser-shooting-speed-2"
+    ]
+  },
+  "laser-shooting-speed-4" : {
+    "name" : "laser-shooting-speed-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.laser-shooting-speed"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "laser",
+        "modifier" : 0.3
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 3600,
+    "max_level" : 4,
+    "prerequisites" : [
+      "laser-shooting-speed-3"
+    ]
+  },
+  "laser-shooting-speed-5" : {
+    "name" : "laser-shooting-speed-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.laser-shooting-speed"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "laser",
+        "modifier" : 0.4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 3600,
+    "max_level" : 5,
+    "prerequisites" : [
+      "laser-shooting-speed-4"
+    ]
+  },
+  "laser-shooting-speed-6" : {
+    "name" : "laser-shooting-speed-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.laser-shooting-speed"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "laser",
+        "modifier" : 0.4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 350,
+    "research_unit_energy" : 3600,
+    "max_level" : 6,
+    "prerequisites" : [
+      "laser-shooting-speed-5"
+    ]
+  },
+  "laser-shooting-speed-7" : {
+    "name" : "laser-shooting-speed-7",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.laser-shooting-speed"
+      ],
+      " 7"
+    ],
+    "effects" : [
+      {
+        "type" : "gun-speed",
+        "ammo_category" : "laser",
+        "modifier" : 0.5
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 450,
+    "research_unit_energy" : 3600,
+    "max_level" : 7,
+    "prerequisites" : [
+      "laser-shooting-speed-6"
+    ]
+  },
+  "defender" : {
+    "name" : "defender",
+    "localised_name" : [
+      "technology-name.defender"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "defender-capsule"
+      },
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 4
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military-science-pack"
+    ]
+  },
+  "distractor" : {
+    "name" : "distractor",
+    "localised_name" : [
+      "technology-name.distractor"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "distractor-capsule"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "defender",
+      "military-3",
+      "laser"
+    ]
+  },
+  "destroyer" : {
+    "name" : "destroyer",
+    "localised_name" : [
+      "technology-name.destroyer"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "destroyer-capsule"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military-4",
+      "distractor",
+      "speed-module"
+    ]
+  },
+  "follower-robot-count-1" : {
+    "name" : "follower-robot-count-1",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.follower-robot-count"
+      ],
+      " 1"
+    ],
+    "effects" : [
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 5
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "defender"
+    ]
+  },
+  "follower-robot-count-2" : {
+    "name" : "follower-robot-count-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.follower-robot-count"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 5
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "follower-robot-count-1"
+    ]
+  },
+  "follower-robot-count-3" : {
+    "name" : "follower-robot-count-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.follower-robot-count"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 5
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 1800,
+    "max_level" : 3,
+    "prerequisites" : [
+      "follower-robot-count-2"
+    ]
+  },
+  "follower-robot-count-4" : {
+    "name" : "follower-robot-count-4",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.follower-robot-count"
+      ],
+      " 4"
+    ],
+    "effects" : [
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 10
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 600,
+    "research_unit_energy" : 1800,
+    "max_level" : 4,
+    "prerequisites" : [
+      "follower-robot-count-3"
+    ]
+  },
+  "follower-robot-count-5" : {
+    "name" : "follower-robot-count-5",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.follower-robot-count"
+      ],
+      " 5"
+    ],
+    "effects" : [
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 10
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 800,
+    "research_unit_energy" : 1800,
+    "max_level" : 5,
+    "prerequisites" : [
+      "follower-robot-count-4",
+      "destroyer"
+    ]
+  },
+  "follower-robot-count-6" : {
+    "name" : "follower-robot-count-6",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.follower-robot-count"
+      ],
+      " 6"
+    ],
+    "effects" : [
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 10
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 1000,
+    "research_unit_energy" : 1800,
+    "max_level" : 6,
+    "prerequisites" : [
+      "follower-robot-count-5"
+    ]
+  },
+  "follower-robot-count-7" : {
+    "name" : "follower-robot-count-7",
+    "localised_name" : [
+      "technology-name.follower-robot-count"
+    ],
+    "effects" : [
+      {
+        "type" : "maximum-following-robots-count",
+        "modifier" : 10
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "space-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 0,
+    "research_unit_energy" : 1800,
+    "max_level" : 4294967295,
+    "research_unit_count_formula" : "100(L-6)+900",
+    "prerequisites" : [
+      "follower-robot-count-6",
+      "space-science-pack"
+    ]
+  },
+  "kovarex-enrichment-process" : {
+    "name" : "kovarex-enrichment-process",
+    "localised_name" : [
+      "technology-name.kovarex-enrichment-process"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "kovarex-enrichment-process"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "nuclear-fuel"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 1500,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "production-science-pack",
+      "uranium-processing",
+      "rocket-fuel"
+    ]
+  },
+  "nuclear-fuel-reprocessing" : {
+    "name" : "nuclear-fuel-reprocessing",
+    "localised_name" : [
+      "technology-name.nuclear-fuel-reprocessing"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "nuclear-fuel-reprocessing"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "nuclear-power",
+      "production-science-pack"
+    ]
+  },
+  "nuclear-power" : {
+    "name" : "nuclear-power",
+    "localised_name" : [
+      "technology-name.nuclear-power"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "nuclear-reactor"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "heat-exchanger"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "heat-pipe"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "steam-turbine"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 800,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "uranium-processing"
+    ]
+  },
+  "uranium-processing" : {
+    "name" : "uranium-processing",
+    "localised_name" : [
+      "technology-name.uranium-processing"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "centrifuge"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "uranium-processing"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "uranium-fuel-cell"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "chemical-science-pack",
+      "concrete"
+    ]
+  },
+  "heavy-armor" : {
+    "name" : "heavy-armor",
+    "localised_name" : [
+      "technology-name.heavy-armor"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "heavy-armor"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 30,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "military",
+      "steel-processing"
+    ]
+  },
+  "modular-armor" : {
+    "name" : "modular-armor",
+    "localised_name" : [
+      "technology-name.modular-armor"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "modular-armor"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "heavy-armor",
+      "advanced-electronics"
+    ]
+  },
+  "power-armor" : {
+    "name" : "power-armor",
+    "localised_name" : [
+      "technology-name.power-armor"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "power-armor"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "modular-armor",
+      "electric-engine",
+      "advanced-electronics-2"
+    ]
+  },
+  "power-armor-mk2" : {
+    "name" : "power-armor-mk2",
+    "localised_name" : [
+      "technology-name.power-armor-mk2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "power-armor-mk2"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 400,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "power-armor",
+      "military-4",
+      "speed-module-2",
+      "effectivity-module-2"
+    ]
+  },
+  "energy-shield-equipment" : {
+    "name" : "energy-shield-equipment",
+    "localised_name" : [
+      "technology-name.energy-shield-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "energy-shield-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 150,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "solar-panel-equipment",
+      "military-science-pack"
+    ]
+  },
+  "energy-shield-mk2-equipment" : {
+    "name" : "energy-shield-mk2-equipment",
+    "localised_name" : [
+      "technology-name.energy-shield-mk2-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "energy-shield-mk2-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "energy-shield-equipment",
+      "military-3",
+      "low-density-structure",
+      "power-armor"
+    ]
+  },
+  "night-vision-equipment" : {
+    "name" : "night-vision-equipment",
+    "localised_name" : [
+      "technology-name.night-vision-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "night-vision-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "solar-panel-equipment"
+    ]
+  },
+  "belt-immunity-equipment" : {
+    "name" : "belt-immunity-equipment",
+    "localised_name" : [
+      "technology-name.belt-immunity-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "belt-immunity-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "solar-panel-equipment"
+    ]
+  },
+  "exoskeleton-equipment" : {
+    "name" : "exoskeleton-equipment",
+    "localised_name" : [
+      "technology-name.exoskeleton-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "exoskeleton-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-electronics-2",
+      "electric-engine",
+      "solar-panel-equipment"
+    ]
+  },
+  "battery-equipment" : {
+    "name" : "battery-equipment",
+    "localised_name" : [
+      "technology-name.battery-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "battery-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "battery",
+      "solar-panel-equipment"
+    ]
+  },
+  "battery-mk2-equipment" : {
+    "name" : "battery-mk2-equipment",
+    "localised_name" : [
+      "technology-name.battery-mk2-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "battery-mk2-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "battery-equipment",
+      "low-density-structure",
+      "power-armor"
+    ]
+  },
+  "solar-panel-equipment" : {
+    "name" : "solar-panel-equipment",
+    "localised_name" : [
+      "technology-name.solar-panel-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "solar-panel-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "modular-armor",
+      "solar-energy"
+    ]
+  },
+  "fusion-reactor-equipment" : {
+    "name" : "fusion-reactor-equipment",
+    "localised_name" : [
+      "technology-name.fusion-reactor-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "fusion-reactor-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "utility-science-pack",
+      "power-armor",
+      "military-science-pack"
+    ]
+  },
+  "personal-laser-defense-equipment" : {
+    "name" : "personal-laser-defense-equipment",
+    "localised_name" : [
+      "technology-name.personal-laser-defense-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "personal-laser-defense-equipment"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "laser-turret",
+      "military-3",
+      "low-density-structure",
+      "power-armor",
+      "solar-panel-equipment"
+    ]
+  },
+  "discharge-defense-equipment" : {
+    "name" : "discharge-defense-equipment",
+    "localised_name" : [
+      "technology-name.discharge-defense-equipment"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "discharge-defense-equipment"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "discharge-defense-remote"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "military-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "laser-turret",
+      "military-3",
+      "power-armor",
+      "solar-panel-equipment"
+    ]
+  },
+  "modules" : {
+    "name" : "modules",
+    "localised_name" : [
+      "technology-name.modules"
+    ],
+    "effects" : {
+      
+    },
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 100,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-electronics"
+    ]
+  },
+  "speed-module" : {
+    "name" : "speed-module",
+    "localised_name" : [
+      "technology-name.speed-module"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "speed-module"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "modules"
+    ]
+  },
+  "speed-module-2" : {
+    "name" : "speed-module-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.speed-module"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "speed-module-2"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "speed-module",
+      "advanced-electronics-2"
+    ]
+  },
+  "speed-module-3" : {
+    "name" : "speed-module-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.speed-module"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "speed-module-3"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "speed-module-2",
+      "production-science-pack"
+    ]
+  },
+  "productivity-module" : {
+    "name" : "productivity-module",
+    "localised_name" : [
+      "technology-name.productivity-module"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "productivity-module"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "modules"
+    ]
+  },
+  "productivity-module-2" : {
+    "name" : "productivity-module-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.productivity-module"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "productivity-module-2"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "productivity-module",
+      "advanced-electronics-2"
+    ]
+  },
+  "productivity-module-3" : {
+    "name" : "productivity-module-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.productivity-module"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "productivity-module-3"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "productivity-module-2",
+      "production-science-pack"
+    ]
+  },
+  "effectivity-module" : {
+    "name" : "effectivity-module",
+    "localised_name" : [
+      "technology-name.effectivity-module"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "effectivity-module"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 50,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "modules"
+    ]
+  },
+  "effectivity-module-2" : {
+    "name" : "effectivity-module-2",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.effectivity-module"
+      ],
+      " 2"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "effectivity-module-2"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 2,
+    "prerequisites" : [
+      "effectivity-module",
+      "advanced-electronics-2"
+    ]
+  },
+  "effectivity-module-3" : {
+    "name" : "effectivity-module-3",
+    "localised_name" : [
+      "",
+      [
+        "technology-name.effectivity-module"
+      ],
+      " 3"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "effectivity-module-3"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 3600,
+    "max_level" : 3,
+    "prerequisites" : [
+      "effectivity-module-2",
+      "production-science-pack"
+    ]
+  },
+  "effect-transmission" : {
+    "name" : "effect-transmission",
+    "localised_name" : [
+      "technology-name.effect-transmission"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "beacon"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 75,
+    "research_unit_energy" : 1800,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-electronics-2",
+      "production-science-pack"
+    ]
+  },
+  "low-density-structure" : {
+    "name" : "low-density-structure",
+    "localised_name" : [
+      "technology-name.low-density-structure"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "low-density-structure"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 2700,
+    "max_level" : 1,
+    "prerequisites" : [
+      "advanced-material-processing",
+      "chemical-science-pack"
+    ]
+  },
+  "rocket-control-unit" : {
+    "name" : "rocket-control-unit",
+    "localised_name" : [
+      "technology-name.rocket-control-unit"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rocket-control-unit"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 2700,
+    "max_level" : 1,
+    "prerequisites" : [
+      "utility-science-pack",
+      "speed-module"
+    ]
+  },
+  "rocket-fuel" : {
+    "name" : "rocket-fuel",
+    "localised_name" : [
+      "technology-name.rocket-fuel"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rocket-fuel"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 300,
+    "research_unit_energy" : 2700,
+    "max_level" : 1,
+    "prerequisites" : [
+      "flammables",
+      "advanced-oil-processing"
+    ]
+  },
+  "rocket-silo" : {
+    "name" : "rocket-silo",
+    "localised_name" : [
+      "technology-name.rocket-silo"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rocket-silo"
+      },
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "rocket-part"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "chemical-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "production-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "utility-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 1000,
+    "research_unit_energy" : 3600,
+    "max_level" : 1,
+    "prerequisites" : [
+      "concrete",
+      "speed-module-3",
+      "productivity-module-3",
+      "rocket-fuel",
+      "rocket-control-unit"
+    ]
+  },
+  "cliff-explosives" : {
+    "name" : "cliff-explosives",
+    "localised_name" : [
+      "technology-name.cliff-explosives"
+    ],
+    "effects" : [
+      {
+        "type" : "unlock-recipe",
+        "recipe" : "cliff-explosives"
+      }
+    ],
+    "research_unit_ingredients" : [
+      {
+        "type" : "item",
+        "name" : "automation-science-pack",
+        "amount" : 1
+      },
+      {
+        "type" : "item",
+        "name" : "logistic-science-pack",
+        "amount" : 1
+      }
+    ],
+    "research_unit_count" : 200,
+    "research_unit_energy" : 900,
+    "max_level" : 1,
+    "prerequisites" : [
+      "explosives",
+      "military-2"
+    ]
+  }
+}

@@ -196,11 +196,45 @@ def craft(item, amount):
         deduct_list(sh)
         return (item, amount) 
 
+def get_potion_list(tech):
+    packs = defaultdict(int)
+    amount = technology[tech]['research_unit_count']  
+    for ing in technology[tech]['research_unit_ingredients']:
+        name = ing['name'] 
+        if name in packs:
+            packs[name]['amount'] += amount
+        else:
+            packs[name] = {'name': name, 'amount': amount}
+    return packs
+
+def researchable(tech):
+    # possible things to go wrong
+    # tech DNE
+    # tech already researched 
+    # not enough resources
+    # preqs are not already researched
+    if tech in technology and tech not in current_tech:
+        pl = get_potion_list(tech)
+        preq = technology[tech]['prerequisites']    
+        return check_list(pl) and functools.reduce(lambda x, y: x and y in current_tech, preq, True)
+    else:
+        # todo: create invalid name exception
+        return False
+
 # research a given technology, raise exception if potions not available
 # or given technology can not be researched yet
-def research_tech(tech):
-    # todo
-    pass
+def research(tech):
+    if researchable(tech):
+        pl = get_potion_list(tech)
+        deduct_list(pl)
+        current_tech.add(tech)
+        # unlock recipes
+        for effect in technology[tech]['effects']:
+            if effect['type'] == 'unlock-recipe':
+                current_recipes.add(effect['recipe'])
+    else:
+        # todo: make it more clear
+        raise ResearchError('something went wrong')
 
 def mine(resource, amount):
     if is_mineable(resource):
@@ -317,12 +351,10 @@ if __name__ == "__main__":
     history = []
     game_time = 0
     if TEST == False:
-        # todo: need research cmd to allow player to research new tech
+        # todo: revamp with `argparse` from the standard library 
 
         # todo: need tech cmd to show player what tech they have / which one's
         # they don't have / tech tree
-
-        # todo: need recipe cmd to show player which recipes that have
 
         # todo: typing in long commands like 'inventory' is annoying, either
         # come up with shorter name or allow aliases
@@ -344,19 +376,37 @@ if __name__ == "__main__":
                 item = rest[0]
                 amount = int(rest[1])
                 place_in_inventory(item, amount)
+            elif cmd_name == 'research':
+                tech = rest[0]
+                try:
+                    research(tech)
+                except FactorioError as err:
+                    print(err)
+            elif cmd_name == 'cookbook':
+                # show current recipes
+                print('~~ current recipes unlocked ~~')
+                print('\n'.join(current_recipes))
             elif cmd_name == 'wish':
                 item = rest[0]
                 if len(rest) > 1:
                     amount = int(rest[1])
                 else:
                     amount = 1
-                print(json.dumps(shopping_list(
-                    {
-                        item: {
-                            'name': item,
-                            'amount': amount
-                        }
+                found = False
+                if item in recipes:
+                    found = True
+                    print(json.dumps(shopping_list(
+                        {
+                            item: {
+                                'name': item,
+                                'amount': amount
+                            }
                     }, 0), indent=4))
+                if item in technology:
+                    found = True
+                    print(json.dumps(get_potion_list(item), indent=4))
+                if not found:
+                    print(f'could not find {item}')
             elif cmd_name == 'craftable':
                 item = rest[0]
                 amount = int(rest[1])

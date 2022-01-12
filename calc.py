@@ -137,7 +137,7 @@ def check_item(item, amount):
         return True
     raise ResourceError('not enough resources in inventory!')
 
-def check_list(shopping_list):
+def check_list(sh):
     if functools.reduce(lambda x, y: x and current_items[y['name']] >= y['amount'], sh.values(), True):
         return True
     raise ResourceError('not enough resources in inventory!')
@@ -154,18 +154,19 @@ def place_machine(machine, item):
             place_in_inventory(machine, 1)
             raise err
     elif 'assembling' in machine:
-        is_recipe_unlocked(item) 
-        current_assemblers.append((machine, item))
-        # todo
-        place_in_inventory(machine, 1)
-        raise InvalidMachineError(f'I do not know how to place {machine} yet')
-    elif 'furnace' in machine:
-        # check item to make sure it's as valid resoure for that machine
-        if item in {'stone', 'coal', 'iron-ore', 'copper-ore'}:
-            raise InvalidMachineError(f'I do not know how to place {machine} yet')
-        else:
+        try:
+            is_recipe_unlocked(item) 
+            current_assemblers.append((machine, item))
+        except FactorioError as err:
             place_in_inventory(machine, 1)
-            raise ResourceError(f'{item} is not a valid resource for a {machine}')
+            raise err
+    elif 'furnace' in machine:
+        try:
+            is_smeltable(item)
+            current_furnaces.append((machine, item))
+        except FactorioError as err:
+            place_in_inventory(machine, 1)
+            raise err
     else:
         place_in_inventory(machine, 1)
         raise InvalidMachineError(f'{machine} cannot be placed! try a mining drill or assembler')
@@ -173,7 +174,7 @@ def place_machine(machine, item):
 def place_in_inventory(item, amount):
     current_items[item] += amount
 
-def deduct_list(shopping_list):
+def deduct_list(sh):
     for k, v in sh.items():
         current_items[k] -= v['amount']
 
@@ -191,7 +192,7 @@ def craft(item, amount):
                 'name': item,
                 'amount': amount
             }
-        })
+        }, 0)
         deduct_list(sh)
         return (item, amount) 
 
@@ -204,6 +205,12 @@ def is_mineable(resource):
         return True
     else:
         raise ResourceError(f'{resource} can not be mined')
+
+def is_smeltable(resource):
+    if resource in {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}:
+        return True
+    else:
+        raise ResourceError(f'{resource} can not be smelt')
 
 def is_recipe_unlocked(item):
     if item in current_recipes:
@@ -220,7 +227,6 @@ def craftable(item, amount):
             'amount': amount
         }
     }, 0) 
-    print(sh)
     return check_list(sh)
 
 # returns the new game time after simulation production for a given number of seconds
@@ -236,14 +242,21 @@ def next(seconds, game_time):
         place_in_inventory(resource, mining_drills[miner]['mining_speed'] * seconds)
     for assembler, item in current_assemblers:
         try:
-            num_produced = assembler['crafting_speed'] * (seconds // recipes[item]['energy'])
+            num_produced = assemblers[assembler]['crafting_speed'] * (seconds // recipes[item]['energy'])
             craft(item, num_produced)
             place_in_inventory(item, num_produced)
         except FactorioError as err:
             print(f'failed to produce {num_produced} of {item}')
             print(err)
     for furnace, item in current_furnaces:
-        pass
+        try:
+            num_produced = furnaces[furnace]['crafting_speed'] * (seconds // recipes[item]['energy'])
+            craft(item, num_produced)
+            place_in_inventory(item, num_produced)
+        except FactorioError as err:
+            print(f'failed to smelt {num_produced} of {item}')
+            print(err)
+
     return game_time
         # do the same thing as assemblers
             
@@ -298,6 +311,12 @@ if __name__ == "__main__":
     history = []
     game_time = 0
     if TEST == False:
+        # todo: using a cmd with the `amount` param should not break the program
+        # instead, either default to 1 or ask the player what the `amount` should be
+        
+        # todo: restarting the program many times can be frustating, because I will
+        # need to start over completely each time
+        # figure out a way to import / export save-states in the simulation
         while 'rocket-silo' not in current_items:
             cmd = input('> ')
             history.append(cmd)

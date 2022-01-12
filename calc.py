@@ -1,89 +1,33 @@
-import json
 import functools
+import json
 from collections import defaultdict
-from contextlib import ExitStack
+from types import SimpleNamespace
 
-class FactorioError(Exception):
-    pass
-
-class ResearchError(FactorioError):
-    pass
-class ResourceError(FactorioError):
-    pass
-class InvalidMachineError(FactorioError):
-    pass
-
-FIVE_MINUTES = 60 * 5
-
-recipes = None
-technology = None
-mining_drills = None
-filenames = [
-    'recipe.json',
-    'technology.json',
-    'mining-drill.json',
-    'resource.json',
-    'furnace.json',
-    'assembling-machine.json',
-]
-with ExitStack() as stack: 
-    files = [
-        stack.enter_context(open(filename))
-        for filename in filenames
-    ]
-    recipes = json.load(files[0])
-    technology = json.load(files[1])
-    mining_drills = json.load(files[2])
-    resources = json.load(files[3])
-    furnaces = json.load(files[4])
-    assembling_machines = json.load(files[5])
-
-def get_recipe(name):
-    return recipes[name]
-    
-def make_burner_mining_drill():
-    return {
-        "name" : "burner-mining-drill",
-        "energy_usage" : 150000,
-        "energy_source": "chemical",
-        "mining_speed" : 0.25,
-    }
-
-def make_electric_mining_drill():
-    return {
-        "name" : "electric-mining-drill",
-        "energy_usage" : 90000,
-        "energy_source": "electric",
-        "mining_speed" : 0.5,
-    }
-
-def miner_production(miners):
-    energy_used = functools.reduce(lambda x, y: x + y['energy_usage'], miners, 0) 
-    ores = functools.reduce(lambda x, y: x + y['mining_speed'], miners, 0) 
-    return ores, energy_used
+from errors import * 
+from constants import *
+from files import load_files
+from init import *
 
 def tech_needed(unlocked):
     goal = 'rocket-silo'
     unlocked.add(goal)
     packs = dict()
-    preq = technology[goal]['prerequisites']
+    preq = data.technology[goal]['prerequisites']
     while preq:
         t = preq.pop()
         if t not in unlocked:
             unlocked.add(t)
-            amount = technology[t]['research_unit_count']  
-            for ing in technology[t]['research_unit_ingredients']:
+            amount = data.technology[t]['research_unit_count']  
+            for ing in data.technology[t]['research_unit_ingredients']:
                 name = ing['name'] 
                 if name in packs:
                     packs[name]['amount'] += amount
                 else:
                     packs[name] = {'name': name, 'amount': amount}
 
-            for new_t in technology[t]['prerequisites']:
+            for new_t in data.technology[t]['prerequisites']:
                 preq.append(new_t)
     return unlocked, packs
-
-    
 
 # give a dictionary
 # {
@@ -95,7 +39,6 @@ def tech_needed(unlocked):
 # if level == 0 -> only the direct ingredients are calculated
 # if level == 1 -> all resources required are calculated (raw materials, sub-components...)
 # if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
-
 def shopping_list(items, level): 
     all_items = items
     def helper(items):
@@ -103,8 +46,8 @@ def shopping_list(items, level):
             map(lambda x: [{'name': k['name'], 'amount': k['amount'] * items[x[0]]['amount']} for k in x[1]], 
             map(lambda y: [y['name'], y['ingredients']],
             filter(lambda z: z['name'] in items.keys(),
-            recipes.values()))))
-        ing_lists.append(list(filter(lambda x: x['name'] not in recipes, items.values())))  
+            data.recipes.values()))))
+        ing_lists.append(list(filter(lambda x: x['name'] not in data.recipes, items.values())))  
         # flatten
         master_list = dict() 
         done = True
@@ -115,7 +58,7 @@ def shopping_list(items, level):
                     master_list[name]['amount'] += amount
                 else:
                     master_list[name] = ing 
-                    if name in recipes:
+                    if name in data.recipes:
                         done = False
                 # update count for all items required, based on latest information
                 all_items[name] = master_list[name]
@@ -198,8 +141,8 @@ def craft(item, amount):
 
 def get_potion_list(tech):
     packs = defaultdict(int)
-    amount = technology[tech]['research_unit_count']  
-    for ing in technology[tech]['research_unit_ingredients']:
+    amount = data.technology[tech]['research_unit_count']  
+    for ing in data.technology[tech]['research_unit_ingredients']:
         name = ing['name'] 
         if name in packs:
             packs[name]['amount'] += amount
@@ -213,9 +156,9 @@ def researchable(tech):
     # tech already researched 
     # not enough resources
     # preqs are not already researched
-    if tech in technology and tech not in current_tech:
+    if tech in data.technology and tech not in current_tech:
         pl = get_potion_list(tech)
-        preq = technology[tech]['prerequisites']    
+        preq = data.technology[tech]['prerequisites']    
         return check_list(pl) and functools.reduce(lambda x, y: x and y in current_tech, preq, True)
     else:
         # todo: create invalid name exception
@@ -229,7 +172,7 @@ def research(tech):
         deduct_list(pl)
         current_tech.add(tech)
         # unlock recipes
-        for effect in technology[tech]['effects']:
+        for effect in data.technology[tech]['effects']:
             if effect['type'] == 'unlock-recipe':
                 current_recipes.add(effect['recipe'])
     else:
@@ -269,6 +212,7 @@ def craftable(item, amount):
     }, 0) 
     return check_list(sh)
 
+
 # returns the new game time after simulation production for a given number of seconds
 def next(seconds, game_time):
     game_time += seconds
@@ -279,10 +223,10 @@ def next(seconds, game_time):
     for miner, resource in current_miners:
         # pretend all resources have the same `mining-time`,
         # this is only true for the basic resources (iron, copper, coal, stone) 
-        place_in_inventory(resource, mining_drills[miner]['mining_speed'] * seconds)
+        place_in_inventory(resource, data.mining_drills[miner]['mining_speed'] * seconds)
     for assembler, item in current_assemblers:
         try:
-            num_produced = assemblers[assembler]['crafting_speed'] * (seconds // recipes[item]['energy'])
+            num_produced = data.assemblers[assembler]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
             craft(item, num_produced)
             place_in_inventory(item, num_produced)
         except FactorioError as err:
@@ -290,60 +234,26 @@ def next(seconds, game_time):
             print(err)
     for furnace, item in current_furnaces:
         try:
-            num_produced = furnaces[furnace]['crafting_speed'] * (seconds // recipes[item]['energy'])
+            num_produced = data.furnaces[furnace]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
             craft(item, num_produced)
             place_in_inventory(item, num_produced)
         except FactorioError as err:
             print(f'failed to smelt {num_produced} of {item}')
             print(err)
-
     return game_time
-        # do the same thing as assemblers
             
 
-# todo fill this in
-def get_starter_inventory():
-    inventory = defaultdict(int)
-    inventory['stone-furnace'] = 1
-    inventory['burner-mining-drill'] = 1
-    inventory['wood'] = 1
-    inventory['iron-plate'] = 5
-    return inventory
-
-def get_starter_recipes():
-    current_recipes = set()
-    # production
-    current_recipes.add('burner-mining-drill')
-    current_recipes.add('electric-mining-drill')
-    current_recipes.add('stone-furnace')
-    current_recipes.add('lab')
-    # logistics
-    current_recipes.add('burner-inserter')
-    current_recipes.add('inserter')
-    # intermediate products
-    current_recipes.add('iron-plate')
-    current_recipes.add('copper-plate')
-    current_recipes.add('copper-cable')
-    current_recipes.add('iron-stick')
-    current_recipes.add('iron-gear-wheel')
-    current_recipes.add('electronic-circuit')
-    current_recipes.add('automation-science-pack')
-    
-    return current_recipes
-
-def get_starter_tech():
-    current_tech = set()
-    return current_tech
-
-
 if __name__ == "__main__":
-    # ignore energy for now
-    TEST = False 
+    # establish access to json files
+    data_dict = load_files()
+    data = SimpleNamespace(**data_dict)
+    # init sim
     current_tech = get_starter_tech() 
     current_recipes = get_starter_recipes() 
     current_items = get_starter_inventory() 
     # todo: maybe change these from list to;
     # dict-{(machine, resource) : # of machines}
+    # machines
     current_assemblers = [] 
     current_miners = [] 
     current_furnaces = []
@@ -393,7 +303,7 @@ if __name__ == "__main__":
                 else:
                     amount = 1
                 found = False
-                if item in recipes:
+                if item in data.recipes:
                     found = True
                     print(json.dumps(shopping_list(
                         {
@@ -402,7 +312,7 @@ if __name__ == "__main__":
                                 'amount': amount
                             }
                     }, 0), indent=4))
-                if item in technology:
+                if item in data.technology:
                     found = True
                     print(json.dumps(get_potion_list(item), indent=4))
                 if not found:
@@ -427,7 +337,7 @@ if __name__ == "__main__":
                 try:
                     craft(item, amount)
                     place_in_inventory(item, amount)
-                    time_spent = recipes[item]['energy'] * amount
+                    time_spent = data.recipes[item]['energy'] * amount
                     game_time = next(time_spent, game_time)
                 except FactorioError as err:
                     print(err)
@@ -438,7 +348,7 @@ if __name__ == "__main__":
                 try:
                     mine(resource, amount)
                     place_in_inventory(resource, amount)
-                    time_spent = resources[resource]['mineable_properties']['mining_time']
+                    time_spent = data.resources[resource]['mineable_properties']['mining_time']
                     game_time = next(time_spent, game_time)
                 except FactorioError as err:
                     print(err)

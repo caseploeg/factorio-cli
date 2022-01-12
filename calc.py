@@ -196,6 +196,12 @@ def craft(item, amount):
         deduct_list(sh)
         return (item, amount) 
 
+# research a given technology, raise exception if potions not available
+# or given technology can not be researched yet
+def research_tech(tech):
+    # todo
+    pass
+
 def mine(resource, amount):
     if is_mineable(resource):
         return (resource, amount)
@@ -311,6 +317,18 @@ if __name__ == "__main__":
     history = []
     game_time = 0
     if TEST == False:
+        # todo: need research cmd to allow player to research new tech
+
+        # todo: need tech cmd to show player what tech they have / which one's
+        # they don't have / tech tree
+
+        # todo: need recipe cmd to show player which recipes that have
+
+        # todo: typing in long commands like 'inventory' is annoying, either
+        # come up with shorter name or allow aliases
+        # todo: need optional filters for inventory cmd 
+        # like - just show resources, or just show potions, or just show machines, etc
+
         # todo: using a cmd with the `amount` param should not break the program
         # instead, either default to 1 or ask the player what the `amount` should be
         

@@ -6,3 +6,5 @@ class ResourceError(FactorioError):
     pass
 class InvalidMachineError(FactorioError):
     pass
+class InvalidRecipeError(FactorioError):
+    pass

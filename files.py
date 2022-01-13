@@ -15,7 +15,7 @@ def load_files():
     keys = [
         'recipes',
         'technology',
-        'mining-drills',
+        'mining_drills',
         'resources',
         'furnaces',
         'assemblers',

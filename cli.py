@@ -7,6 +7,9 @@ def convert_aliases(args):
         'emd': 'electric-mining-drill',
         'rp': 'automation-science-pack',
         'am1': 'assembling-machine-1',
+        'igw': 'iron-gear-wheel',
+        'ip': 'iron-plate',
+        'cp': 'copper-plate',
     }
     converted_args = []
     for arg in args:

@@ -76,72 +76,6 @@ def shopping_list(items, level):
             return master_list # return shopping list of depth 1 
     return helper(items)
 
-# returns True iff players have more than or equal to `amount` of given `item` in their
-# inventory
-def check_item(item, amount):
-    if current_items[item] >= amount:
-        return True
-    raise ResourceError('not enough resources in inventory!')
-
-def check_list(sh):
-    if functools.reduce(lambda x, y: x and current_items[y['name']] >= y['amount'], sh.values(), True):
-        return True
-    raise ResourceError('not enough resources in inventory!')
-    
-def place_machine(machine, item):
-    check_item(machine, 1)
-    deduct_item(machine, 1)
-    if 'mining-drill' in machine:
-        # check item to make sure it's as valid resoure for that machine
-        try:
-            is_mineable(item)
-            current_miners.append((machine, item))
-        except FactorioError as err:
-            place_in_inventory(machine, 1)
-            raise err
-    elif 'assembling' in machine:
-        try:
-            is_recipe_unlocked(item) 
-            current_assemblers.append((machine, item))
-        except FactorioError as err:
-            place_in_inventory(machine, 1)
-            raise err
-    elif 'furnace' in machine:
-        try:
-            is_smeltable(item)
-            current_furnaces.append((machine, item))
-        except FactorioError as err:
-            place_in_inventory(machine, 1)
-            raise err
-    else:
-        place_in_inventory(machine, 1)
-        raise InvalidMachineError(f'{machine} cannot be placed! try a mining drill or assembler')
-
-def place_in_inventory(item, amount):
-    current_items[item] += amount
-
-def deduct_list(sh):
-    for k, v in sh.items():
-        current_items[k] -= v['amount']
-
-def deduct_item(item, amount):
-    check_item(item, amount)
-    current_items[item] -= amount
-
-# todo: add option for partial crafting, so if a player wants to craft 5 miners
-# but only has materials to make 3, the system will craft 3 miners and give a
-# warning that 2 could not be crafted because of resource constraints
-def craft(item, amount):
-    if craftable(item, amount):
-        sh = shopping_list({
-            item: {
-                'name': item,
-                'amount': amount
-            }
-        }, 0)
-        deduct_list(sh)
-        return (item, amount) 
-
 def get_potion_list(tech):
     packs = defaultdict(int)
     amount = data.technology[tech]['research_unit_count']  
@@ -152,48 +86,6 @@ def get_potion_list(tech):
         else:
             packs[name] = {'name': name, 'amount': amount}
     return packs
-
-def preqs_researched(tech):
-    preq = data.technology[tech]['prerequisites']    
-    return functools.reduce(lambda x, y: x and y in current_tech, preq, True)
-
-def researchable(tech):
-    # possible things to go wrong
-    # tech DNE
-    # tech already researched 
-    # not enough resources
-    # preqs are not already researched
-    if tech in data.technology and tech not in current_tech:
-        pl = get_potion_list(tech)
-        preq = data.technology[tech]['prerequisites']    
-        return check_list(pl) and preqs_researched(tech)
-    else:
-        # todo: create invalid name exception
-        return False
-
-# find all technologies that are currently researchable
-def all_researchable():
-    res = set()
-    for tech in data.technology:
-        preq = data.technology[tech]['prerequisites']    
-        if tech not in current_tech and preqs_researched(tech):
-            res.add(tech)
-    return res
-
-# research a given technology, raise exception if potions not available
-# or given technology can not be researched yet
-def research(tech):
-    if researchable(tech):
-        pl = get_potion_list(tech)
-        deduct_list(pl)
-        current_tech.add(tech)
-        # unlock recipes
-        for effect in data.technology[tech]['effects']:
-            if effect['type'] == 'unlock-recipe':
-                current_recipes.add(effect['recipe'])
-    else:
-        # todo: make it more clear
-        raise ResearchError('something went wrong')
 
 def mine(resource, amount):
     if is_mineable(resource):
@@ -211,202 +103,293 @@ def is_smeltable(resource):
     else:
         raise ResourceError(f'{resource} can not be smelt')
 
-def is_recipe_unlocked(item):
-    if item in current_recipes:
-        return True
-    raise ResearchError(f'{item} is not unlocked yet')
-
-def craftable(item, amount):
-    # check if item recipe is unlocked
-    is_recipe_unlocked(item) 
-    # check if resources are available
-    sh = shopping_list({
-        item: {
-            'name': item,
-            'amount': amount
-        }
-    }, 0) 
-    return check_list(sh)
-
-
-# returns the new game time after simulation production for a given number of seconds
-def next(seconds, game_time):
-    game_time += seconds
-    # simulate the next given seconds of production
-    # mine the resources
-    # assemble the products
-    # and smelt the ores
-    for miner, resource in current_miners:
-        # pretend all resources have the same `mining-time`,
-        # this is only true for the basic resources (iron, copper, coal, stone) 
-        place_in_inventory(resource, data.mining_drills[miner]['mining_speed'] * seconds)
-    for assembler, item in current_assemblers:
-        try:
-            num_produced = data.assemblers[assembler]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
-            craft(item, num_produced)
-            place_in_inventory(item, num_produced)
-        except FactorioError as err:
-            print(f'failed to produce {num_produced} of {item}')
-            print(err)
-    for furnace, item in current_furnaces:
-        try:
-            num_produced = data.furnaces[furnace]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
-            craft(item, num_produced)
-            place_in_inventory(item, num_produced)
-        except FactorioError as err:
-            print(f'failed to smelt {num_produced} of {item}')
-            print(err)
-    return game_time
-
-
-def clear_sim():
-    pass
-
-
-def run_cmd(cmd):
-    history.append(cmd)
-    pieces = cmd.split()
-    # detect any aliases used and replace them with proper names
-    pieces = convert_aliases(pieces)
-    cmd_name, rest = pieces[0], pieces[1:] 
-    if cmd_name == 'spawn':
-        item = rest[0]
-        amount = int(rest[1])
-        place_in_inventory(item, amount)
-    elif cmd_name == 'research':
-        tech = rest[0]
-        try:
-            research(tech)
-        except FactorioError as err:
-            print(err)
-    elif cmd_name == 'tree':
-        print(tech_needed())
-    elif cmd_name == 'suggest':
-        print(all_researchable())
-    elif cmd_name == 'cookbook':
-        # show current recipes
-        print('~~ current recipes unlocked ~~')
-        print('\n'.join(current_recipes))
-    elif cmd_name == 'wish':
-        item = rest[0]
-        if len(rest) > 1:
-            amount = int(rest[1])
-        else:
-            amount = 1
-        found = False
-        if item in data.recipes:
-            found = True
-            print(json.dumps(shopping_list(
-                {
-                    item: {
-                        'name': item,
-                        'amount': amount
-                    }
-            }, 0), indent=4))
-        if item in data.technology:
-            found = True
-            print(json.dumps(get_potion_list(item), indent=4))
-        if not found:
-            print(f'could not find {item}')
-    elif cmd_name == 'craftable':
-        item = rest[0]
-        amount = int(rest[1])
-        try:
-            res = craftable(item, amount)
-        except FactorioError as err:
-            print(err)
-    elif cmd_name == 'place':
-        machine = rest[0]
-        item = rest[1]
-        try:
-            place_machine(machine, item)
-        except FactorioError as err:
-            print(err)
-    elif cmd_name == 'craft':
-        item = rest[0]
-        amount = int(rest[1])
-        try:
-            craft(item, amount)
-            place_in_inventory(item, amount)
-            time_spent = data.recipes[item]['energy'] * amount
-            game_time = next(time_spent, game_time)
-        except FactorioError as err:
-            print(err)
-    elif cmd_name == 'mine':
-        # the same as craft, but with resources
-        resource = rest[0]
-        amount = int(rest[1])
-        try:
-            mine(resource, amount)
-            place_in_inventory(resource, amount)
-            time_spent = data.resources[resource]['mineable_properties']['mining_time']
-            game_time = next(time_spent, game_time)
-        except FactorioError as err:
-            print(err)
-    elif cmd_name == 'next':
-        # calls the next procedure with a given number minutes
-        minutes = int(rest[0])
-        seconds = minutes * 60
-        game_time = next(seconds, game_time)
-    elif cmd_name == 'inventory':
-        print(json.dumps(current_items, indent=4))
-    elif cmd_name == 'time':
-        # todo format this into H:M:S
-        print(game_time / 60)
-    elif cmd_name == 'import':
-        filename = rest[0]
-        with open(filename) as f:
-            clear_sim()
-            import_history(f.read()) 
-    elif cmd_name == 'exit':
-        return 1
-    else:
-        print(f'I do not recognize `{cmd}`')
-    return 0
-
 class Sim():
-
     def __init__(self):
-        pass
+        self.clear()
     
-    def run_cmd(self):
-        pass
+    def does_recipe_exist(self, item):
+        if item in data.recipes:
+            return True
+        raise InvalidRecipeError(f'{item} does not have a recipe!')
+    
+    def is_recipe_unlocked(self, item):
+        if item in self.current_recipes:
+            return True
+        raise ResearchError(f'{item} is not unlocked yet')
+
+    # returns True iff players have more than or equal to `amount` of given `item` in their
+    # inventory
+    def check_item(self, item, amount):
+        if self.current_items[item] >= amount:
+            return True
+        raise ResourceError('not enough resources in inventory!')
+
+    def check_list(self, sh):
+        if functools.reduce(lambda x, y: x and self.current_items[y['name']] >= y['amount'], sh.values(), True):
+            return True
+        raise ResourceError('not enough resources in inventory!')
+        
+    def deduct_item(self, item, amount):
+        self.check_item(item, amount)
+        self.current_items[item] -= amount
+
+    def deduct_list(self, sh):
+        for k, v in sh.items():
+            self.current_items[k] -= v['amount']
+
+    def place_in_inventory(self, item, amount):
+        self.current_items[item] += amount
+
+    def place_machine(self, machine, item):
+        self.check_item(machine, 1)
+        self.deduct_item(machine, 1)
+        if 'mining-drill' in machine:
+            # check item to make sure it's as valid resoure for that machine
+            try:
+                is_mineable(item)
+                self.current_miners.append((machine, item))
+            except FactorioError as err:
+                self.place_in_inventory(machine, 1)
+                raise err
+        elif 'assembling' in machine:
+            try:
+                self.is_recipe_unlocked(item) 
+                self.current_assemblers.append((machine, item))
+            except FactorioError as err:
+                self.place_in_inventory(machine, 1)
+                raise err
+        elif 'furnace' in machine:
+            try:
+                is_smeltable(item)
+                self.current_furnaces.append((machine, item))
+            except FactorioError as err:
+                self.place_in_inventory(machine, 1)
+                raise err
+        else:
+            self.place_in_inventory(machine, 1)
+            raise InvalidMachineError(f'{machine} cannot be placed! try a mining drill or assembler')
+        
+    def run_cmd(self, cmd):
+        self.history.append(cmd)
+        pieces = cmd.split()
+        # detect any aliases used and replace them with proper names
+        pieces = convert_aliases(pieces)
+        cmd_name, rest = pieces[0], pieces[1:] 
+        if cmd_name == 'spawn':
+            item = rest[0]
+            amount = int(rest[1])
+            self.place_in_inventory(item, amount)
+        elif cmd_name == 'research':
+            tech = rest[0]
+            try:
+                research(tech)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'tree':
+            print(tech_needed())
+        elif cmd_name == 'suggest':
+            print(self.all_researchable())
+        elif cmd_name == 'cookbook':
+            # show current recipes
+            print('~~ current recipes unlocked ~~')
+            print('\n'.join(self.current_recipes))
+        elif cmd_name == 'wish':
+            item = rest[0]
+            if len(rest) > 1:
+                amount = int(rest[1])
+            else:
+                amount = 1
+            found = False
+            if item in data.recipes:
+                found = True
+                print(json.dumps(shopping_list(
+                    {
+                        item: {
+                            'name': item,
+                            'amount': amount
+                        }
+                }, 0), indent=4))
+            if item in data.technology:
+                found = True
+                print(json.dumps(get_potion_list(item), indent=4))
+            if not found:
+                print(f'could not find {item}')
+        elif cmd_name == 'craftable':
+            item = rest[0]
+            amount = int(rest[1])
+            try:
+                res = self.craftable(item, amount)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'place':
+            machine = rest[0]
+            item = rest[1]
+            try:
+                self.place_machine(machine, item)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'craft':
+            item = rest[0]
+            amount = int(rest[1])
+            try:
+                self.craft(item, amount)
+                self.place_in_inventory(item, amount)
+                time_spent = data.recipes[item]['energy'] * amount
+                self.next(time_spent)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'mine':
+            # the same as craft, but with resources
+            resource = rest[0]
+            amount = int(rest[1])
+            try:
+                mine(resource, amount)
+                self.place_in_inventory(resource, amount)
+                time_spent = data.resources[resource]['mineable_properties']['mining_time']
+                self.next(time_spent)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'next':
+            # calls the next procedure with a given number minutes
+            minutes = int(rest[0])
+            seconds = minutes * 60
+            self.next(seconds)
+        elif cmd_name == 'inventory':
+            print(json.dumps(self.current_items, indent=4))
+        elif cmd_name == 'time':
+            # todo format this into H:M:S
+            print(self.game_time / 60)
+        elif cmd_name == 'import':
+            filename = rest[0]
+            with open(filename) as f:
+                self.clear()
+                self.import_history(f.read()) 
+        elif cmd_name == 'exit':
+            return 1
+        else:
+            print(f'I do not recognize `{cmd}`')
+        return 0
+
+    def craftable(self, item, amount):
+        # check if item recipe is unlocked
+        self.is_recipe_unlocked(item) 
+        # check if resources are available
+        sh = shopping_list({
+            item: {
+                'name': item,
+                'amount': amount
+            }
+        }, 0) 
+        return self.check_list(sh)
+
+    # todo: add option for partial crafting, so if a player wants to craft 5 miners
+    # but only has materials to make 3, the system will craft 3 miners and give a
+    # warning that 2 could not be crafted because of resource constraints
+    def craft(self, item, amount):
+        if self.craftable(item, amount):
+            sh = shopping_list({
+                item: {
+                    'name': item,
+                    'amount': amount
+                }
+            }, 0)
+            self.deduct_list(sh)
+            return (item, amount) 
+
+    # research a given technology, raise exception if potions not available
+    # or given technology can not be researched yet
+    def research(self, tech):
+        if self.researchable(tech):
+            pl = get_potion_list(tech)
+            self.deduct_list(pl)
+            self.current_tech.add(tech)
+            # unlock recipes
+            for effect in data.technology[tech]['effects']:
+                if effect['type'] == 'unlock-recipe':
+                    current_recipes.add(effect['recipe'])
+        else:
+            # todo: make it more clear
+            raise ResearchError('something went wrong')
+
+    def preqs_researched(self, tech):
+        preq = data.technology[tech]['prerequisites']    
+        return functools.reduce(lambda x, y: x and y in self.current_tech, preq, True)
+
+    def researchable(self, tech):
+        # possible things to go wrong
+        # tech DNE
+        # tech already researched 
+        # not enough resources
+        # preqs are not already researched
+        if tech in data.technology and tech not in self.current_tech:
+            pl = get_potion_list(tech)
+            preq = data.technology[tech]['prerequisites']    
+            return self.check_list(pl) and self.preqs_researched(tech)
+        else:
+            # todo: create invalid name exception
+            return False
+
+    # find all technologies that are currently researchable
+    def all_researchable(self):
+        res = set()
+        for tech in data.technology:
+            if tech not in current_tech and self.preqs_researched(tech):
+                res.add(tech)
+        return res
 
     def clear(self):
         # time-related
-        game_time = 0
-        history = []
+        self.game_time = 0
+        self.history = []
         # possessions
-        current_tech = get_starter_tech() 
-        current_recipes = get_starter_recipes() 
-        current_items = get_starter_inventory() 
+        self.current_tech = get_starter_tech() 
+        self.current_recipes = get_starter_recipes() 
+        self.current_items = get_starter_inventory() 
         # machines
-        current_assemblers = [] 
-        current_miners = [] 
-        current_furnaces = []
+        self.current_assemblers = [] 
+        self.current_miners = [] 
+        self.current_furnaces = []
 
-    def import_history(cmds):
+    def import_history(self, cmds):
         cmd_list = cmds.split('\n')
         for cmd in cmd_list:
-            run_cmd(cmd)
+            self.run_cmd(cmd)
+    
+    # simulate production for a given number of seconds 
+    def next(self, seconds):
+        self.game_time += seconds
+        # simulate the next given seconds of production
+        # mine the resources
+        # assemble the products
+        # and smelt the ores
+        for miner, resource in self.current_miners:
+            # pretend all resources have the same `mining-time`,
+            # this is only true for the basic resources (iron, copper, coal, stone) 
+            self.place_in_inventory(resource, data.mining_drills[miner]['mining_speed'] * seconds)
+        for assembler, item in self.current_assemblers:
+            try:
+                num_produced = data.assemblers[assembler]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
+                self.craft(item, num_produced)
+                self.place_in_inventory(item, num_produced)
+            except FactorioError as err:
+                print(f'failed to produce {num_produced} of {item}')
+                print(err)
+        for furnace, item in self.current_furnaces:
+            try:
+                num_produced = data.furnaces[furnace]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
+                self.craft(item, num_produced)
+                self.place_in_inventory(item, num_produced)
+            except FactorioError as err:
+                print(f'failed to smelt {num_produced} of {item}')
+                print(err)
+
 
 if __name__ == "__main__":
     # establish access to json files
     data_dict = load_files()
     data = SimpleNamespace(**data_dict)
-    # init sim
-    current_tech = get_starter_tech() 
-    current_recipes = get_starter_recipes() 
-    current_items = get_starter_inventory() 
-    # todo: maybe change these from list to;
-    # dict-{(machine, resource) : # of machines}
-    # machines
-    current_assemblers = [] 
-    current_miners = [] 
-    current_furnaces = []
 
-    history = []
-    game_time = 0
+    sim = Sim()
     # todo: revamp with `argparse` from the standard library 
 
     # todo: need tech cmd to show player what tech they have / which one's
@@ -418,10 +401,6 @@ if __name__ == "__main__":
     # todo: using a cmd with the `amount` param should not break the program
     # instead, either default to 1 or ask the player what the `amount` should be
     
-    # todo: restarting the program many times can be frustating, because I will
-    # need to start over completely each time
-    # figure out a way to import / export save-states in the simulation
-
     # todo: need ETA comamnd, figure out how long it will take to produce a certain
     # item when current production stats (machines placed)
 
@@ -429,9 +408,9 @@ if __name__ == "__main__":
 
     # todo: make a GUI / visual sim of inventory / resources / machines
 
-    while 'rocket-silo' not in current_items:
+    while 'rocket-silo' not in sim.current_items:
         cmd = input('> ')
-        res = run_cmd(cmd)
+        res = sim.run_cmd(cmd)
         if res == 1:
             exit()
     print('~~ victory! ~~')

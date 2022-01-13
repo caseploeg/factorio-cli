@@ -8,15 +8,18 @@ from constants import *
 from files import load_files
 from init import *
 
-def tech_needed(unlocked):
+# given a goal technology, return all the technologies required to unlock it,
+# as well as all the science packs
+def tech_needed():
+    seen = set()
     goal = 'rocket-silo'
-    unlocked.add(goal)
     packs = dict()
-    preq = data.technology[goal]['prerequisites']
+    preq = set() 
+    preq.add(goal)
     while preq:
         t = preq.pop()
-        if t not in unlocked:
-            unlocked.add(t)
+        if t not in seen:
+            seen.add(t)
             amount = data.technology[t]['research_unit_count']  
             for ing in data.technology[t]['research_unit_ingredients']:
                 name = ing['name'] 
@@ -24,10 +27,9 @@ def tech_needed(unlocked):
                     packs[name]['amount'] += amount
                 else:
                     packs[name] = {'name': name, 'amount': amount}
-
             for new_t in data.technology[t]['prerequisites']:
-                preq.append(new_t)
-    return unlocked, packs
+                preq.add(new_t)
+    return seen, packs
 
 # give a dictionary
 # {
@@ -150,6 +152,10 @@ def get_potion_list(tech):
             packs[name] = {'name': name, 'amount': amount}
     return packs
 
+def preqs_researched(tech):
+    preq = data.technology[tech]['prerequisites']    
+    return functools.reduce(lambda x, y: x and y in current_tech, preq, True)
+
 def researchable(tech):
     # possible things to go wrong
     # tech DNE
@@ -159,10 +165,19 @@ def researchable(tech):
     if tech in data.technology and tech not in current_tech:
         pl = get_potion_list(tech)
         preq = data.technology[tech]['prerequisites']    
-        return check_list(pl) and functools.reduce(lambda x, y: x and y in current_tech, preq, True)
+        return check_list(pl) and preqs_researched(tech)
     else:
         # todo: create invalid name exception
         return False
+
+# find all technologies that are currently researchable
+def all_researchable():
+    res = set()
+    for tech in data.technology:
+        preq = data.technology[tech]['prerequisites']    
+        if tech not in current_tech and preqs_researched(tech):
+            res.add(tech)
+    return res
 
 # research a given technology, raise exception if potions not available
 # or given technology can not be researched yet
@@ -260,137 +275,112 @@ if __name__ == "__main__":
 
     history = []
     game_time = 0
-    if TEST == False:
-        # todo: revamp with `argparse` from the standard library 
+    # todo: revamp with `argparse` from the standard library 
 
-        # todo: need tech cmd to show player what tech they have / which one's
-        # they don't have / tech tree
+    # todo: need tech cmd to show player what tech they have / which one's
+    # they don't have / tech tree
 
-        # todo: typing in long commands like 'inventory' is annoying, either
-        # come up with shorter name or allow aliases
-        # todo: need optional filters for inventory cmd 
-        # like - just show resources, or just show potions, or just show machines, etc
+    # todo: typing in long commands like 'inventory' is annoying, either
+    # come up with shorter name or allow aliases
+    # todo: need optional filters for inventory cmd 
+    # like - just show resources, or just show potions, or just show machines, etc
 
-        # todo: using a cmd with the `amount` param should not break the program
-        # instead, either default to 1 or ask the player what the `amount` should be
-        
-        # todo: restarting the program many times can be frustating, because I will
-        # need to start over completely each time
-        # figure out a way to import / export save-states in the simulation
-        while 'rocket-silo' not in current_items:
-            cmd = input('> ')
-            history.append(cmd)
-            pieces = cmd.split()
-            cmd_name, rest = pieces[0], pieces[1:] 
-            if cmd_name == 'spawn':
-                item = rest[0]
+    # todo: using a cmd with the `amount` param should not break the program
+    # instead, either default to 1 or ask the player what the `amount` should be
+    
+    # todo: restarting the program many times can be frustating, because I will
+    # need to start over completely each time
+    # figure out a way to import / export save-states in the simulation
+    while 'rocket-silo' not in current_items:
+        cmd = input('> ')
+        history.append(cmd)
+        pieces = cmd.split()
+        cmd_name, rest = pieces[0], pieces[1:] 
+        if cmd_name == 'spawn':
+            item = rest[0]
+            amount = int(rest[1])
+            place_in_inventory(item, amount)
+        elif cmd_name == 'research':
+            tech = rest[0]
+            try:
+                research(tech)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'tree':
+            print(tech_needed())
+        elif cmd_name == 'suggest':
+            print(all_researchable())
+        elif cmd_name == 'cookbook':
+            # show current recipes
+            print('~~ current recipes unlocked ~~')
+            print('\n'.join(current_recipes))
+        elif cmd_name == 'wish':
+            item = rest[0]
+            if len(rest) > 1:
                 amount = int(rest[1])
-                place_in_inventory(item, amount)
-            elif cmd_name == 'research':
-                tech = rest[0]
-                try:
-                    research(tech)
-                except FactorioError as err:
-                    print(err)
-            elif cmd_name == 'cookbook':
-                # show current recipes
-                print('~~ current recipes unlocked ~~')
-                print('\n'.join(current_recipes))
-            elif cmd_name == 'wish':
-                item = rest[0]
-                if len(rest) > 1:
-                    amount = int(rest[1])
-                else:
-                    amount = 1
-                found = False
-                if item in data.recipes:
-                    found = True
-                    print(json.dumps(shopping_list(
-                        {
-                            item: {
-                                'name': item,
-                                'amount': amount
-                            }
-                    }, 0), indent=4))
-                if item in data.technology:
-                    found = True
-                    print(json.dumps(get_potion_list(item), indent=4))
-                if not found:
-                    print(f'could not find {item}')
-            elif cmd_name == 'craftable':
-                item = rest[0]
-                amount = int(rest[1])
-                try:
-                    res = craftable(item, amount)
-                except FactorioError as err:
-                    print(err)
-            elif cmd_name == 'place':
-                machine = rest[0]
-                item = rest[1]
-                try:
-                    place_machine(machine, item)
-                except FactorioError as err:
-                    print(err)
-            elif cmd_name == 'craft':
-                item = rest[0]
-                amount = int(rest[1])
-                try:
-                    craft(item, amount)
-                    place_in_inventory(item, amount)
-                    time_spent = data.recipes[item]['energy'] * amount
-                    game_time = next(time_spent, game_time)
-                except FactorioError as err:
-                    print(err)
-            elif cmd_name == 'mine':
-                # the same as craft, but with resources
-                resource = rest[0]
-                amount = int(rest[1])
-                try:
-                    mine(resource, amount)
-                    place_in_inventory(resource, amount)
-                    time_spent = data.resources[resource]['mineable_properties']['mining_time']
-                    game_time = next(time_spent, game_time)
-                except FactorioError as err:
-                    print(err)
-            elif cmd_name == 'next':
-                # calls the next procedure with a given number minutes
-                minutes = int(rest[0])
-                seconds = minutes * 60
-                game_time = next(seconds, game_time)
-            elif cmd_name == 'inventory':
-                print(json.dumps(current_items, indent=4))
-            elif cmd_name == 'time':
-                # todo format this 
-                print(game_time / 60)
-            elif cmd_name == 'exit':
-                break
             else:
-                print(f'I do not recognize `{cmd}`')
-    else:
-        # tech needed to unlocked rocket-silo starting with no technologies already unlocked
-        tech, packs = tech_needed(current_tech)
-        # items required to win the game
-        win_condition = dict()
-        for k, v in packs.items():
-            win_condition[k] = v
-        
-        win_condition['rocket-silo'] = {
-                'name': 'rocket-silo',
-                'amount': 1
-            }
-        win_condition['rocket-part'] = {
-                'name': 'rocket-part',
-                'amount': 100
-        }
-
-        # calculate the amount of each item needed to craft items for win condition 
-        sh = shopping_list(win_condition, 0)
-        print(json.dumps(sh, indent=4, sort_keys=True))
-        
-        # calculate production statistics for miners
-        miners = [
-            make_electric_mining_drill() for _ in range(10)
-        ]
-        print(miner_production(miners))
-
-        # calculate production statistics for crafting a given recipe 
+                amount = 1
+            found = False
+            if item in data.recipes:
+                found = True
+                print(json.dumps(shopping_list(
+                    {
+                        item: {
+                            'name': item,
+                            'amount': amount
+                        }
+                }, 0), indent=4))
+            if item in data.technology:
+                found = True
+                print(json.dumps(get_potion_list(item), indent=4))
+            if not found:
+                print(f'could not find {item}')
+        elif cmd_name == 'craftable':
+            item = rest[0]
+            amount = int(rest[1])
+            try:
+                res = craftable(item, amount)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'place':
+            machine = rest[0]
+            item = rest[1]
+            try:
+                place_machine(machine, item)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'craft':
+            item = rest[0]
+            amount = int(rest[1])
+            try:
+                craft(item, amount)
+                place_in_inventory(item, amount)
+                time_spent = data.recipes[item]['energy'] * amount
+                game_time = next(time_spent, game_time)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'mine':
+            # the same as craft, but with resources
+            resource = rest[0]
+            amount = int(rest[1])
+            try:
+                mine(resource, amount)
+                place_in_inventory(resource, amount)
+                time_spent = data.resources[resource]['mineable_properties']['mining_time']
+                game_time = next(time_spent, game_time)
+            except FactorioError as err:
+                print(err)
+        elif cmd_name == 'next':
+            # calls the next procedure with a given number minutes
+            minutes = int(rest[0])
+            seconds = minutes * 60
+            game_time = next(seconds, game_time)
+        elif cmd_name == 'inventory':
+            print(json.dumps(current_items, indent=4))
+        elif cmd_name == 'time':
+            # todo format this 
+            print(game_time / 60)
+        elif cmd_name == 'exit':
+            break
+        else:
+            print(f'I do not recognize `{cmd}`')

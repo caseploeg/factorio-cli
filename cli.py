@@ -2,6 +2,7 @@
 def convert_aliases(args):
     aliases = {
         'i': 'inventory',
+        'm': 'machines',
         'sf': 'stone-furnace',
         'bmd': 'burner-mining-drill',
         'emd': 'electric-mining-drill',
@@ -10,6 +11,7 @@ def convert_aliases(args):
         'igw': 'iron-gear-wheel',
         'ip': 'iron-plate',
         'cp': 'copper-plate',
+        'gc': 'electronic-circuit'
     }
     converted_args = []
     for arg in args:

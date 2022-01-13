@@ -122,13 +122,14 @@ class Sim():
     def check_item(self, item, amount):
         if self.current_items[item] >= amount:
             return True
-        raise ResourceError('not enough resources in inventory!')
+        raise ResourceError(f'not enough {item} in inventory!')
 
     def check_list(self, sh):
-        if functools.reduce(lambda x, y: x and self.current_items[y['name']] >= y['amount'], sh.values(), True):
+        if functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount']), sh.values(), True):
             return True
         raise ResourceError('not enough resources in inventory!')
-        
+
+
     def deduct_item(self, item, amount):
         self.check_item(item, amount)
         self.current_items[item] -= amount
@@ -168,7 +169,7 @@ class Sim():
         else:
             self.place_in_inventory(machine, 1)
             raise InvalidMachineError(f'{machine} cannot be placed! try a mining drill or assembler')
-        
+
     def run_cmd(self, cmd):
         self.history.append(cmd)
         pieces = cmd.split()
@@ -182,7 +183,7 @@ class Sim():
         elif cmd_name == 'research':
             tech = rest[0]
             try:
-                research(tech)
+                self.research(tech)
             except FactorioError as err:
                 print(err)
         elif cmd_name == 'tree':
@@ -193,6 +194,11 @@ class Sim():
             # show current recipes
             print('~~ current recipes unlocked ~~')
             print('\n'.join(self.current_recipes))
+        elif cmd_name == 'machines':
+            # show current machines
+            print(self.current_miners)
+            print(self.current_furnaces)
+            print(self.current_assemblers)
         elif cmd_name == 'wish':
             item = rest[0]
             if len(rest) > 1:
@@ -264,6 +270,8 @@ class Sim():
             with open(filename) as f:
                 self.clear()
                 self.import_history(f.read()) 
+        elif cmd_name == 'history':
+            print(self.history)
         elif cmd_name == 'exit':
             return 1
         else:
@@ -285,6 +293,9 @@ class Sim():
     # todo: add option for partial crafting, so if a player wants to craft 5 miners
     # but only has materials to make 3, the system will craft 3 miners and give a
     # warning that 2 could not be crafted because of resource constraints
+
+    # todo: should be able to manually craft a high-level item and recursively craft
+    # the lower level items required
     def craft(self, item, amount):
         if self.craftable(item, amount):
             sh = shopping_list({
@@ -306,7 +317,7 @@ class Sim():
             # unlock recipes
             for effect in data.technology[tech]['effects']:
                 if effect['type'] == 'unlock-recipe':
-                    current_recipes.add(effect['recipe'])
+                    self.current_recipes.add(effect['recipe'])
         else:
             # todo: make it more clear
             raise ResearchError('something went wrong')
@@ -353,7 +364,9 @@ class Sim():
     def import_history(self, cmds):
         cmd_list = cmds.split('\n')
         for cmd in cmd_list:
-            self.run_cmd(cmd)
+            # ignore empty lines and ignore commented lines
+            if cmd != '' and cmd[0] != '#':
+                self.run_cmd(cmd)
     
     # simulate production for a given number of seconds 
     def next(self, seconds):

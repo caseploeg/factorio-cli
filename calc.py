@@ -257,7 +257,138 @@ def next(seconds, game_time):
             print(f'failed to smelt {num_produced} of {item}')
             print(err)
     return game_time
-            
+
+
+def clear_sim():
+    pass
+
+
+def run_cmd(cmd):
+    history.append(cmd)
+    pieces = cmd.split()
+    # detect any aliases used and replace them with proper names
+    pieces = convert_aliases(pieces)
+    cmd_name, rest = pieces[0], pieces[1:] 
+    if cmd_name == 'spawn':
+        item = rest[0]
+        amount = int(rest[1])
+        place_in_inventory(item, amount)
+    elif cmd_name == 'research':
+        tech = rest[0]
+        try:
+            research(tech)
+        except FactorioError as err:
+            print(err)
+    elif cmd_name == 'tree':
+        print(tech_needed())
+    elif cmd_name == 'suggest':
+        print(all_researchable())
+    elif cmd_name == 'cookbook':
+        # show current recipes
+        print('~~ current recipes unlocked ~~')
+        print('\n'.join(current_recipes))
+    elif cmd_name == 'wish':
+        item = rest[0]
+        if len(rest) > 1:
+            amount = int(rest[1])
+        else:
+            amount = 1
+        found = False
+        if item in data.recipes:
+            found = True
+            print(json.dumps(shopping_list(
+                {
+                    item: {
+                        'name': item,
+                        'amount': amount
+                    }
+            }, 0), indent=4))
+        if item in data.technology:
+            found = True
+            print(json.dumps(get_potion_list(item), indent=4))
+        if not found:
+            print(f'could not find {item}')
+    elif cmd_name == 'craftable':
+        item = rest[0]
+        amount = int(rest[1])
+        try:
+            res = craftable(item, amount)
+        except FactorioError as err:
+            print(err)
+    elif cmd_name == 'place':
+        machine = rest[0]
+        item = rest[1]
+        try:
+            place_machine(machine, item)
+        except FactorioError as err:
+            print(err)
+    elif cmd_name == 'craft':
+        item = rest[0]
+        amount = int(rest[1])
+        try:
+            craft(item, amount)
+            place_in_inventory(item, amount)
+            time_spent = data.recipes[item]['energy'] * amount
+            game_time = next(time_spent, game_time)
+        except FactorioError as err:
+            print(err)
+    elif cmd_name == 'mine':
+        # the same as craft, but with resources
+        resource = rest[0]
+        amount = int(rest[1])
+        try:
+            mine(resource, amount)
+            place_in_inventory(resource, amount)
+            time_spent = data.resources[resource]['mineable_properties']['mining_time']
+            game_time = next(time_spent, game_time)
+        except FactorioError as err:
+            print(err)
+    elif cmd_name == 'next':
+        # calls the next procedure with a given number minutes
+        minutes = int(rest[0])
+        seconds = minutes * 60
+        game_time = next(seconds, game_time)
+    elif cmd_name == 'inventory':
+        print(json.dumps(current_items, indent=4))
+    elif cmd_name == 'time':
+        # todo format this into H:M:S
+        print(game_time / 60)
+    elif cmd_name == 'import':
+        filename = rest[0]
+        with open(filename) as f:
+            clear_sim()
+            import_history(f.read()) 
+    elif cmd_name == 'exit':
+        return 1
+    else:
+        print(f'I do not recognize `{cmd}`')
+    return 0
+
+class Sim():
+
+    def __init__(self):
+        pass
+    
+    def run_cmd(self):
+        pass
+
+    def clear(self):
+        # time-related
+        game_time = 0
+        history = []
+        # possessions
+        current_tech = get_starter_tech() 
+        current_recipes = get_starter_recipes() 
+        current_items = get_starter_inventory() 
+        # machines
+        current_assemblers = [] 
+        current_miners = [] 
+        current_furnaces = []
+
+    def import_history(cmds):
+        cmd_list = cmds.split('\n')
+        for cmd in cmd_list:
+            run_cmd(cmd)
 
 if __name__ == "__main__":
     # establish access to json files
@@ -290,98 +421,17 @@ if __name__ == "__main__":
     # todo: restarting the program many times can be frustating, because I will
     # need to start over completely each time
     # figure out a way to import / export save-states in the simulation
+
+    # todo: need ETA comamnd, figure out how long it will take to produce a certain
+    # item when current production stats (machines placed)
+
+    # todo: develop AI strategies to play game
+
+    # todo: make a GUI / visual sim of inventory / resources / machines
+
     while 'rocket-silo' not in current_items:
         cmd = input('> ')
-        history.append(cmd)
-        pieces = cmd.split()
-        # detect any aliases used and replace them with proper names
-        pieces = convert_aliases(pieces)
-        cmd_name, rest = pieces[0], pieces[1:] 
-        if cmd_name == 'spawn':
-            item = rest[0]
-            amount = int(rest[1])
-            place_in_inventory(item, amount)
-        elif cmd_name == 'research':
-            tech = rest[0]
-            try:
-                research(tech)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'tree':
-            print(tech_needed())
-        elif cmd_name == 'suggest':
-            print(all_researchable())
-        elif cmd_name == 'cookbook':
-            # show current recipes
-            print('~~ current recipes unlocked ~~')
-            print('\n'.join(current_recipes))
-        elif cmd_name == 'wish':
-            item = rest[0]
-            if len(rest) > 1:
-                amount = int(rest[1])
-            else:
-                amount = 1
-            found = False
-            if item in data.recipes:
-                found = True
-                print(json.dumps(shopping_list(
-                    {
-                        item: {
-                            'name': item,
-                            'amount': amount
-                        }
-                }, 0), indent=4))
-            if item in data.technology:
-                found = True
-                print(json.dumps(get_potion_list(item), indent=4))
-            if not found:
-                print(f'could not find {item}')
-        elif cmd_name == 'craftable':
-            item = rest[0]
-            amount = int(rest[1])
-            try:
-                res = craftable(item, amount)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'place':
-            machine = rest[0]
-            item = rest[1]
-            try:
-                place_machine(machine, item)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'craft':
-            item = rest[0]
-            amount = int(rest[1])
-            try:
-                craft(item, amount)
-                place_in_inventory(item, amount)
-                time_spent = data.recipes[item]['energy'] * amount
-                game_time = next(time_spent, game_time)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'mine':
-            # the same as craft, but with resources
-            resource = rest[0]
-            amount = int(rest[1])
-            try:
-                mine(resource, amount)
-                place_in_inventory(resource, amount)
-                time_spent = data.resources[resource]['mineable_properties']['mining_time']
-                game_time = next(time_spent, game_time)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'next':
-            # calls the next procedure with a given number minutes
-            minutes = int(rest[0])
-            seconds = minutes * 60
-            game_time = next(seconds, game_time)
-        elif cmd_name == 'inventory':
-            print(json.dumps(current_items, indent=4))
-        elif cmd_name == 'time':
-            # todo format this 
-            print(game_time / 60)
-        elif cmd_name == 'exit':
-            break
-        else:
-            print(f'I do not recognize `{cmd}`')
+        res = run_cmd(cmd)
+        if res == 1:
+            exit()
+    print('~~ victory! ~~')

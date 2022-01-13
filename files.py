@@ -11,7 +11,7 @@ def load_files():
         'furnace.json',
         'assembling-machine.json',
     ]
-    # data will be referred to through key names
+    # data will be accessed through key names
     keys = [
         'recipes',
         'technology',

@@ -13,6 +13,6 @@ def convert_aliases(args):
         if arg in aliases:
             converted_args.append(aliases[arg])
         else:
-            convert_args.append(arg)
+            converted_args.append(arg)
     return converted_args
 

@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 def get_starter_inventory():
     inventory = defaultdict(int)
     inventory['stone-furnace'] = 1

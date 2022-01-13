@@ -7,6 +7,7 @@ from errors import *
 from constants import *
 from files import load_files
 from init import *
+from cli import *
 
 # given a goal technology, return all the technologies required to unlock it,
 # as well as all the science packs
@@ -280,8 +281,6 @@ if __name__ == "__main__":
     # todo: need tech cmd to show player what tech they have / which one's
     # they don't have / tech tree
 
-    # todo: typing in long commands like 'inventory' is annoying, either
-    # come up with shorter name or allow aliases
     # todo: need optional filters for inventory cmd 
     # like - just show resources, or just show potions, or just show machines, etc
 
@@ -295,6 +294,8 @@ if __name__ == "__main__":
         cmd = input('> ')
         history.append(cmd)
         pieces = cmd.split()
+        # detect any aliases used and replace them with proper names
+        pieces = convert_aliases(pieces)
         cmd_name, rest = pieces[0], pieces[1:] 
         if cmd_name == 'spawn':
             item = rest[0]

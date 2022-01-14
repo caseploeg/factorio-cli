@@ -8,3 +8,5 @@ class InvalidMachineError(FactorioError):
     pass
 class InvalidRecipeError(FactorioError):
     pass
+class CraftingError(FactorioError):
+    pass

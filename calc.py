@@ -1,6 +1,6 @@
 import functools
 import json
-from collections import defaultdict
+from collections import defaultdict, Counter
 from types import SimpleNamespace
 
 from errors import * 
@@ -31,6 +31,12 @@ def tech_needed():
             for new_t in data.technology[t]['prerequisites']:
                 preq.add(new_t)
     return seen, packs
+
+def convert_to_sh(d):
+    sh = dict()
+    for k, v in d.items():
+        sh[k] = {'name': k, 'amount': v}
+    return sh
 
 # give a dictionary
 # {
@@ -106,16 +112,65 @@ def is_smeltable(resource):
 class Sim():
     def __init__(self):
         self.clear()
-    
+
     def does_recipe_exist(self, item):
         if item in data.recipes:
             return True
         raise InvalidRecipeError(f'{item} does not have a recipe!')
-    
+
     def is_recipe_unlocked(self, item):
         if item in self.current_recipes:
             return True
         raise ResearchError(f'{item} is not unlocked yet')
+
+
+    # basically craftable()
+    # given a shopping list(sh) and a copy of current_items(ci)
+    # if player has enough materials to craft all items in the shopping list,
+    # return 0 and a Counter containing all intermediate items needed for crafting 
+    # return 2 if missing some items, returned Counter is meaningless
+    # todo: if not craftable, should return which raw material the player is missing
+    # or something useful like that
+    def has_items(self, sh, ci):
+        # ci is a copy of current_items
+        # we have to make a copy of current_items to check if we have the items to
+        # craft a shopping list because we need to deduct items along the way, but
+        # if crafting fails, we should revert to the original state of current_items
+        available = Counter()
+        missing = Counter()
+        # res = 0 -> success
+        # res = 1 -> missing items go deeper
+        # res = 2 -> out of raw material, can't go deeper
+        res = 0 
+        for item, v in sh.items():
+            amount = v['amount']
+            if item not in self.current_recipes:
+                res = 2
+                break
+            if ci[item] >= amount:
+                available[item] = amount
+                ci[item] -= amount
+            else:
+                res = 1 
+                available[item] = ci[item]
+                missing[item] = amount - ci[item]
+                ci[item] = 0
+        print(missing)
+        msh = convert_to_sh(missing)
+        print(msh)
+        missing_sh = shopping_list(msh, 0)
+        # get next level 
+        print(res, missing)
+        if res == 0:
+            return res, missing, available 
+        if res == 1:
+            res, rest_missing, rest_av = self.has_items(missing_sh, ci)
+            return res, missing + rest_missing, available + rest_av
+        elif res == 2:
+            # todo: currently no meaningful information to pass down if
+            # items are not craftable
+            return res, missing, available 
+
 
     # returns True iff players have more than or equal to `amount` of given `item` in their
     # inventory
@@ -224,7 +279,8 @@ class Sim():
             item = rest[0]
             amount = int(rest[1])
             try:
-                res = self.craftable(item, amount)
+                res, items = self.craftable(item, amount)
+                print(items)
             except FactorioError as err:
                 print(err)
         elif cmd_name == 'place':
@@ -239,9 +295,6 @@ class Sim():
             amount = int(rest[1])
             try:
                 self.craft(item, amount)
-                self.place_in_inventory(item, amount)
-                time_spent = data.recipes[item]['energy'] * amount
-                self.next(time_spent)
             except FactorioError as err:
                 print(err)
         elif cmd_name == 'mine':
@@ -281,31 +334,42 @@ class Sim():
     def craftable(self, item, amount):
         # check if item recipe is unlocked
         self.is_recipe_unlocked(item) 
-        # check if resources are available
         sh = shopping_list({
             item: {
                 'name': item,
                 'amount': amount
             }
         }, 0) 
-        return self.check_list(sh)
+        # check if the player has the items available to craft
+        return self.has_items(sh, self.current_items.copy())
 
     # todo: add option for partial crafting, so if a player wants to craft 5 miners
     # but only has materials to make 3, the system will craft 3 miners and give a
     # warning that 2 could not be crafted because of resource constraints
 
-    # todo: should be able to manually craft a high-level item and recursively craft
-    # the lower level items required
+    def craft_time(self, craft_list):
+        time = 0
+        for name, amount in craft_list.items():
+            time += data.recipes[name]['energy'] * amount 
+        return time
+
+
     def craft(self, item, amount):
-        if self.craftable(item, amount):
-            sh = shopping_list({
-                item: {
-                    'name': item,
-                    'amount': amount
-                }
-            }, 0)
-            self.deduct_list(sh)
-            return (item, amount) 
+        res, missing, available = self.craftable(item, amount)
+        if res == 0:
+            missing[item] = amount
+            missing_sh = convert_to_sh(missing)
+            av_sh = convert_to_sh(available)
+            print(available)
+            # todo: what items should actually be deducted? this should be what's
+            # considered available
+            self.deduct_list(av_sh)
+            self.place_in_inventory(item, amount)
+            time_spent = self.craft_time(missing)
+            print(time_spent)
+            self.next(time_spent)
+        elif res == 2:
+            raise CraftingError(f'crafting {amount} {item} failed')
 
     # research a given technology, raise exception if potions not available
     # or given technology can not be researched yet
@@ -375,6 +439,7 @@ class Sim():
             if cmd.startswith("'''") and ignore and not ignore_flipped:
                 ignore = False 
             ignore_flipped = False
+
     # simulate production for a given number of seconds 
     def next(self, seconds):
         self.game_time += seconds

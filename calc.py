@@ -257,7 +257,7 @@ class Sim():
                 print(err)
         elif cmd_name == 'next':
             # calls the next procedure with a given number minutes
-            minutes = int(rest[0])
+            minutes = float(rest[0])
             seconds = minutes * 60
             self.next(seconds)
         elif cmd_name == 'inventory':
@@ -363,11 +363,18 @@ class Sim():
 
     def import_history(self, cmds):
         cmd_list = cmds.split('\n')
+        ignore = False
+        ignore_flipped = False
         for cmd in cmd_list:
+            if cmd.startswith("'''") and not ignore:
+                ignore = True 
+                ignore_flipped = True
             # ignore empty lines and ignore commented lines
-            if cmd != '' and cmd[0] != '#':
+            if not ignore and cmd != '' and not cmd.startswith('#'):
                 self.run_cmd(cmd)
-    
+            if cmd.startswith("'''") and ignore and not ignore_flipped:
+                ignore = False 
+            ignore_flipped = False
     # simulate production for a given number of seconds 
     def next(self, seconds):
         self.game_time += seconds

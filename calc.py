@@ -132,6 +132,7 @@ class Sim():
     # todo: if not craftable, should return which raw material the player is missing
     # or something useful like that
     def has_items(self, sh, ci):
+        print(sh)
         # ci is a copy of current_items
         # we have to make a copy of current_items to check if we have the items to
         # craft a shopping list because we need to deduct items along the way, but
@@ -144,12 +145,14 @@ class Sim():
         res = 0 
         for item, v in sh.items():
             amount = v['amount']
-            if item not in self.current_recipes:
-                res = 2
-                break
             if ci[item] >= amount:
                 available[item] = amount
                 ci[item] -= amount
+            elif item not in self.current_recipes:
+                # this condition is met if the item needed has not been researched
+                # or is a raw material, (can not be crafted)
+                res = 2
+                break
             else:
                 res = 1 
                 available[item] = ci[item]
@@ -421,6 +424,8 @@ class Sim():
         self.current_recipes = get_starter_recipes() 
         self.current_items = get_starter_inventory() 
         # machines
+        # todo: change these from list to
+        # dice-{(machine, item): amount}
         self.current_assemblers = [] 
         self.current_miners = [] 
         self.current_furnaces = []
@@ -441,6 +446,8 @@ class Sim():
             ignore_flipped = False
 
     # simulate production for a given number of seconds 
+    # todo: fix simulation so assemblers and furnaces produce based on available
+    # materials -- do *not* use `craft()`
     def next(self, seconds):
         self.game_time += seconds
         # simulate the next given seconds of production
@@ -454,7 +461,6 @@ class Sim():
         for assembler, item in self.current_assemblers:
             try:
                 num_produced = data.assemblers[assembler]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
-                self.craft(item, num_produced)
                 self.place_in_inventory(item, num_produced)
             except FactorioError as err:
                 print(f'failed to produce {num_produced} of {item}')
@@ -462,7 +468,6 @@ class Sim():
         for furnace, item in self.current_furnaces:
             try:
                 num_produced = data.furnaces[furnace]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
-                self.craft(item, num_produced)
                 self.place_in_inventory(item, num_produced)
             except FactorioError as err:
                 print(f'failed to smelt {num_produced} of {item}')

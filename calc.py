@@ -132,7 +132,6 @@ class Sim():
     # todo: if not craftable, should return which raw material the player is missing
     # or something useful like that
     def has_items(self, sh, ci):
-        print(sh)
         # ci is a copy of current_items
         # we have to make a copy of current_items to check if we have the items to
         # craft a shopping list because we need to deduct items along the way, but
@@ -158,12 +157,8 @@ class Sim():
                 available[item] = ci[item]
                 missing[item] = amount - ci[item]
                 ci[item] = 0
-        print(missing)
         msh = convert_to_sh(missing)
-        print(msh)
         missing_sh = shopping_list(msh, 0)
-        # get next level 
-        print(res, missing)
         if res == 0:
             return res, missing, available 
         if res == 1:
@@ -197,7 +192,8 @@ class Sim():
             self.current_items[k] -= v['amount']
 
     def place_in_inventory(self, item, amount):
-        self.current_items[item] += amount
+        # enfore integral system - avoid very real issues
+        self.current_items[item] += int(amount)
 
     def place_machine(self, machine, item):
         self.check_item(machine, 1)
@@ -356,21 +352,21 @@ class Sim():
             time += data.recipes[name]['energy'] * amount 
         return time
 
-
+    # when crafting is done by a furnace or assembler, there should be no items missing from the recipe
     def craft(self, item, amount):
         res, missing, available = self.craftable(item, amount)
         if res == 0:
             missing[item] = amount
             missing_sh = convert_to_sh(missing)
             av_sh = convert_to_sh(available)
-            print(available)
             # todo: what items should actually be deducted? this should be what's
             # considered available
             self.deduct_list(av_sh)
             self.place_in_inventory(item, amount)
             time_spent = self.craft_time(missing)
-            print(time_spent)
-            self.next(time_spent)
+            if time_spent > 0:
+                print(item, amount, missing)
+                self.next(time_spent)
         elif res == 2:
             raise CraftingError(f'crafting {amount} {item} failed')
 
@@ -459,20 +455,29 @@ class Sim():
             # this is only true for the basic resources (iron, copper, coal, stone) 
             self.place_in_inventory(resource, data.mining_drills[miner]['mining_speed'] * seconds)
         for assembler, item in self.current_assemblers:
+            pass
             try:
                 num_produced = data.assemblers[assembler]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
-                self.place_in_inventory(item, num_produced)
             except FactorioError as err:
                 print(f'failed to produce {num_produced} of {item}')
                 print(err)
         for furnace, item in self.current_furnaces:
             try:
                 num_produced = data.furnaces[furnace]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
-                self.place_in_inventory(item, num_produced)
+                # find the number of items that can *actually* be produce - brute force
+                wish = {item: {'name': item, 'amount': num_produced}}
+                while not self.check_list(shopping_list(wish, 0)):
+                    num_produced -= 1
+                self.machine_craft(item, num_produced)
             except FactorioError as err:
+                print('hello?')
                 print(f'failed to smelt {num_produced} of {item}')
                 print(err)
 
+    def machine_craft(self, item, num_produced):
+        wish = {item: {'name': item, 'amount': num_produced}}
+        self.deduct_list(shopping_list(wish,0))
+        self.place_in_inventory(item, num_produced)
 
 if __name__ == "__main__":
     # establish access to json files

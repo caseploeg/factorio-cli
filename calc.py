@@ -402,7 +402,7 @@ class Sim():
     def all_researchable(self):
         res = set()
         for tech in data.technology:
-            if tech not in current_tech and self.preqs_researched(tech):
+            if tech not in self.current_tech and self.preqs_researched(tech):
                 res.add(tech)
         return res
 

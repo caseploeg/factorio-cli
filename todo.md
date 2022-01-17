@@ -10,3 +10,5 @@ priority to resources over others. Making potions before bmd, etc.
 - Problem: the run_cmd() procedure is getting out of hand, find a way to abstract cmds (parsing args, running them, handling errors, etc.) -- argparse
 
 - Problem: looking at stats for machines is confusing currently 
+
+- Problem: idk what commands are even available or what they do at this point

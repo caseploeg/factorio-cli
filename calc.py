@@ -485,8 +485,6 @@ if __name__ == "__main__":
     data = SimpleNamespace(**data_dict)
 
     sim = Sim()
-    # todo: revamp with `argparse` from the standard library 
-
     # todo: need tech cmd to show player what tech they have / which one's
     # they don't have / tech tree
 

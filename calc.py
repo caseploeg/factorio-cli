@@ -49,7 +49,8 @@ def convert_to_sh(d):
 # if level == 1 -> all resources required are calculated (raw materials, sub-components...)
 # if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
 def shopping_list(items, level): 
-    all_items = items
+    # avoid side effects >:)
+    all_items = items.copy()
     def helper(items):
         ing_lists = list(
             map(lambda x: [{'name': k['name'], 'amount': k['amount'] * items[x[0]]['amount']} for k in x[1]], 
@@ -173,19 +174,16 @@ class Sim():
     # returns True iff players have more than or equal to `amount` of given `item` in their
     # inventory
     def check_item(self, item, amount):
-        if self.current_items[item] >= amount:
-            return True
-        raise ResourceError(f'not enough {item} in inventory!')
+        return self.current_items[item] >= amount 
 
     def check_list(self, sh):
-        if functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount']), sh.values(), True):
-            return True
-        raise ResourceError('not enough resources in inventory!')
-
+        return functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount']), sh.values(), True) 
 
     def deduct_item(self, item, amount):
-        self.check_item(item, amount)
-        self.current_items[item] -= amount
+        if self.check_item(item, amount):
+            self.current_items[item] -= amount
+        else:
+            raise ResourceError('deduct_item() - resource error')
 
     def deduct_list(self, sh):
         for k, v in sh.items():
@@ -196,7 +194,6 @@ class Sim():
         self.current_items[item] += int(amount)
 
     def place_machine(self, machine, item):
-        self.check_item(machine, 1)
         self.deduct_item(machine, 1)
         if 'mining-drill' in machine:
             # check item to make sure it's as valid resoure for that machine
@@ -359,8 +356,6 @@ class Sim():
             missing[item] = amount
             missing_sh = convert_to_sh(missing)
             av_sh = convert_to_sh(available)
-            # todo: what items should actually be deducted? this should be what's
-            # considered available
             self.deduct_list(av_sh)
             self.place_in_inventory(item, amount)
             time_spent = self.craft_time(missing)
@@ -445,6 +440,7 @@ class Sim():
     # todo: fix simulation so assemblers and furnaces produce based on available
     # materials -- do *not* use `craft()`
     def next(self, seconds):
+        print('next')
         self.game_time += seconds
         # simulate the next given seconds of production
         # mine the resources
@@ -458,19 +454,23 @@ class Sim():
             pass
             try:
                 num_produced = data.assemblers[assembler]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
+                # find the number of items that can *actually* be produced - brute force
+                wish = {item: {'name': item, 'amount': num_produced}}
+                while not self.check_list(shopping_list(wish, 0)):
+                    wish[item]['amount'] -= 1
+                self.machine_craft(item, wish[item]['amount'])
             except FactorioError as err:
                 print(f'failed to produce {num_produced} of {item}')
                 print(err)
         for furnace, item in self.current_furnaces:
             try:
                 num_produced = data.furnaces[furnace]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
-                # find the number of items that can *actually* be produce - brute force
+                # find the number of items that can *actually* be produced - brute force
                 wish = {item: {'name': item, 'amount': num_produced}}
                 while not self.check_list(shopping_list(wish, 0)):
-                    num_produced -= 1
-                self.machine_craft(item, num_produced)
+                    wish[item]['amount'] -= 1
+                self.machine_craft(item, wish[item]['amount'])
             except FactorioError as err:
-                print('hello?')
                 print(f'failed to smelt {num_produced} of {item}')
                 print(err)
 

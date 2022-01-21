@@ -4,12 +4,12 @@ import json
 
 def load_files():
     filenames = [
-        'recipe.json',
-        'technology.json',
-        'mining-drill.json',
-        'resource.json',
-        'furnace.json',
-        'assembling-machine.json',
+        'data/recipe.json',
+        'data/technology.json',
+        'data/mining-drill.json',
+        'data/resource.json',
+        'data/furnace.json',
+        'data/assembling-machine.json',
     ]
     # data will be accessed through key names
     keys = [

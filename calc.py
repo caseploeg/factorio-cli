@@ -15,50 +15,6 @@ def convert_to_sh(d):
         sh[k] = {'name': k, 'amount': v}
     return sh
 
-# give a dictionary
-# {
-#   item_name: {'name': item_name, 'amount': amount_wanted},
-# }
-# return a new dictionary of the same format,
-# will all items required to build the items in the
-# shopping list
-# if level == 0 -> only the direct ingredients are calculated
-# if level == 1 -> all resources required are calculated (raw materials, sub-components...)
-# if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
-def shopping_list(items, level): 
-    # avoid side effects >:)
-    all_items = items.copy()
-    def helper(items):
-        ing_lists = list(
-            map(lambda x: [{'name': k['name'], 'amount': k['amount'] * items[x[0]]['amount']} for k in x[1]], 
-            map(lambda y: [y['name'], y['ingredients']],
-            filter(lambda z: z['name'] in items.keys(),
-            data.recipes.values()))))
-        ing_lists.append(list(filter(lambda x: x['name'] not in data.recipes, items.values())))  
-        # flatten
-        master_list = dict() 
-        done = True
-        for ing_list in ing_lists:
-            for ing in ing_list:
-                name, amount = ing['name'], ing['amount']
-                if name in master_list:
-                    master_list[name]['amount'] += amount
-                else:
-                    master_list[name] = ing 
-                    if name in data.recipes:
-                        done = False
-                # update count for all items required, based on latest information
-                all_items[name] = master_list[name]
-        if level > 0 and not done:
-            res = helper(master_list)
-            return res 
-        elif level == 1 and done:
-            return all_items # return a complete shopping list with all sub-components
-        elif level == 2 and done:
-            return master_list # return raw resources (max depth, no sub-components)
-        else:
-            return master_list # return shopping list of depth 1 
-    return helper(items)
 
 
 def mine(resource, amount):
@@ -115,6 +71,51 @@ class Sim():
                 for new_t in self.data.technology[t]['prerequisites']:
                     preq.add(new_t)
         return seen, packs
+
+    # give a dictionary
+    # {
+    #   item_name: {'name': item_name, 'amount': amount_wanted},
+    # }
+    # return a new dictionary of the same format,
+    # will all items required to build the items in the
+    # shopping list
+    # if level == 0 -> only the direct ingredients are calculated
+    # if level == 1 -> all resources required are calculated (raw materials, sub-components...)
+    # if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
+    def shopping_list(self, items, level): 
+        # avoid side effects >:)
+        all_items = items.copy()
+        def helper(items):
+            ing_lists = list(
+                map(lambda x: [{'name': k['name'], 'amount': k['amount'] * items[x[0]]['amount']} for k in x[1]], 
+                map(lambda y: [y['name'], y['ingredients']],
+                filter(lambda z: z['name'] in items.keys(),
+                self.data.recipes.values()))))
+            ing_lists.append(list(filter(lambda x: x['name'] not in self.data.recipes, items.values())))  
+            # flatten
+            master_list = dict() 
+            done = True
+            for ing_list in ing_lists:
+                for ing in ing_list:
+                    name, amount = ing['name'], ing['amount']
+                    if name in master_list:
+                        master_list[name]['amount'] += amount
+                    else:
+                        master_list[name] = ing 
+                        if name in self.data.recipes:
+                            done = False
+                    # update count for all items required, based on latest information
+                    all_items[name] = master_list[name]
+            if level > 0 and not done:
+                res = helper(master_list)
+                return res 
+            elif level == 1 and done:
+                return all_items # return a complete shopping list with all sub-components
+            elif level == 2 and done:
+                return master_list # return raw resources (max depth, no sub-components)
+            else:
+                return master_list # return shopping list of depth 1 
+        return helper(items)
 
     def does_recipe_exist(self, item):
         if item in self.data.recipes:
@@ -222,6 +223,7 @@ class Sim():
         else:
             self.place_in_inventory(machine, 1)
             raise InvalidMachineError(f'{machine} cannot be placed! try a mining drill or assembler')
+        return 0, 'success'
 
     def run_cmd(self, cmd):
         self.history.append(cmd)

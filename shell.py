@@ -1,6 +1,8 @@
 import cmd2
 import argparse
 
+import json
+
 class FactorioShell(cmd2.Cmd):
     intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
     prompt = "> "
@@ -65,15 +67,62 @@ class FactorioShell(cmd2.Cmd):
         self.poutput(self.sim.current_assemblers)
         self.poutput(self.sim.current_furnaces)
     
-
     wish_parser = cmd2.Cmd2ArgumentParser()
     wish_parser.add_argument('item', help='item type')
     wish_parser.add_argument('amount', nargs='?', default=1, type=int, help='amount of the given item, defaults to 1')
+    wish_parser.add_argument('-l', '--level', nargs='?', default=0, type=int, choices=[0,1,2], help='determines type of items included in the wishlist.\nlevel=zero, by default, returns only immediate ingredients for a recipe.\nlevel=one, returns all intermediate ingredients required.\nlevel=two, returns only the raw materials required.')
 
     @cmd2.with_argparser(wish_parser)
     def do_wish(self, args):
-        """ Return a shopping list for a given item/technology
+        """ Return a shopping list for a given item
         """
-        self.poutput(args.item)
-        self.poutput(args.amount)
-        
+        request = {
+            args.item: {
+                'name': args.item,
+                'amount': args.amount
+            }
+        }
+        if args.item in self.sim.data.recipes:
+            self.poutput(json.dumps(self.sim.shopping_list(request, args.level), indent=4))
+        else:
+            self.poutput(f'could not find {item}')
+
+    '''
+    def complete_place(self, text, line, begidx, endidx):
+        """Completion function for place cmd"""
+        return self.basic_complete(text, line, begidx, endidx, self.sim.data.mining_drills)
+    '''
+
+    def choices_machines(self, arg_tokens):
+        # todo: change this to only display machines currently in inventory
+        return list(self.sim.data.mining_drills.keys()) + list(self.sim.data.furnaces.keys()) + list(self.sim.data.assemblers.keys())
+     
+    def choices_recipes(self, arg_tokens):
+        """Choices provider for place cmd"""
+        machine = arg_tokens['machine'][0]
+        if machine in self.sim.data.mining_drills:
+            return {'stone', 'coal', 'iron-ore', 'copper-ore'}       
+        elif machine in self.sim.data.furnaces:
+            return {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}
+        elif machine in self.sim.data.assemblers:
+            return self.sim.current_recipes
+
+    place_parser = cmd2.Cmd2ArgumentParser()
+    place_parser.add_argument('machine', choices_provider=choices_machines, help='machine type to be placed')
+    place_parser.add_argument('item', choices_provider=choices_recipes, help='item type this machine will generate')
+
+    @cmd2.with_argparser(place_parser)
+    def do_place(self, args):
+        """Given a machine type and an item type, place a machine that will generate that item\nWill fail if:
+        - machine is not in inventory
+        - item is not compatible with the machine
+        """
+        res, msg = self.sim.place_machine(args.machine, args.item)
+        if res == 0:
+            self.poutput(f'successfully placed {args.machine}, processing {args.item}')
+        else:
+            self.poutput(msg)
+
+    def do_inventory(self, args):
+        """Return the player's inventory"""
+        print(json.dumps(self.sim.current_items, indent=4))

@@ -9,29 +9,6 @@ from files import load_files
 from init import *
 from cli import *
 
-# given a goal technology, return all the technologies required to unlock it,
-# as well as all the science packs
-def tech_needed():
-    seen = set()
-    goal = 'rocket-silo'
-    packs = dict()
-    preq = set() 
-    preq.add(goal)
-    while preq:
-        t = preq.pop()
-        if t not in seen:
-            seen.add(t)
-            amount = data.technology[t]['research_unit_count']  
-            for ing in data.technology[t]['research_unit_ingredients']:
-                name = ing['name'] 
-                if name in packs:
-                    packs[name]['amount'] += amount
-                else:
-                    packs[name] = {'name': name, 'amount': amount}
-            for new_t in data.technology[t]['prerequisites']:
-                preq.add(new_t)
-    return seen, packs
-
 def convert_to_sh(d):
     sh = dict()
     for k, v in d.items():
@@ -83,16 +60,6 @@ def shopping_list(items, level):
             return master_list # return shopping list of depth 1 
     return helper(items)
 
-def get_potion_list(tech):
-    packs = defaultdict(int)
-    amount = data.technology[tech]['research_unit_count']  
-    for ing in data.technology[tech]['research_unit_ingredients']:
-        name = ing['name'] 
-        if name in packs:
-            packs[name]['amount'] += amount
-        else:
-            packs[name] = {'name': name, 'amount': amount}
-    return packs
 
 def mine(resource, amount):
     if is_mineable(resource):
@@ -111,11 +78,46 @@ def is_smeltable(resource):
         raise ResourceError(f'{resource} can not be smelt')
 
 class Sim():
-    def __init__(self):
+    def __init__(self, data_dict):
         self.clear()
+        data = SimpleNamespace(**data_dict)
+        self.data = data
+
+    def get_potion_list(self, tech):
+        packs = defaultdict(int)
+        amount = self.data.technology[tech]['research_unit_count']  
+        for ing in self.data.technology[tech]['research_unit_ingredients']:
+            name = ing['name'] 
+            if name in packs:
+                packs[name]['amount'] += amount
+            else:
+                packs[name] = {'name': name, 'amount': amount}
+        return packs
+
+    # given a goal technology, return all the technologies required to unlock it,
+    # as well as all the science packs
+    def tech_needed(self, goal):
+        seen = set()
+        packs = dict()
+        preq = set() 
+        preq.add(goal)
+        while preq:
+            t = preq.pop()
+            if t not in seen:
+                seen.add(t)
+                amount = self.data.technology[t]['research_unit_count']  
+                for ing in self.data.technology[t]['research_unit_ingredients']:
+                    name = ing['name'] 
+                    if name in packs:
+                        packs[name]['amount'] += amount
+                    else:
+                        packs[name] = {'name': name, 'amount': amount}
+                for new_t in self.data.technology[t]['prerequisites']:
+                    preq.add(new_t)
+        return seen, packs
 
     def does_recipe_exist(self, item):
-        if item in data.recipes:
+        if item in self.data.recipes:
             return True
         raise InvalidRecipeError(f'{item} does not have a recipe!')
 
@@ -257,7 +259,7 @@ class Sim():
             else:
                 amount = 1
             found = False
-            if item in data.recipes:
+            if item in self.data.recipes:
                 found = True
                 print(json.dumps(shopping_list(
                     {
@@ -266,9 +268,9 @@ class Sim():
                             'amount': amount
                         }
                 }, 0), indent=4))
-            if item in data.technology:
+            if item in self.data.technology:
                 found = True
-                print(json.dumps(get_potion_list(item), indent=4))
+                print(json.dumps(self.get_potion_list(item), indent=4))
             if not found:
                 print(f'could not find {item}')
         elif cmd_name == 'craftable':
@@ -300,7 +302,7 @@ class Sim():
             try:
                 mine(resource, amount)
                 self.place_in_inventory(resource, amount)
-                time_spent = data.resources[resource]['mineable_properties']['mining_time']
+                time_spent = self.data.resources[resource]['mineable_properties']['mining_time']
                 self.next(time_spent)
             except FactorioError as err:
                 print(err)
@@ -346,7 +348,7 @@ class Sim():
     def craft_time(self, craft_list):
         time = 0
         for name, amount in craft_list.items():
-            time += data.recipes[name]['energy'] * amount 
+            time += self.data.recipes[name]['energy'] * amount 
         return time
 
     # when crafting is done by a furnace or assembler, there should be no items missing from the recipe
@@ -369,11 +371,11 @@ class Sim():
     # or given technology can not be researched yet
     def research(self, tech):
         if self.researchable(tech):
-            pl = get_potion_list(tech)
+            pl = self.get_potion_list(tech)
             self.deduct_list(pl)
             self.current_tech.add(tech)
             # unlock recipes
-            for effect in data.technology[tech]['effects']:
+            for effect in self.data.technology[tech]['effects']:
                 if effect['type'] == 'unlock-recipe':
                     self.current_recipes.add(effect['recipe'])
         else:
@@ -381,7 +383,7 @@ class Sim():
             raise ResearchError('something went wrong')
 
     def preqs_researched(self, tech):
-        preq = data.technology[tech]['prerequisites']    
+        preq = self.data.technology[tech]['prerequisites']    
         return functools.reduce(lambda x, y: x and y in self.current_tech, preq, True)
 
     def researchable(self, tech):
@@ -390,9 +392,9 @@ class Sim():
         # tech already researched 
         # not enough resources
         # preqs are not already researched
-        if tech in data.technology and tech not in self.current_tech:
-            pl = get_potion_list(tech)
-            preq = data.technology[tech]['prerequisites']    
+        if tech in self.data.technology and tech not in self.current_tech:
+            pl = self.get_potion_list(tech)
+            preq = self.data.technology[tech]['prerequisites']    
             return self.check_list(pl) and self.preqs_researched(tech)
         else:
             # todo: create invalid name exception
@@ -401,7 +403,7 @@ class Sim():
     # find all technologies that are currently researchable
     def all_researchable(self):
         res = set()
-        for tech in data.technology:
+        for tech in self.data.technology:
             if tech not in self.current_tech and self.preqs_researched(tech):
                 res.add(tech)
         return res
@@ -449,11 +451,11 @@ class Sim():
         for miner, resource in self.current_miners:
             # pretend all resources have the same `mining-time`,
             # this is only true for the basic resources (iron, copper, coal, stone) 
-            self.place_in_inventory(resource, data.mining_drills[miner]['mining_speed'] * seconds)
+            self.place_in_inventory(resource, self.data.mining_drills[miner]['mining_speed'] * seconds)
         for assembler, item in self.current_assemblers:
             pass
             try:
-                num_produced = data.assemblers[assembler]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
+                num_produced = self.data.assemblers[assembler]['crafting_speed'] * (seconds // self.data.recipes[item]['energy'])
                 # find the number of items that can *actually* be produced - brute force
                 wish = {item: {'name': item, 'amount': num_produced}}
                 while not self.check_list(shopping_list(wish, 0)):
@@ -464,7 +466,7 @@ class Sim():
                 print(err)
         for furnace, item in self.current_furnaces:
             try:
-                num_produced = data.furnaces[furnace]['crafting_speed'] * (seconds // data.recipes[item]['energy'])
+                num_produced = self.data.furnaces[furnace]['crafting_speed'] * (seconds // self.data.recipes[item]['energy'])
                 # find the number of items that can *actually* be produced - brute force
                 wish = {item: {'name': item, 'amount': num_produced}}
                 while not self.check_list(shopping_list(wish, 0)):

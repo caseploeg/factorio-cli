@@ -2,12 +2,12 @@ import functools
 import json
 from collections import defaultdict, Counter
 from types import SimpleNamespace
+from math import gcd
 
 from errors import * 
 from constants import *
 from files import load_files
 from init import *
-from cli import *
 
 def convert_to_sh(d):
     sh = dict()
@@ -32,6 +32,16 @@ class Sim():
         self.clear()
         data = SimpleNamespace(**data_dict)
         self.data = data
+
+    def ratio(self, item):
+        """Find the optimal production ratio for assembling an item"""
+        sh = self.shopping_list(convert_to_sh({item: 1}), 0)
+        print(sh)
+        r_list = []
+        for k, v in sh.items():
+            r_list.append(int(self.craft_time(k, v['amount']) * 10))
+        denom = gcd(*r_list)
+        return [x // denom for x in r_list]
 
     def get_potion_list(self, tech):
         packs = defaultdict(int)
@@ -236,8 +246,11 @@ class Sim():
     def craft_time(self, craft_list):
         time = 0
         for name, amount in craft_list.items():
-            time += self.data.recipes[name]['energy'] * amount 
+            time += self.craft_time(name, amount) 
         return time
+    
+    def craft_time(self, name, amount):
+        return self.data.recipes[name]['energy'] / self.data.recipes[name]['main_product']['amount'] * amount
 
     # when crafting is done by a furnace or assembler, there should be no items missing from the recipe
     def craft(self, item, amount):

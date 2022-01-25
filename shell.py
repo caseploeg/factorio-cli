@@ -198,3 +198,14 @@ class FactorioShell(cmd2.Cmd):
         else:
             self.poutput(msg)
 
+
+    def ratio_item_choices(self):
+        return self.sim.data.recipes.keys()
+
+    ratio_parser = cmd2.Cmd2ArgumentParser()
+    ratio_parser.add_argument('item', choices_provider=ratio_item_choices, help='item type')
+
+    @cmd2.with_argparser(ratio_parser)
+    def do_ratio(self, args):
+        """Find the optimal production ratio for an item"""
+        self.poutput(self.sim.ratio(args.item))

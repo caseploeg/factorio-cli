@@ -2,7 +2,7 @@ import functools
 import json
 from collections import defaultdict, Counter
 from types import SimpleNamespace
-from math import gcd
+import math
 
 from errors import * 
 from constants import *
@@ -39,7 +39,7 @@ class Sim():
         r_list = []
         for k, v in sh.items():
             r_list.append(int(self.craft_time(k, v['amount']) * 10))
-        denom = gcd(*r_list)
+        denom = math.gcd(*r_list)
         for k, v in sh.items():
             sh[k]['amount'] = self.craft_time(k, v['amount']) * 10 // denom
         return sh
@@ -83,17 +83,19 @@ class Sim():
     #   item_name: {'name': item_name, 'amount': amount_wanted},
     # }
     # return a new dictionary of the same format,
-    # will all items required to build the items in the
-    # shopping list
+    # with all items required to build the items in the shopping list
     # if level == 0 -> only the direct ingredients are calculated
     # if level == 1 -> all resources required are calculated (raw materials, sub-components...)
     # if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
+    # NOTE: shopping_list respects bulk recipes, but rounds up when the production ratio does not match the amount needed
+    # ex: wish iron-stick 2 -> need 1 iron-plate , but wish iron-stick 1 -> need 1 iron-plate as well - no fractions
+    # see grant_excess_production() to see how extra items from bulk orders get placed in player inventory
     def shopping_list(self, items, level): 
         # avoid side effects >:)
         all_items = items.copy()
         def helper(items):
             ing_lists = list(
-                map(lambda x: [{'name': k['name'], 'amount': k['amount'] * items[x[0]]['amount']} for k in x[1]], 
+                map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / self.data.recipes[items[x[0]]['name']]['main_product']['amount'])} for k in x[1]], 
                 map(lambda y: [y['name'], y['ingredients']],
                 filter(lambda z: z['name'] in items.keys(),
                 self.data.recipes.values()))))
@@ -129,9 +131,7 @@ class Sim():
         raise InvalidRecipeError(f'{item} does not have a recipe!')
 
     def is_recipe_unlocked(self, item):
-        if item in self.current_recipes:
-            return True
-        raise ResearchError(f'{item} is not unlocked yet')
+        return item in self.current_recipes
 
     # basically craftable()
     # given a shopping list(sh) and a copy of current_items(ci)
@@ -245,7 +245,7 @@ class Sim():
     # but only has materials to make 3, the system will craft 3 miners and give a
     # warning that 2 could not be crafted because of resource constraints
 
-    def craft_time(self, craft_list):
+    def craft_time_list(self, craft_list):
         time = 0
         for name, amount in craft_list.items():
             time += self.craft_time(name, amount) 
@@ -254,22 +254,33 @@ class Sim():
     def craft_time(self, name, amount):
         return self.data.recipes[name]['energy'] / self.data.recipes[name]['main_product']['amount'] * amount
 
-    # when crafting is done by a furnace or assembler, there should be no items missing from the recipe
+    def grant_excess_production(self, craft_list):
+        for name, amount in craft_list.items():
+            ratio = self.data.recipes[name]['main_product']['amount']
+            if amount % ratio != 0:
+                self.place_in_inventory(name, (ratio * (1 + (amount // ratio))) - amount)
+
     def craft(self, item, amount):
         res, missing, available = self.craftable(item, amount)
         if res == 0:
             missing[item] = amount
-            missing_sh = convert_to_sh(missing)
             av_sh = convert_to_sh(available)
             self.deduct_list(av_sh)
             self.place_in_inventory(item, amount)
-            time_spent = self.craft_time(missing)
+            time_spent = self.craft_time_list(missing)
+            # put excess production into player inventory based on bulk orders 
+            self.grant_excess_production(missing)
             if time_spent > 0:
                 print(item, amount, missing)
                 self.next(time_spent)
             return 0, None
         elif res == 2:
             return 1, f'crafting {amount} {item} failed'
+
+    def machine_craft(self, item, num_produced):
+        wish = {item: {'name': item, 'amount': num_produced}}
+        self.deduct_list(self.shopping_list(wish,0))
+        self.place_in_inventory(item, num_produced)
 
     def mine(self, resource, amount):
         if is_mineable(resource):
@@ -372,8 +383,3 @@ class Sim():
             except FactorioError as err:
                 print(f'failed to smelt {num_produced} of {item}')
                 print(err)
-
-    def machine_craft(self, item, num_produced):
-        wish = {item: {'name': item, 'amount': num_produced}}
-        self.deduct_list(self.shopping_list(wish,0))
-        self.place_in_inventory(item, num_produced)

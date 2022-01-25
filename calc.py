@@ -15,7 +15,6 @@ def convert_to_sh(d):
         sh[k] = {'name': k, 'amount': v}
     return sh
 
-
 def is_mineable(resource):
     if resource in {'stone', 'coal', 'iron-ore', 'copper-ore'}:
         return True
@@ -122,7 +121,6 @@ class Sim():
             return True
         raise ResearchError(f'{item} is not unlocked yet')
 
-
     # basically craftable()
     # given a shopping list(sh) and a copy of current_items(ci)
     # if player has enough materials to craft all items in the shopping list,
@@ -167,7 +165,6 @@ class Sim():
             # todo: currently no meaningful information to pass down if
             # items are not craftable
             return res, missing, available 
-
 
     # returns True iff players have more than or equal to `amount` of given `item` in their
     # inventory
@@ -219,112 +216,6 @@ class Sim():
             self.place_in_inventory(machine, 1)
             raise InvalidMachineError(f'{machine} cannot be placed! try a mining drill or assembler')
         return 0, 'success'
-
-    def run_cmd(self, cmd):
-        self.history.append(cmd)
-        pieces = cmd.split()
-        # detect any aliases used and replace them with proper names
-        pieces = convert_aliases(pieces)
-        cmd_name, rest = pieces[0], pieces[1:] 
-        if cmd_name == 'spawn':
-            item = rest[0]
-            amount = int(rest[1])
-            self.place_in_inventory(item, amount)
-        elif cmd_name == 'research':
-            tech = rest[0]
-            try:
-                self.research(tech)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'tree':
-            print(tech_needed())
-        elif cmd_name == 'suggest':
-            print(self.all_researchable())
-        elif cmd_name == 'cookbook':
-            # show current recipes
-            print('~~ current recipes unlocked ~~')
-            print('\n'.join(self.current_recipes))
-        elif cmd_name == 'machines':
-            # show current machines
-            print(self.current_miners)
-            print(self.current_furnaces)
-            print(self.current_assemblers)
-        elif cmd_name == 'wish':
-            item = rest[0]
-            if len(rest) > 1:
-                amount = int(rest[1])
-            else:
-                amount = 1
-            found = False
-            if item in self.data.recipes:
-                found = True
-                print(json.dumps(self.shopping_list(
-                    {
-                        item: {
-                            'name': item,
-                            'amount': amount
-                        }
-                }, 0), indent=4))
-            if item in self.data.technology:
-                found = True
-                print(json.dumps(self.get_potion_list(item), indent=4))
-            if not found:
-                print(f'could not find {item}')
-        elif cmd_name == 'craftable':
-            item = rest[0]
-            amount = int(rest[1])
-            try:
-                res, items = self.craftable(item, amount)
-                print(items)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'place':
-            machine = rest[0]
-            item = rest[1]
-            try:
-                self.place_machine(machine, item)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'craft':
-            item = rest[0]
-            amount = int(rest[1])
-            try:
-                self.craft(item, amount)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'mine':
-            # the same as craft, but with resources
-            resource = rest[0]
-            amount = int(rest[1])
-            try:
-                mine(resource, amount)
-                self.place_in_inventory(resource, amount)
-                time_spent = self.data.resources[resource]['mineable_properties']['mining_time']
-                self.next(time_spent)
-            except FactorioError as err:
-                print(err)
-        elif cmd_name == 'next':
-            # calls the next procedure with a given number minutes
-            minutes = float(rest[0])
-            seconds = minutes * 60
-            self.next(seconds)
-        elif cmd_name == 'inventory':
-            print(json.dumps(self.current_items, indent=4))
-        elif cmd_name == 'time':
-            # todo format this into H:M:S
-            print(self.game_time / 60)
-        elif cmd_name == 'import':
-            filename = rest[0]
-            with open(filename) as f:
-                self.clear()
-                self.import_history(f.read()) 
-        elif cmd_name == 'history':
-            print(self.history)
-        elif cmd_name == 'exit':
-            return 1
-        else:
-            print(f'I do not recognize `{cmd}`')
-        return 0
 
     def craftable(self, item, amount):
         # check if item recipe is unlocked
@@ -430,21 +321,6 @@ class Sim():
         self.current_miners = [] 
         self.current_furnaces = []
 
-    def import_history(self, cmds):
-        cmd_list = cmds.split('\n')
-        ignore = False
-        ignore_flipped = False
-        for cmd in cmd_list:
-            if cmd.startswith("'''") and not ignore:
-                ignore = True 
-                ignore_flipped = True
-            # ignore empty lines and ignore commented lines
-            if not ignore and cmd != '' and not cmd.startswith('#'):
-                self.run_cmd(cmd)
-            if cmd.startswith("'''") and ignore and not ignore_flipped:
-                ignore = False 
-            ignore_flipped = False
-
     # simulate production for a given number of seconds 
     # todo: fix simulation so assemblers and furnaces produce based on available
     # materials -- do *not* use `craft()`
@@ -486,32 +362,3 @@ class Sim():
         wish = {item: {'name': item, 'amount': num_produced}}
         self.deduct_list(self.shopping_list(wish,0))
         self.place_in_inventory(item, num_produced)
-
-if __name__ == "__main__":
-    # establish access to json files
-    data_dict = load_files()
-    data = SimpleNamespace(**data_dict)
-
-    sim = Sim()
-    # todo: need tech cmd to show player what tech they have / which one's
-    # they don't have / tech tree
-
-    # todo: need optional filters for inventory cmd 
-    # like - just show resources, or just show potions, or just show machines, etc
-
-    # todo: using a cmd with the `amount` param should not break the program
-    # instead, either default to 1 or ask the player what the `amount` should be
-    
-    # todo: need ETA comamnd, figure out how long it will take to produce a certain
-    # item when current production stats (machines placed)
-
-    # todo: develop AI strategies to play game
-
-    # todo: make a GUI / visual sim of inventory / resources / machines
-
-    while 'rocket-silo' not in sim.current_items:
-        cmd = input('> ')
-        res = sim.run_cmd(cmd)
-        if res == 1:
-            exit()
-    print('~~ victory! ~~')

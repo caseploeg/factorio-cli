@@ -268,7 +268,8 @@ class Sim():
     # research a given technology, raise exception if potions not available
     # or given technology can not be researched yet
     def research(self, tech):
-        if self.researchable(tech):
+        res, msg = self.researchable(tech)
+        if res == 0:
             pl = self.get_potion_list(tech)
             self.deduct_list(pl)
             self.current_tech.add(tech)
@@ -276,29 +277,29 @@ class Sim():
             for effect in self.data.technology[tech]['effects']:
                 if effect['type'] == 'unlock-recipe':
                     self.current_recipes.add(effect['recipe'])
+            return 0, None
         else:
-            # todo: make it more clear
-            raise ResearchError('something went wrong')
+            return res, msg
 
     def preqs_researched(self, tech):
         preq = self.data.technology[tech]['prerequisites']    
         return functools.reduce(lambda x, y: x and y in self.current_tech, preq, True)
 
     def researchable(self, tech):
-        # possible things to go wrong
-        # tech DNE
-        # tech already researched 
-        # not enough resources
-        # preqs are not already researched
-        if tech in self.data.technology and tech not in self.current_tech:
-            pl = self.get_potion_list(tech)
-            preq = self.data.technology[tech]['prerequisites']    
-            return self.check_list(pl) and self.preqs_researched(tech)
-        else:
-            # todo: create invalid name exception
-            return False
+        """Decide whether a given technology can be researched or not"""
+        if tech not in self.data.technology:
+            return 1, f'researchable - {tech} could not be found in the list of tecnologies'
+        if tech in self.current_tech:
+            return 1, f'researchable - {tech} has already been researched'
+        pl = self.get_potion_list(tech)
+        preq = self.data.technology[tech]['prerequisites']    
+        if not self.preqs_researched(tech):
+            return 1, f'researchable - one or more prerequisite technologies for {tech} have not been researched'
+        if not self.check_list(pl): 
+            return 1, f'researchable - missing the potions required to research {tech}'
+        return 0, None
 
-    # find all technologies that are currently researchable
+    # find all technologies that could be researched next 
     def all_researchable(self):
         res = set()
         for tech in self.data.technology:

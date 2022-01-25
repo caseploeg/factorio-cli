@@ -1,17 +1,23 @@
 import cmd2
 import argparse
 
+import datetime
 import json
 
 class FactorioShell(cmd2.Cmd):
     intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
-    prompt = "> "
+    prompt = "(0:00:00) "
 
     mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
 
     def __init__(self, sim):
         super().__init__()
+        self.register_postcmd_hook(self.myhookmethod)
         self.sim = sim
+    
+    def myhookmethod(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
+        self.prompt = f'({datetime.timedelta(0, self.sim.game_time)}) '
+        return data
     
     spawn_parser = cmd2.Cmd2ArgumentParser()
     spawn_parser.add_argument('item', help='item type to spawn in')

@@ -368,7 +368,7 @@ class Sim():
     def mine(self, resource, amount):
         if is_mineable(resource):
             self.place_in_inventory(resource, amount)
-            time_spent = self.data.resources[resource]['mineable_properties']['mining_time']
+            time_spent = self.data.resources[resource]['mineable_properties']['mining_time'] * amount
             self.next(time_spent)
             return 0, None
         else:
@@ -449,7 +449,6 @@ class Sim():
     # todo: fix simulation so assemblers and furnaces produce based on available
     # materials -- do *not* use `craft()`
     def next(self, seconds):
-        print('next')
         self.game_time += seconds
         # simulate the next given seconds of production
         # mine the resources

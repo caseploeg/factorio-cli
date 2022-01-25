@@ -7,6 +7,4 @@ priority to resources over others. Making potions before bmd, etc.
 
 - Problem: I have no idea what's happening in the system, need better logs for production / history of transactions. Are my mining drills keeping up with the furnaces? Is iron-plating supply low? 
 
-- Problem: I want to keep a list of aliases for different recipes and have the system recognize them
-
 - Problem: Current use of exception handling is inconsistent / lacks information

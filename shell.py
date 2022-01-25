@@ -1,6 +1,8 @@
 import cmd2
 import argparse
 
+from cli import convert_aliases
+
 import datetime
 import json
 
@@ -12,19 +14,26 @@ class FactorioShell(cmd2.Cmd):
 
     def __init__(self, sim):
         super().__init__()
+        # register hooks
         self.register_postcmd_hook(self.update_prompt)
+        self.register_postparsing_hook(self.arg_alias_hook)
+        # handle args 
         self.sim = sim
-    
+
     def update_prompt(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
         """Update shell prompt with the amount of time elapsed in the simulation"""
         self.prompt = f'({datetime.timedelta(0, self.sim.game_time)}) '
         return data
 
+    def arg_alias_hook(self, data: cmd2.plugin.PostparsingData) -> cmd2.plugin.PostparsingData:
+        """A hook to convert argument aliases to full-name versions"""
+        full_name_args = ' '.join(convert_aliases(data.statement.arg_list))
+        data.statement = self.statement_parser.parse(f"{data.statement.command} {full_name_args}")
+        return data
 
     def do_clear(self, args):
         """Reset the simulation and wipe all data"""
         self.sim.clear()
-
 
     spawn_parser = cmd2.Cmd2ArgumentParser()
     spawn_parser.add_argument('item', help='item type to spawn in')

@@ -91,32 +91,36 @@ class FactorioShell(cmd2.Cmd):
         self.poutput(self.sim.current_miners)
         self.poutput(self.sim.current_assemblers)
         self.poutput(self.sim.current_furnaces)
+
+
+    def wish_item_choices(self):
+        # suggest recipes and technology
+        return set(self.sim.data.recipes.keys()).union(set(self.sim.data.technology.keys()))
     
     wish_parser = cmd2.Cmd2ArgumentParser()
-    wish_parser.add_argument('item', help='item type')
+    wish_parser.add_argument('item', choices_provider=wish_item_choices, help='item type')
     wish_parser.add_argument('amount', nargs='?', default=1, type=int, help='amount of the given item, defaults to 1')
     wish_parser.add_argument('-l', '--level', nargs='?', default=0, type=int, choices=[0,1,2], help='determines type of items included in the wishlist.\nlevel=zero, by default, returns only immediate ingredients for a recipe.\nlevel=one, returns all intermediate ingredients required.\nlevel=two, returns only the raw materials required.')
 
     @cmd2.with_argparser(wish_parser)
     def do_wish(self, args):
-        """ Return a shopping list for a given item
-        """
+        """Return a shopping list for a given item, will also produce a potion list for technologies"""
         request = {
             args.item: {
                 'name': args.item,
                 'amount': args.amount
             }
         }
+        found = False
         if args.item in self.sim.data.recipes:
             self.poutput(json.dumps(self.sim.shopping_list(request, args.level), indent=4))
-        else:
+            found = True
+        if args.item in self.sim.data.technology:
+            # if the player wished for a technology, output the list of potions required for research
+            self.poutput(json.dumps(self.sim.get_potion_list(args.item)))
+            found = True
+        if not found: 
             self.poutput(f'could not find {item}')
-
-    '''
-    def complete_place(self, text, line, begidx, endidx):
-        """Completion function for place cmd"""
-        return self.basic_complete(text, line, begidx, endidx, self.sim.data.mining_drills)
-    '''
 
     def place_machine_choices(self, arg_tokens):
         # todo: change this to only display machines currently in inventory
@@ -124,6 +128,7 @@ class FactorioShell(cmd2.Cmd):
      
     def place_item_choices(self, arg_tokens):
         """Choices provider for place cmd"""
+        # todo: make this work with machine aliases as well
         machine = arg_tokens['machine'][0]
         if machine in self.sim.data.mining_drills:
             return {'stone', 'coal', 'iron-ore', 'copper-ore'}       
@@ -131,6 +136,8 @@ class FactorioShell(cmd2.Cmd):
             return {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}
         elif machine in self.sim.data.assemblers:
             return self.sim.current_recipes
+        else:
+            return self.sim.current_recipes.union({'stone', 'coal', 'iron-ore', 'copper-ore', 'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'})
 
     place_parser = cmd2.Cmd2ArgumentParser()
     place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')

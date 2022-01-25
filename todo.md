@@ -7,8 +7,6 @@ priority to resources over others. Making potions before bmd, etc.
 
 - Problem: I have no idea what's happening in the system, need better logs for production / history of transactions. Are my mining drills keeping up with the furnaces? Is iron-plating supply low? 
 
-- Problem: the run_cmd() procedure is getting out of hand, find a way to abstract cmds (parsing args, running them, handling errors, etc.) -- argparse
+- Problem: I want to keep a list of aliases for different recipes and have the system recognize them
 
-- Problem: looking at stats for machines is confusing currently 
-
-- Problem: idk what commands are even available or what they do at this point
+- Problem: Current use of exception handling is inconsistent / lacks information

@@ -309,7 +309,6 @@ class Sim():
     def clear(self):
         # time-related
         self.game_time = 0
-        self.history = []
         # possessions
         self.current_tech = get_starter_tech() 
         self.current_recipes = get_starter_recipes() 

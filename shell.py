@@ -12,26 +12,34 @@ class FactorioShell(cmd2.Cmd):
 
     def __init__(self, sim):
         super().__init__()
-        self.register_postcmd_hook(self.myhookmethod)
+        self.register_postcmd_hook(self.update_prompt)
         self.sim = sim
     
-    def myhookmethod(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
+    def update_prompt(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
+        """Update shell prompt with the amount of time elapsed in the simulation"""
         self.prompt = f'({datetime.timedelta(0, self.sim.game_time)}) '
         return data
-    
+
+
+    def do_clear(self, args):
+        """Reset the simulation and wipe all data"""
+        self.sim.clear()
+
+
     spawn_parser = cmd2.Cmd2ArgumentParser()
     spawn_parser.add_argument('item', help='item type to spawn in')
     spawn_parser.add_argument('amount', type=int, help='amount of the given item to be spawned in')
 
     @cmd2.with_argparser(spawn_parser)
     def do_spawn(self, args):
-        'grant items to player without spending resources or using crafting time'
+        """grant items to player without spending resources or using crafting time"""
         self.sim.place_in_inventory(args.item, args.amount)
-        self.poutput('~~magic~~')
 
+    def research_tech_choices(self):
+        return self.sim.all_researchable()
 
     research_parser = cmd2.Cmd2ArgumentParser()
-    research_parser.add_argument('tech', help='name of technology to research')
+    research_parser.add_argument('tech', choices_provider=research_tech_choices, help='name of technology to research')
 
     @cmd2.with_argparser(research_parser)
     def do_research(self, args): 

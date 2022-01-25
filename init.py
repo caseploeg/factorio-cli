@@ -4,7 +4,6 @@ def get_starter_inventory():
     inventory = defaultdict(int)
     inventory['stone-furnace'] = 1
     inventory['burner-mining-drill'] = 1
-    inventory['wood'] = 1
     inventory['iron-plate'] = 5
     return inventory
 

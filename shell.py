@@ -208,4 +208,4 @@ class FactorioShell(cmd2.Cmd):
     @cmd2.with_argparser(ratio_parser)
     def do_ratio(self, args):
         """Find the optimal production ratio for an item"""
-        self.poutput(self.sim.ratio(args.item))
+        self.poutput(json.dumps(self.sim.ratio(args.item), indent=4))

@@ -36,12 +36,14 @@ class Sim():
     def ratio(self, item):
         """Find the optimal production ratio for assembling an item"""
         sh = self.shopping_list(convert_to_sh({item: 1}), 0)
-        print(sh)
         r_list = []
         for k, v in sh.items():
             r_list.append(int(self.craft_time(k, v['amount']) * 10))
         denom = gcd(*r_list)
-        return [x // denom for x in r_list]
+        for k, v in sh.items():
+            sh[k]['amount'] = self.craft_time(k, v['amount']) * 10 // denom
+        return sh
+        
 
     def get_potion_list(self, tech):
         packs = defaultdict(int)

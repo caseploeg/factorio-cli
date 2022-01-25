@@ -16,11 +16,6 @@ def convert_to_sh(d):
     return sh
 
 
-
-def mine(resource, amount):
-    if is_mineable(resource):
-        return (resource, amount)
-
 def is_mineable(resource):
     if resource in {'stone', 'coal', 'iron-ore', 'copper-ore'}:
         return True
@@ -162,7 +157,7 @@ class Sim():
                 missing[item] = amount - ci[item]
                 ci[item] = 0
         msh = convert_to_sh(missing)
-        missing_sh = shopping_list(msh, 0)
+        missing_sh = self.shopping_list(msh, 0)
         if res == 0:
             return res, missing, available 
         if res == 1:
@@ -263,7 +258,7 @@ class Sim():
             found = False
             if item in self.data.recipes:
                 found = True
-                print(json.dumps(shopping_list(
+                print(json.dumps(self.shopping_list(
                     {
                         item: {
                             'name': item,
@@ -334,7 +329,7 @@ class Sim():
     def craftable(self, item, amount):
         # check if item recipe is unlocked
         self.is_recipe_unlocked(item) 
-        sh = shopping_list({
+        sh = self.shopping_list({
             item: {
                 'name': item,
                 'amount': amount
@@ -366,8 +361,18 @@ class Sim():
             if time_spent > 0:
                 print(item, amount, missing)
                 self.next(time_spent)
+            return 0, None
         elif res == 2:
-            raise CraftingError(f'crafting {amount} {item} failed')
+            return 1, f'crafting {amount} {item} failed'
+
+    def mine(self, resource, amount):
+        if is_mineable(resource):
+            self.place_in_inventory(resource, amount)
+            time_spent = self.data.resources[resource]['mineable_properties']['mining_time']
+            self.next(time_spent)
+            return 0, None
+        else:
+            return 1, f'failed to mine {amount} {resource}'
 
     # research a given technology, raise exception if potions not available
     # or given technology can not be researched yet
@@ -460,7 +465,7 @@ class Sim():
                 num_produced = self.data.assemblers[assembler]['crafting_speed'] * (seconds // self.data.recipes[item]['energy'])
                 # find the number of items that can *actually* be produced - brute force
                 wish = {item: {'name': item, 'amount': num_produced}}
-                while not self.check_list(shopping_list(wish, 0)):
+                while not self.check_list(self.shopping_list(wish, 0)):
                     wish[item]['amount'] -= 1
                 self.machine_craft(item, wish[item]['amount'])
             except FactorioError as err:
@@ -471,7 +476,7 @@ class Sim():
                 num_produced = self.data.furnaces[furnace]['crafting_speed'] * (seconds // self.data.recipes[item]['energy'])
                 # find the number of items that can *actually* be produced - brute force
                 wish = {item: {'name': item, 'amount': num_produced}}
-                while not self.check_list(shopping_list(wish, 0)):
+                while not self.check_list(self.shopping_list(wish, 0)):
                     wish[item]['amount'] -= 1
                 self.machine_craft(item, wish[item]['amount'])
             except FactorioError as err:
@@ -480,7 +485,7 @@ class Sim():
 
     def machine_craft(self, item, num_produced):
         wish = {item: {'name': item, 'amount': num_produced}}
-        self.deduct_list(shopping_list(wish,0))
+        self.deduct_list(self.shopping_list(wish,0))
         self.place_in_inventory(item, num_produced)
 
 if __name__ == "__main__":

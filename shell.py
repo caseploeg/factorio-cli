@@ -7,6 +7,8 @@ class FactorioShell(cmd2.Cmd):
     intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
     prompt = "> "
 
+    mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
+
     def __init__(self, sim):
         super().__init__()
         self.sim = sim
@@ -93,11 +95,11 @@ class FactorioShell(cmd2.Cmd):
         return self.basic_complete(text, line, begidx, endidx, self.sim.data.mining_drills)
     '''
 
-    def choices_machines(self, arg_tokens):
+    def place_machine_choices(self, arg_tokens):
         # todo: change this to only display machines currently in inventory
         return list(self.sim.data.mining_drills.keys()) + list(self.sim.data.furnaces.keys()) + list(self.sim.data.assemblers.keys())
      
-    def choices_recipes(self, arg_tokens):
+    def place_item_choices(self, arg_tokens):
         """Choices provider for place cmd"""
         machine = arg_tokens['machine'][0]
         if machine in self.sim.data.mining_drills:
@@ -108,8 +110,8 @@ class FactorioShell(cmd2.Cmd):
             return self.sim.current_recipes
 
     place_parser = cmd2.Cmd2ArgumentParser()
-    place_parser.add_argument('machine', choices_provider=choices_machines, help='machine type to be placed')
-    place_parser.add_argument('item', choices_provider=choices_recipes, help='item type this machine will generate')
+    place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')
+    place_parser.add_argument('item', choices_provider=place_item_choices, help='item type this machine will generate')
 
     @cmd2.with_argparser(place_parser)
     def do_place(self, args):
@@ -126,3 +128,43 @@ class FactorioShell(cmd2.Cmd):
     def do_inventory(self, args):
         """Return the player's inventory"""
         print(json.dumps(self.sim.current_items, indent=4))
+
+    next_parser = cmd2.Cmd2ArgumentParser()
+    next_parser.add_argument('minutes', type=int, help='the number of minutes to run the simulation for')
+
+    @cmd2.with_argparser(next_parser)
+    def do_next(self, args):
+        """Simulate factory production for a given number of minutes"""
+        seconds = args.minutes * 60
+        self.sim.next(seconds)
+
+    mine_parser = cmd2.Cmd2ArgumentParser()
+    mine_parser.add_argument('resource', choices=mineable, help='resource type')
+    mine_parser.add_argument('amount', type=int, help='amount of the given resource to be mined')
+
+    @cmd2.with_argparser(mine_parser) 
+    def do_mine(self, args):
+        """Mine a resource"""
+        res, msg = self.sim.mine(args.resource, args.amount)
+        if res == 0:
+            self.poutput(f'successfully mined {args.resource}')
+        else:
+            self.poutput(msg)
+
+    def craft_item_choices(self, arg_tokens):
+        # only suggest items that the player has the resources to actually craft
+        return filter(lambda x: self.sim.craftable(x, 1)[0] == 0, self.sim.current_recipes)
+
+    craft_parser = cmd2.Cmd2ArgumentParser()
+    craft_parser.add_argument('item', choices_provider=craft_item_choices, help='item type')
+    craft_parser.add_argument('amount', nargs='?', default=1, type=int, help='amount of the given item, defaults to 1')
+
+    @cmd2.with_argparser(craft_parser)
+    def do_craft(self, args):
+        """Craft an item in the player's inventory"""
+        res, msg = self.sim.craft(args.item, args.amount)
+        if res == 0:
+            self.poutput(f'successfully crafted {args.item}')
+        else:
+            self.poutput(msg)
+

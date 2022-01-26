@@ -88,9 +88,9 @@ class FactorioShell(cmd2.Cmd):
     def do_machines(self, args):
         """ Return all machines currently running
         """
-        self.poutput(self.sim.current_miners)
-        self.poutput(self.sim.current_assemblers)
-        self.poutput(self.sim.current_furnaces)
+        self.poutput(self.sim.miners)
+        self.poutput(self.sim.assemblers)
+        self.poutput(self.sim.furnaces)
     
 
 

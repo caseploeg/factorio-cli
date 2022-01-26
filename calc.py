@@ -200,34 +200,35 @@ class Sim():
         # enfore integral system - avoid very real issues
         self.current_items[item] += int(amount)
 
-    def place_machine(self, machine, item):
-        self.deduct_item(machine, 1)
+    def place_machine(self, machine, item, amount=1):
+        print(amount)
+        self.deduct_item(machine, amount)
         if 'mining-drill' in machine:
             # check item to make sure it's as valid resoure for that machine
             try:
                 is_mineable(item)
-                self.current_miners.append((machine, item))
+                self.current_miners[(item,machine)] += amount
             except FactorioError as err:
-                self.place_in_inventory(machine, 1)
+                self.place_in_inventory(machine, amount)
                 raise err
         elif 'assembling' in machine:
             try:
                 self.is_recipe_unlocked(item) 
-                self.current_assemblers.append((machine, item))
+                self.current_assemblers[(item,machine)] += amount
             except FactorioError as err:
-                self.place_in_inventory(machine, 1)
+                self.place_in_inventory(machine, amount)
                 raise err
         elif 'furnace' in machine:
             try:
                 is_smeltable(item)
-                self.current_furnaces.append((machine, item))
+                self.current_furnaces[(item,machine)] += amount
             except FactorioError as err:
-                self.place_in_inventory(machine, 1)
+                self.place_in_inventory(machine, amount)
                 raise err
         else:
-            self.place_in_inventory(machine, 1)
+            self.place_in_inventory(machine, amount)
             raise InvalidMachineError(f'{machine} cannot be placed! try a mining drill or assembler')
-        return 0, 'success'
+        return 0, None 
 
     def craftable(self, item, amount):
         # check if item recipe is unlocked
@@ -344,31 +345,32 @@ class Sim():
         self.current_recipes = get_starter_recipes() 
         self.current_items = get_starter_inventory() 
         # machines
-        # todo: change these from list to
-        # dice-{(machine, item): amount}
-        self.current_assemblers = [] 
-        self.current_miners = [] 
-        self.current_furnaces = []
+        self.current_assemblers = defaultdict(int) 
+        self.current_miners = defaultdict(int) 
+        self.current_furnaces = defaultdict(int)
 
         self.limited_items = dict() 
 
     # simulate production for a given number of seconds 
     # todo: fix simulation so assemblers and furnaces produce based on available
     # materials -- do *not* use `craft()`
+    # NOTE: two consecutive calls to next() do not have the same effect as one long next()
+    # because production depends on the current state of inventory before next() was called
+    # next(60) + next(60) != next(120)
     def next(self, seconds):
         self.game_time += seconds
         # simulate the next given seconds of production
         # mine the resources
         # assemble the products
         # and smelt the ores
-        for miner, resource in self.current_miners:
+        for (resource, miner), amount in self.current_miners.items():
             # pretend all resources have the same `mining-time`,
             # this is only true for the basic resources (iron, copper, coal, stone) 
-            self.place_in_inventory(resource, self.data.mining_drills[miner]['mining_speed'] * seconds)
-        for assembler, item in self.current_assemblers:
+            self.place_in_inventory(resource, self.data.mining_drills[miner]['mining_speed'] * amount * seconds)
+        for (item, assembler), amount in self.current_assemblers.items():
             try:
-                # num_produced = crafting speed of assembler * amount crafted per recipe * seconds // seconds per recipe
-                num_produced = self.data.assemblers[assembler]['crafting_speed'] * self.data.recipes[item]['main_product']['amount'] * (seconds // self.data.recipes[item]['energy'])
+                # num_produced = crafting speed of assembler * number of assemblers * amount crafted per recipe * seconds // seconds per recipe
+                num_produced = self.data.assemblers[assembler]['crafting_speed'] * amount * self.data.recipes[item]['main_product']['amount'] * (seconds // self.data.recipes[item]['energy'])
                 # respect the rate limit on production of certain items
                 if item in self.limited_items:
                     num_produced = min(num_produced, self.limited_items[item] - self.current_items[item])
@@ -380,9 +382,9 @@ class Sim():
             except FactorioError as err:
                 print(f'failed to produce {num_produced} of {item}')
                 print(err)
-        for furnace, item in self.current_furnaces:
+        for (item, furnace), amount in self.current_furnaces.items():
             try:
-                num_produced = self.data.furnaces[furnace]['crafting_speed'] * (seconds // self.data.recipes[item]['energy'])
+                num_produced = self.data.furnaces[furnace]['crafting_speed'] * amount * (seconds // self.data.recipes[item]['energy'])
                 # find the number of items that can *actually* be produced - brute force
                 wish = {item: {'name': item, 'amount': num_produced}}
                 while not self.check_list(self.shopping_list(wish, 0)):

@@ -7,6 +7,7 @@ def convert_aliases(args):
         'bmd': 'burner-mining-drill',
         'emd': 'electric-mining-drill',
         'rp': 'automation-science-pack',
+        'gp': 'logistic-science-pack',
         'am1': 'assembling-machine-1',
         'igw': 'iron-gear-wheel',
         'ip': 'iron-plate',

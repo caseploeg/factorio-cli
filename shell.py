@@ -91,6 +91,8 @@ class FactorioShell(cmd2.Cmd):
         self.poutput(self.sim.current_miners)
         self.poutput(self.sim.current_assemblers)
         self.poutput(self.sim.current_furnaces)
+    
+
 
 
     def wish_item_choices(self):
@@ -142,6 +144,7 @@ class FactorioShell(cmd2.Cmd):
     place_parser = cmd2.Cmd2ArgumentParser()
     place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')
     place_parser.add_argument('item', choices_provider=place_item_choices, help='item type this machine will generate')
+    place_parser.add_argument('amount', type=int, default=1, nargs='?', help='number of machines to place with the given config')
 
     @cmd2.with_argparser(place_parser)
     def do_place(self, args):
@@ -149,7 +152,7 @@ class FactorioShell(cmd2.Cmd):
         - machine is not in inventory
         - item is not compatible with the machine
         """
-        res, msg = self.sim.place_machine(args.machine, args.item)
+        res, msg = self.sim.place_machine(args.machine, args.item, args.amount)
         if res == 0:
             self.poutput(f'successfully placed {args.machine}, processing {args.item}')
         else:

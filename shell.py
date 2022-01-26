@@ -85,15 +85,26 @@ class FactorioShell(cmd2.Cmd):
         """
         self.poutput(self.sim.current_recipes)
 
+    machines_parser = cmd2.Cmd2ArgumentParser()
+    group = machines_parser.add_mutually_exclusive_group()
+    group.add_argument('-a', '--assemblers', action='store_true', help='display only assemblers')
+    group.add_argument('-f', '--furnaces', action='store_true', help='display only furnaces')
+    group.add_argument('-m', '--miners', action='store_true', help='display only miners')
+
+    @cmd2.with_argparser(machines_parser)
     def do_machines(self, args):
         """ Return all machines currently running
         """
-        self.poutput(self.sim.miners)
-        self.poutput(self.sim.assemblers)
-        self.poutput(self.sim.furnaces)
-    
-
-
+        if args.miners:
+            self.poutput(json.dumps(self.sim.miners, indent=4))
+        elif args.assemblers:
+            self.poutput(json.dumps(self.sim.assemblers, indent=4))
+        elif args.furnaces:
+            self.poutput(json.dumps(self.sim.furnaces, indent=4))
+        else:
+            self.poutput(json.dumps(self.sim.miners, indent=4))
+            self.poutput(json.dumps(self.sim.assemblers, indent=4))
+            self.poutput(json.dumps(self.sim.furnaces, indent=4))
 
     def wish_item_choices(self):
         # suggest recipes and technology

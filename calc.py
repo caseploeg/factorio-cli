@@ -277,6 +277,9 @@ class Sim():
         elif res == 2:
             return 1, f'crafting {amount} {item} failed'
 
+    def set_limit(self, item, amount):
+        self.limited_items[item] = amount
+
     def machine_craft(self, item, num_produced):
         wish = {item: {'name': item, 'amount': num_produced}}
         self.deduct_list(self.shopping_list(wish,0))
@@ -347,6 +350,8 @@ class Sim():
         self.current_miners = [] 
         self.current_furnaces = []
 
+        self.limited_items = dict() 
+
     # simulate production for a given number of seconds 
     # todo: fix simulation so assemblers and furnaces produce based on available
     # materials -- do *not* use `craft()`
@@ -364,6 +369,9 @@ class Sim():
             pass
             try:
                 num_produced = self.data.assemblers[assembler]['crafting_speed'] * (seconds // self.data.recipes[item]['energy'])
+                # respect the rate limit on production of certain items
+                if item in self.limited_items:
+                    num_produced = min(num_produced, self.limited_items[item] - self.current_items[item])
                 # find the number of items that can *actually* be produced - brute force
                 wish = {item: {'name': item, 'amount': num_produced}}
                 while not self.check_list(self.shopping_list(wish, 0)):

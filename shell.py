@@ -209,3 +209,12 @@ class FactorioShell(cmd2.Cmd):
     def do_ratio(self, args):
         """Find the optimal production ratio for an item"""
         self.poutput(json.dumps(self.sim.ratio(args.item), indent=4))
+
+    limit_parser = cmd2.Cmd2ArgumentParser() 
+    limit_parser.add_argument('item', help='item type')
+    limit_parser.add_argument('amount', nargs='?', default=1, type=int, help='amount of the given item, defaults to 1')
+
+    @cmd2.with_argparser(limit_parser)
+    def do_limit(self, args):
+        """Set rate limit on production for certain items"""
+        self.sim.set_limit(args.item, args.amount)

@@ -361,39 +361,48 @@ class Sim():
     # NOTE: two consecutive calls to next() do not have the same effect as one long next()
     # because production depends on the current state of inventory before next() was called
     # next(60) + next(60) != next(120)
-    def next(self, seconds):
-        self.game_time += seconds
-        # simulate the next given seconds of production
-        # mine the resources
-        # assemble the products
-        # and smelt the ores
-        for (resource, miner), amount in self.miners.items():
-            # pretend all resources have the same `mining-time`,
-            # this is only true for the basic resources (iron, copper, coal, stone) 
-            self.place_in_inventory(resource, self.data.mining_drills[miner]['mining_speed'] * amount * seconds)
-        for (item, assembler), amount in self.assemblers.items():
-            try:
-                # num_produced = crafting speed of assembler * number of assemblers * amount crafted per recipe * seconds // seconds per recipe
+    def next(self, seconds, check_rates=False):
+        """Simulate the next given seconds of production
+
+        If check_rates=True, do not advance game time and do not actually craft items, only calculate producation rates 
+        """
+        def produce(ci):
+            prod_rates = defaultdict(defaultdict(int))
+
+            '''
+            for machine_group in [self.miners, self.asemblers, self.furnaces]:
+                for (item, machine), amount in machine_group.items():
+                    potential = calc_potental()
+                    actual = calc_actual()
+                    prod_rates[item]['actual'] += actual
+                    prod_rates[item]['potential'] += potential 
+                    machine_craft()
+            '''
+            for (resource, miner), amount in self.miners.items():
+                # pretend all resources have the same `mining-time`,
+                # this is only true for the basic resources (iron, copper, coal, stone) 
+                self.place_in_inventory(resource, self.data.mining_drills[miner]['mining_speed'] * amount * seconds)
+            for (item, assembler), amount in self.assemblers.items():
                 num_produced = self.data.assemblers[assembler]['crafting_speed'] * amount * self.data.recipes[item]['main_product']['amount'] * (seconds // self.data.recipes[item]['energy'])
-                # respect the rate limit on production of certain items
+                # respect rate limits
                 if item in self.limited_items:
                     num_produced = min(num_produced, self.limited_items[item] - self.current_items[item])
-                # find the number of items that can *actually* be produced - brute force
+                # find actual production rates 
                 wish = {item: {'name': item, 'amount': num_produced}}
                 while not self.check_list(self.shopping_list(wish, 0)):
                     wish[item]['amount'] -= 1
                 self.machine_craft(item, wish[item]['amount'])
-            except FactorioError as err:
-                print(f'failed to produce {num_produced} of {item}')
-                print(err)
-        for (item, furnace), amount in self.furnaces.items():
-            try:
+            for (item, furnace), amount in self.furnaces.items():
                 num_produced = self.data.furnaces[furnace]['crafting_speed'] * amount * (seconds // self.data.recipes[item]['energy'])
-                # find the number of items that can *actually* be produced - brute force
+                # find actual production rate 
                 wish = {item: {'name': item, 'amount': num_produced}}
                 while not self.check_list(self.shopping_list(wish, 0)):
                     wish[item]['amount'] -= 1
                 self.machine_craft(item, wish[item]['amount'])
-            except FactorioError as err:
-                print(f'failed to smelt {num_produced} of {item}')
-                print(err)
+            return prod_rates
+
+        if check_rates:
+            return produce(ci)
+        else:
+            self.game_time += seconds
+            produce(self.current_items)

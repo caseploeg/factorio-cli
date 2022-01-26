@@ -366,9 +366,9 @@ class Sim():
             # this is only true for the basic resources (iron, copper, coal, stone) 
             self.place_in_inventory(resource, self.data.mining_drills[miner]['mining_speed'] * seconds)
         for assembler, item in self.current_assemblers:
-            pass
             try:
-                num_produced = self.data.assemblers[assembler]['crafting_speed'] * (seconds // self.data.recipes[item]['energy'])
+                # num_produced = crafting speed of assembler * amount crafted per recipe * seconds // seconds per recipe
+                num_produced = self.data.assemblers[assembler]['crafting_speed'] * self.data.recipes[item]['main_product']['amount'] * (seconds // self.data.recipes[item]['energy'])
                 # respect the rate limit on production of certain items
                 if item in self.limited_items:
                     num_produced = min(num_produced, self.limited_items[item] - self.current_items[item])

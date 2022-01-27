@@ -183,26 +183,36 @@ class Sim():
 
     # returns True iff players have more than or equal to `amount` of given `item` in their
     # inventory
-    def check_item(self, item, amount):
-        return self.current_items[item] >= amount 
+    def check_item(self, item, amount, ci=None):
+        if ci == None:
+            ci = self.current_items
+        return ci[item] >= amount 
 
-    def check_list(self, sh):
-        return functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount']), sh.values(), True) 
+    def check_list(self, sh, ci=None):
+        if ci == None:
+            ci = self.current_items
+        return functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount'], ci), sh.values(), True) 
 
-    def deduct_item(self, item, amount):
+    def deduct_item(self, item, amount, ci=None):
+        if ci == None:
+            ci = self.current_items
         if self.check_item(item, amount):
-            self.current_items[item] -= amount
+            ci[item] -= amount
             return 0, None
         else:
             return 1, f'player has < {amount} of {item} in inventory'
 
-    def deduct_list(self, sh):
+    def deduct_list(self, sh, ci=None):
+        if ci == None:
+            ci = self.current_items
         for k, v in sh.items():
-            self.current_items[k] -= v['amount']
+            ci[k] -= v['amount']
 
-    def place_in_inventory(self, item, amount):
+    def place_in_inventory(self, item, amount, ci=None):
+        if ci == None:
+            ci = self.current_items
         # enfore integral system - avoid very real issues
-        self.current_items[item] += int(amount)
+        ci[item] += int(amount)
     
     def is_machine_compatible(self, machine, item):
         machine_types = zip([self.data.mining_drills, self.data.assemblers, self.data.furnaces], [x for x in range(3)])
@@ -276,7 +286,6 @@ class Sim():
             # put excess production into player inventory based on bulk orders 
             self.grant_excess_production(missing)
             if time_spent > 0:
-                print(item, amount, missing)
                 self.next(time_spent)
             return 0, None
         elif res == 2:
@@ -285,10 +294,7 @@ class Sim():
     def set_limit(self, item, amount):
         self.limited_items[item] = amount
 
-    def machine_craft(self, item, num_produced):
-        wish = {item: {'name': item, 'amount': num_produced}}
-        self.deduct_list(self.shopping_list(wish,0))
-        self.place_in_inventory(item, num_produced)
+    
 
     def mine(self, resource, amount):
         res, msg = is_mineable(resource)
@@ -367,42 +373,51 @@ class Sim():
         If check_rates=True, do not advance game time and do not actually craft items, only calculate producation rates 
         """
         def produce(ci):
-            prod_rates = defaultdict(defaultdict(int))
+            def machine_craft(item, num_produced, ci):
+                wish = {item: {'name': item, 'amount': num_produced}}
+                if item not in self.data.resources:
+                    self.deduct_list(self.shopping_list(wish, 0), ci)
+                self.place_in_inventory(item, num_produced, ci)
 
-            '''
-            for machine_group in [self.miners, self.asemblers, self.furnaces]:
-                for (item, machine), amount in machine_group.items():
-                    potential = calc_potental()
-                    actual = calc_actual()
-                    prod_rates[item]['actual'] += actual
-                    prod_rates[item]['potential'] += potential 
-                    machine_craft()
-            '''
-            for (resource, miner), amount in self.miners.items():
-                # pretend all resources have the same `mining-time`,
-                # this is only true for the basic resources (iron, copper, coal, stone) 
-                self.place_in_inventory(resource, self.data.mining_drills[miner]['mining_speed'] * amount * seconds)
-            for (item, assembler), amount in self.assemblers.items():
-                num_produced = self.data.assemblers[assembler]['crafting_speed'] * amount * self.data.recipes[item]['main_product']['amount'] * (seconds // self.data.recipes[item]['energy'])
+            miner_potential = lambda miner, item, amount, seconds: self.data.mining_drills[miner]['mining_speed'] * amount * seconds
+            assembler_potential = lambda assembler, item, amount, seconds: self.data.assemblers[assembler]['crafting_speed'] * amount * self.data.recipes[item]['main_product']['amount'] * (seconds // self.data.recipes[item]['energy']) 
+            furnace_potential = lambda furnace, item, amount, seconds: self.data.furnaces[furnace]['crafting_speed'] * amount * (seconds // self.data.recipes[item]['energy'])
+
+            def miner_actual(item, potential):
+                return potential 
+            
+            def assembler_actual(item, potential):
                 # respect rate limits
                 if item in self.limited_items:
-                    num_produced = min(num_produced, self.limited_items[item] - self.current_items[item])
-                # find actual production rates 
-                wish = {item: {'name': item, 'amount': num_produced}}
-                while not self.check_list(self.shopping_list(wish, 0)):
-                    wish[item]['amount'] -= 1
-                self.machine_craft(item, wish[item]['amount'])
-            for (item, furnace), amount in self.furnaces.items():
-                num_produced = self.data.furnaces[furnace]['crafting_speed'] * amount * (seconds // self.data.recipes[item]['energy'])
+                    potential = min(potential, self.limited_items[item] - ci[item])
                 # find actual production rate 
-                wish = {item: {'name': item, 'amount': num_produced}}
-                while not self.check_list(self.shopping_list(wish, 0)):
+                wish = {item: {'name': item, 'amount': potential}}
+                while not self.check_list(self.shopping_list(wish, 0), ci):
                     wish[item]['amount'] -= 1
-                self.machine_craft(item, wish[item]['amount'])
+                return wish[item]['amount']
+            
+            def furnace_actual(item, potential):
+                return assembler_actual(item, potential) 
+
+            prod_rates = defaultdict(lambda: defaultdict(int))
+            machine_groups = zip([self.miners, self.assemblers, self.furnaces], [x for x in range(3)])
+            calc_actual = {0: miner_actual, 1: assembler_actual, 2: furnace_actual}
+            calc_potential = {0: miner_potential, 1: assembler_potential, 2: furnace_potential}
+
+            # core algo: for each machine: potential -> actual -> craft
+            for machine_group, key in machine_groups: 
+                for (item, machine), amount in machine_group.items():
+                    potential = calc_potential[key](machine, item, amount, seconds)  
+                    actual = calc_actual[key](item, potential) 
+                    prod_rates[item]['potential'] += potential 
+                    prod_rates[item]['actual'] += actual
+                    machine_craft(item, actual, ci)
             return prod_rates
+        # ---- end of produce() helper function                    
 
         if check_rates:
-            return produce(ci)
+            ci = self.current_items.copy()
         else:
             self.game_time += seconds
-            produce(self.current_items)
+            ci = self.current_items
+        return produce(ci)

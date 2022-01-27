@@ -95,16 +95,19 @@ class FactorioShell(cmd2.Cmd):
     def do_machines(self, args):
         """ Return all machines currently running
         """
+        miners = {str(k): v for k,v in self.sim.miners.items()}
+        assemblers = {str(k): v for k,v in self.sim.assemblers.items()}
+        furnaces = {str(k): v for k,v in self.sim.furnaces.items()}
         if args.miners:
-            self.poutput(json.dumps(self.sim.miners, indent=4))
+            self.poutput(json.dumps(miners, indent=4))
         elif args.assemblers:
-            self.poutput(json.dumps(self.sim.assemblers, indent=4))
+            self.poutput(json.dumps(assemblers, indent=4))
         elif args.furnaces:
-            self.poutput(json.dumps(self.sim.furnaces, indent=4))
+            self.poutput(json.dumps(furnaces, indent=4))
         else:
-            self.poutput(json.dumps(self.sim.miners, indent=4))
-            self.poutput(json.dumps(self.sim.assemblers, indent=4))
-            self.poutput(json.dumps(self.sim.furnaces, indent=4))
+            self.poutput(json.dumps(miners, indent=4))
+            self.poutput(json.dumps(assemblers, indent=4))
+            self.poutput(json.dumps(furnaces, indent=4))
 
     def wish_item_choices(self):
         # suggest recipes and technology
@@ -181,6 +184,11 @@ class FactorioShell(cmd2.Cmd):
         """Simulate factory production for a given number of minutes"""
         seconds = args.minutes * 60
         self.sim.next(seconds)
+    
+    def do_prod(self, args):
+        """Return production statistcs for the current state of the factory"""
+        self.poutput('running the factory for one minute will have the following effect:') 
+        self.poutput(json.dumps(self.sim.next(60, True), indent=4))
 
     mine_parser = cmd2.Cmd2ArgumentParser()
     mine_parser.add_argument('resource', choices=mineable, help='resource type')

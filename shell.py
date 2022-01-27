@@ -11,7 +11,6 @@ class FactorioShell(cmd2.Cmd):
     prompt = "(0:00:00) "
 
     mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
-
     def __init__(self, sim):
         super().__init__()
         # register hooks
@@ -25,11 +24,11 @@ class FactorioShell(cmd2.Cmd):
         self.prompt = f'({datetime.timedelta(0, self.sim.game_time)}) '
         return data
 
-    def arg_alias_hook(self, data: cmd2.plugin.PostparsingData) -> cmd2.plugin.PostparsingData:
-        """A hook to convert argument aliases to full-name versions"""
-        full_name_args = ' '.join(convert_aliases(data.statement.arg_list))
-        data.statement = self.statement_parser.parse(f"{data.statement.command} {full_name_args}")
-        return data
+    def arg_alias_hook(self, params: cmd2.plugin.PostparsingData) -> cmd2.plugin.PostparsingData:
+        """A hook to dynamically convert aliases to full-name versions"""
+        converted = ' '.join(convert_aliases(params.statement.raw.split()))
+        params.statement = self.statement_parser.parse(converted)
+        return params 
 
     def do_clear(self, args):
         """Reset the simulation and wipe all data"""

@@ -12,6 +12,8 @@ def convert_aliases(args):
         'igw': 'iron-gear-wheel',
         'ip': 'iron-plate',
         'cp': 'copper-plate',
+        'io': 'iron-ore',
+        'co': 'copper-ore',
         'gc': 'electronic-circuit'
     }
     converted_args = []

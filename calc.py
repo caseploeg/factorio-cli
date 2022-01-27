@@ -370,7 +370,7 @@ class Sim():
     def next(self, seconds, check_rates=False):
         """Simulate the next given seconds of production
 
-        If check_rates=True, do not advance game time and do not actually craft items, only calculate producation rates 
+        If check_rates=True, do not advance game time and do not actually craft items, only calculate production rates 
         """
         def produce(ci):
             def machine_craft(item, num_produced, ci):

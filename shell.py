@@ -1,7 +1,7 @@
 import cmd2
 import argparse
 
-from cli import convert_aliases
+from shortcuts import convert_aliases
 
 import datetime
 import json

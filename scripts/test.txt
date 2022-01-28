@@ -1,0 +1,55 @@
+# test file for importing cmds into the sim
+# try out strategy, come up with macro ideas
+mine iron-ore 20
+mine stone 50
+
+# machine speed ratio:
+# bmd:sf == 4:1
+# but then... there is recipe ratios
+# iron-ore:iron-plate == 1:3.2 
+# --> 4:3.2 is optimal for making iron-plates early game
+
+place stone-furnace iron-plate
+place burner-mining-drill iron-ore
+next 2
+craft bmd 3
+craft sf 2
+place bmd iron-ore
+place bmd iron-ore
+place bmd iron-ore
+place sf ip
+place sf ip
+
+next 2
+craft bmd 2
+place bmd copper-ore
+place bmd stone
+
+next 2
+craft sf 3
+place sf ip 
+place sf ip
+place sf cp
+
+next 2
+craft rp 10
+research automation
+
+next 2
+craft bmd 2
+place bmd copper-ore
+place bmd copper-ore
+
+next 2
+craft am1 3 
+place am1 igw
+place am1 rp 
+place am1 rp
+
+# what's next? 
+# make 75 red pots asap to research green pots
+# then steel processing
+# then automation-2
+
+# automate red pots
+

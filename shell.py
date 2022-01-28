@@ -12,7 +12,7 @@ class FactorioShell(cmd2.Cmd):
 
     mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
     def __init__(self, sim):
-        super().__init__()
+        super().__init__(startup_script='scripts/startup.txt', silence_startup_script=True)
         # register hooks
         self.register_postcmd_hook(self.update_prompt)
         self.register_postparsing_hook(self.arg_alias_hook)
@@ -158,6 +158,7 @@ class FactorioShell(cmd2.Cmd):
     place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')
     place_parser.add_argument('item', choices_provider=place_item_choices, help='item type this machine will generate')
     place_parser.add_argument('amount', type=int, default=1, nargs='?', help='number of machines to place with the given config')
+    place_parser.add_argument('-l', '--limit', type=int, nargs='?', help='limit the production rate of the item to LIMIT')
 
     @cmd2.with_argparser(place_parser)
     def do_place(self, args):
@@ -168,6 +169,8 @@ class FactorioShell(cmd2.Cmd):
         res, msg = self.sim.place_machine(args.machine, args.item, args.amount)
         if res == 0:
             self.poutput(f'successfully placed {args.machine}, processing {args.item}')
+            if args.limit is not None:
+                self.sim.set_limit(args.item, args.limit)
         else:
             self.poutput(msg)
 

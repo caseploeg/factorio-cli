@@ -1,0 +1,8 @@
+set debug true
+alias create lprod prod "|" less
+alias create prodl lprod
+# idea: use grep + text processing to get production information on raw materials, try to sort output and highlight deficiencies 
+alias create raw prod "|" grep -E -A3 "(ore|plate)"
+# parse out unnecessary commands from history before saving the factory
+alias create export history -s "|" grep -Ev "(init|@|run|set|alias|inv|prod|suggest|wish)" ">" scripts/factory.txt 
+alias create init @ scripts/factory.txt

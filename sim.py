@@ -183,15 +183,31 @@ class Sim():
 
     # returns True iff players have more than or equal to `amount` of given `item` in their
     # inventory
-    def check_item(self, item, amount, ci=None):
+    def check_item(self, item, amount, ci=None, ret_missing=False):
         if ci == None:
             ci = self.current_items
-        return ci[item] >= amount 
+        res = ci[item] >= amount 
+        if ret_missing:
+            return res, max(0, amount - ci[item])
+        else:
+            return res
 
-    def check_list(self, sh, ci=None):
+    def check_list(self, sh, ci=None, ret_missing=False):
+        def reduce_sh(accum, x):
+            res, missing = accum
+            r, m = self.check_item(x['name'], x['amount'], ci, ret_missing=True)
+            res = r and res
+            missing[x['name']] = m
+            return res, missing
+            
         if ci == None:
             ci = self.current_items
-        return functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount'], ci), sh.values(), True) 
+        if ret_missing:
+            vals = [True, dict()]
+            res, missing = functools.reduce(lambda x, y: reduce_sh(x, y), sh.values(), vals)
+            return 0 if res else 1, missing 
+        else:
+            return functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount'], ci), sh.values(), True) 
 
     def deduct_item(self, item, amount, ci=None):
         if ci == None:
@@ -336,8 +352,9 @@ class Sim():
         preq = self.data.technology[tech]['prerequisites']    
         if not self.preqs_researched(tech):
             return 1, f'researchable - one or more prerequisite technologies for {tech} have not been researched'
-        if not self.check_list(pl): 
-            return 1, f'researchable - missing the potions required to research {tech}'
+        res, missing = self.check_list(pl, ret_missing=True) 
+        if res != 0: 
+            return res, f'researchable - missing the potions required to research {tech}, {missing}'
         return 0, None
 
     # find all technologies that could be researched next 

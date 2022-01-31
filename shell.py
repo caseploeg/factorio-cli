@@ -1,4 +1,8 @@
 import cmd2
+from cmd2.table_creator import (
+    Column, 
+    SimpleTable
+)
 import argparse
 
 from shortcuts import convert_aliases
@@ -190,7 +194,12 @@ class FactorioShell(cmd2.Cmd):
     def do_prod(self, args):
         """Return production statistcs for the current state of the factory"""
         self.poutput('running the factory for one minute will have the following effect:') 
-        self.poutput(json.dumps(self.sim.next(60, True), indent=4))
+        production = self.sim.next(60, True)
+        data = [[k, v['actual'], v['potential']] for k, v in production.items()]
+        cols = [Column("Item", width=30), Column("Actual", width=10), Column("Potential", width=10)]
+        st = SimpleTable(cols)
+        table = st.generate_table(data)
+        self.poutput(table)
 
     mine_parser = cmd2.Cmd2ArgumentParser()
     mine_parser.add_argument('resource', choices=mineable, help='resource type')

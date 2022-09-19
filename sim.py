@@ -9,11 +9,13 @@ from constants import *
 from files import load_files
 from init import *
 
+
 def convert_to_sh(d):
     sh = dict()
     for k, v in d.items():
         sh[k] = {'name': k, 'amount': v}
     return sh
+
 
 def is_mineable(resource):
     if resource in {'stone', 'coal', 'iron-ore', 'copper-ore'}:
@@ -21,17 +23,19 @@ def is_mineable(resource):
     else:
         return 1, f'{resource} cannot be mined'
 
+
 def is_smeltable(resource):
     if resource in {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}:
         return 0, None
     else:
         return 1, f'{resource} cannont be smelted'
 
+
 class Sim():
+
     def __init__(self, data_dict):
+        self.data = SimpleNamespace(**data_dict)
         self.clear()
-        data = SimpleNamespace(**data_dict)
-        self.data = data
 
     def ratio(self, item):
         """Find the optimal production ratio for assembling an item"""
@@ -44,7 +48,6 @@ class Sim():
             sh[k]['amount'] = self.craft_time(k, v['amount']) * 10 // denom
         return sh
         
-
     def get_potion_list(self, tech):
         packs = defaultdict(int)
         amount = self.data.technology[tech]['research_unit_count']  
@@ -117,12 +120,15 @@ class Sim():
             if level > 0 and not done:
                 res = helper(master_list)
                 return res 
+            # return a complete shopping list with all sub-components
             elif level == 1 and done:
-                return all_items # return a complete shopping list with all sub-components
+                return all_items 
+            # return raw resources (max depth, no sub-components)
             elif level == 2 and done:
-                return master_list # return raw resources (max depth, no sub-components)
+                return master_list 
+            # return shopping list of depth 1 
             else:
-                return master_list # return shopping list of depth 1 
+                return master_list 
         return helper(items)
 
     def does_recipe_exist(self, item):
@@ -139,10 +145,16 @@ class Sim():
     # basically craftable()
     # given a shopping list(sh) and a copy of current_items(ci)
     # if player has enough materials to craft all items in the shopping list,
-    # return 0 and a Counter containing all intermediate items needed for crafting 
-    # return 2 if missing some items, returned Counter is meaningless
-    # todo: if not craftable, should return which raw material the player is missing
-    # or something useful like that
+    #   return:
+    #     0 
+    #     a Counter containing all intermediate items needed for crafting 
+    # if missing some items,
+    #   return:
+    #     2
+    #     a meaningless Counter
+    # todo: if not craftable, 
+    #   return which raw material the player is missing
+    #   or something useful like that
     def has_items(self, sh, ci):
         # ci is a copy of current_items
         # we have to make a copy of current_items to check if we have the items to
@@ -181,8 +193,9 @@ class Sim():
             # items are not craftable
             return res, missing, available 
 
-    # returns True iff players have more than or equal to `amount` of given `item` in their
+    # iff players have more than or equal to `amount` of given `item` in their
     # inventory
+    #   return True
     def check_item(self, item, amount, ci=None, ret_missing=False):
         if ci == None:
             ci = self.current_items
@@ -239,7 +252,11 @@ class Sim():
 
     def place_machine(self, machine, item, amount=1):
         def store(machine, item, amount):
-            machine_types = [(self.data.mining_drills, 0), (self.data.assemblers, 1), (self.data.furnaces, 2)]
+            machine_types = [
+              (self.data.mining_drills, 0),
+              (self.data.assemblers, 1),
+              (self.data.furnaces, 2)
+            ]
             storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
             for mt, key in machine_types:
                 if machine in mt:
@@ -365,12 +382,20 @@ class Sim():
                 res.add(tech)
         return res
 
+    def get_starter_recipes(self):
+        enabled = set()
+        for key, value in self.data.recipes.items():
+          if value['enabled']:
+            enabled.add(key)
+        return enabled
+          
+
     def clear(self):
         # time-related
         self.game_time = 0
         # possessions
         self.current_tech = get_starter_tech() 
-        self.current_recipes = get_starter_recipes() 
+        self.current_recipes = self.get_starter_recipes() 
         self.current_items = get_starter_inventory() 
         # machines
         self.miners = defaultdict(int)
@@ -390,15 +415,28 @@ class Sim():
         If check_rates=True, do not advance game time and do not actually craft items, only calculate production rates 
         """
         def produce(ci):
+            def miner_potential(miner, item, amount, seconds):
+                return (self.data.mining_drills[miner]['mining_speed']
+                      * amount 
+                      * seconds)
+
+            def assembler_potential(assembler, item, amount, seconds):
+                return (self.data.assemblers[assembler]['crafting_speed'] 
+                      * amount 
+                      * self.data.recipes[item]['main_product']['amount'] 
+                      * (seconds // self.data.recipes[item]['energy']))
+
+            def furnace_potential(furnace, item, amount, seconds):
+                return (self.data.furnaces[furnace]['crafting_speed']
+                      * amount
+                      * (seconds // self.data.recipes[item]['energy']))
+
+
             def machine_craft(item, num_produced, ci):
                 wish = {item: {'name': item, 'amount': num_produced}}
                 if item not in self.data.resources:
                     self.deduct_list(self.shopping_list(wish, 0), ci)
                 self.place_in_inventory(item, num_produced, ci)
-
-            miner_potential = lambda miner, item, amount, seconds: self.data.mining_drills[miner]['mining_speed'] * amount * seconds
-            assembler_potential = lambda assembler, item, amount, seconds: self.data.assemblers[assembler]['crafting_speed'] * amount * self.data.recipes[item]['main_product']['amount'] * (seconds // self.data.recipes[item]['energy']) 
-            furnace_potential = lambda furnace, item, amount, seconds: self.data.furnaces[furnace]['crafting_speed'] * amount * (seconds // self.data.recipes[item]['energy'])
 
             def miner_actual(item, potential):
                 return potential 

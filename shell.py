@@ -17,6 +17,7 @@ class FactorioShell(cmd2.Cmd):
     mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
     def __init__(self, sim):
         super().__init__(startup_script='scripts/startup.txt', silence_startup_script=True)
+        print("hello??")
         # register hooks
         self.register_postcmd_hook(self.update_prompt)
         self.register_postparsing_hook(self.arg_alias_hook)
@@ -86,7 +87,8 @@ class FactorioShell(cmd2.Cmd):
     def do_cookbook(self, args):
         """ Return all recipes currently available to the player
         """
-        self.poutput(self.sim.current_recipes)
+        self.columnize(list(self.sim.current_recipes))
+        self.poutput()
 
     machines_parser = cmd2.Cmd2ArgumentParser()
     group = machines_parser.add_mutually_exclusive_group()

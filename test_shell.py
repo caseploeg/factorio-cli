@@ -14,7 +14,7 @@ class FactorioShellTester(cmd2_ext_test.ExternalTestMixin, FactorioShell):
       super().__init__(sim, *args, **kwargs)
 
 @pytest.fixture
-def factorio_shell():
+def s():
     app = FactorioShellTester()
 
     # simulate running the start up scripts
@@ -22,27 +22,56 @@ def factorio_shell():
     app.runcmds_plus_hooks(app._startup_commands)
     app._startup_commands.clear()
     
-
     app.fixture_setup()
     yield app
     app.fixture_teardown()
 
 
-def test_startup(factorio_shell):
-  factorio_shell.app_cmd("init")
-  out = factorio_shell.app_cmd("alias list")
+def test_startup(s):
+  s.app_cmd("init")
+  out = s.app_cmd("alias list")
   print(out)
   assert isinstance(out, CommandResult)
   assert "init" in out.stdout
 
 
-def test_starting_items(factorio_shell):
-  out = factorio_shell.app_cmd("cookbook")
+def test_starting_recipes(s):
+  out = s.app_cmd("cookbook")
   recipes = out.stdout.split()
   assert len(recipes) == 28 
 
+def test_next_no_machines(s):
+  before = s.app_cmd("i").stdout
+  s.app_cmd("next 5")
+  after = s.app_cmd("i").stdout
+  assert before == after
 
 
+def test_one_drill(s):
+  s.app_cmd("place bmd io")
+  s.app_cmd("next 5")
+  out = s.app_cmd("i")
+  # 5 * 60 seconds * 0.25 mining speed
+  assert '"iron-ore": 75' in out.stdout 
+
+def test_craft(s):
+  # craft should move time forwards
+  # craft should use up the necessary materials
+  s.app_cmd("place bmd stone")
+  s.app_cmd("next 1")
+  before_i = s.app_cmd("i").stdout
+  s.app_cmd("craft sf")
+  after_i = s.app_cmd("i").stdout
+  after_time = s.app_cmd("time").stdout
+  assert float(after_time) == 60.5
+  assert '"stone-furnace": 1' in before_i
+  assert '"stone-furnace": 2' in after_i
+  assert '"stone": 15' in before_i 
+  assert '"stone": 10' in after_i
+  
+
+def test_recursive_crafting(s):
+  assert False
 
 """
 def test_help(factorio_shell):
@@ -52,12 +81,6 @@ def test_help(factorio_shell):
   print(out.stdout)
   print(out.data)
   
-def test_cookbook(factorio_shell):
-  out = factorio_shell.app_cmd("cookbook")
-  print(out)
-  assert False
-
-
 def test_init(factorio_shell):
   out = factorio_shell.app_cmd("init")
   print(out)

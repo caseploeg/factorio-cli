@@ -35,6 +35,11 @@ class FactorioShell(cmd2.Cmd):
         params.statement = self.statement_parser.parse(converted)
         return params 
 
+
+    def do_time(self, args):
+        """Return the current time elapased in the sim (in seconds)"""
+        self.poutput(self.sim.game_time)
+
     def do_clear(self, args):
         """Reset the simulation and wipe all data"""
         self.sim.clear()

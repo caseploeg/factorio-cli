@@ -60,7 +60,8 @@ def test_craft(s):
   s.app_cmd("place bmd stone")
   s.app_cmd("next 1")
   before_i = s.app_cmd("i").stdout
-  s.app_cmd("craft sf")
+  out = s.app_cmd("craft sf")
+  assert out.stderr == '' 
   after_i = s.app_cmd("i").stdout
   after_time = s.app_cmd("time").stdout
   assert float(after_time) == 60.5
@@ -69,9 +70,17 @@ def test_craft(s):
   assert '"stone": 15' in before_i 
   assert '"stone": 10' in after_i
   
-
-def test_recursive_crafting(s):
-  assert False
+def test_craft2(s):
+  s.app_cmd("place bmd stone")
+  s.app_cmd("next 1")
+  before_time = s.app_cmd("time").stdout
+  before_i = s.app_cmd("i").stdout
+  out = s.app_cmd("craft sf 4")
+  assert out.stderr != '' 
+  after_i = s.app_cmd("i").stdout
+  after_time = s.app_cmd("time").stdout
+  assert float(after_time) == float(before_time) 
+  assert before_i == after_i
 
 """
 def test_help(factorio_shell):

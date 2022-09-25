@@ -236,7 +236,7 @@ class FactorioShell(cmd2.Cmd):
         if res == 0:
             self.poutput(f'successfully crafted {args.item}')
         else:
-            self.poutput(msg)
+            self.perror(msg)
 
 
     def ratio_item_choices(self):

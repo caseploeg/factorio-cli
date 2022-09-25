@@ -82,6 +82,36 @@ def test_craft2(s):
   assert float(after_time) == float(before_time) 
   assert before_i == after_i
 
+def test_mine(s):
+  s.app_cmd("mine stone 20")
+  s.app_cmd("mine iron-ore 20")
+  s.app_cmd("mine copper-ore 10")
+  time = s.app_cmd("time").stdout
+  after_i = s.app_cmd("i").stdout
+  assert '"iron-ore": 20' in after_i
+  assert '"stone": 20' in after_i
+  assert '"copper-ore": 10' in after_i
+  assert 50 == float(time) 
+
+
+def test_production(s):
+  s.app_cmd("run scripts/test_setup.txt")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 """
 def test_help(factorio_shell):
   out = factorio_shell.app_cmd("help")

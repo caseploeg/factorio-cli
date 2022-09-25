@@ -238,7 +238,6 @@ class FactorioShell(cmd2.Cmd):
         else:
             self.perror(msg)
 
-
     def ratio_item_choices(self):
         return self.sim.data.recipes.keys()
 

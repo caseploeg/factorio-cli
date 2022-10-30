@@ -4,11 +4,11 @@ from cmd2.table_creator import (
     SimpleTable
 )
 import argparse
-
-from shortcuts import convert_aliases
-
 import datetime
 import json
+
+from shortcuts import convert_aliases
+import client
 
 class FactorioShell(cmd2.Cmd):
     intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
@@ -17,7 +17,6 @@ class FactorioShell(cmd2.Cmd):
     mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
     def __init__(self, sim):
         super().__init__(startup_script='scripts/startup.txt', silence_startup_script=True)
-        print("hello??")
         # register hooks
         self.register_postcmd_hook(self.update_prompt)
         self.register_postparsing_hook(self.arg_alias_hook)
@@ -26,7 +25,8 @@ class FactorioShell(cmd2.Cmd):
 
     def update_prompt(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
         """Update shell prompt with the amount of time elapsed in the simulation"""
-        self.prompt = f'({datetime.timedelta(0, self.sim.game_time)}) '
+        game_time = client.get_game_time()
+        self.prompt = f'({datetime.timedelta(0, game_time)})'
         return data
 
     def arg_alias_hook(self, params: cmd2.plugin.PostparsingData) -> cmd2.plugin.PostparsingData:
@@ -38,11 +38,12 @@ class FactorioShell(cmd2.Cmd):
 
     def do_time(self, args):
         """Return the current time elapased in the sim (in seconds)"""
-        self.poutput(self.sim.game_time)
+        game_time = client.get_game_time()
+        self.poutput(game_time)
 
     def do_clear(self, args):
         """Reset the simulation and wipe all data"""
-        self.sim.clear()
+        client.clear()
 
     spawn_parser = cmd2.Cmd2ArgumentParser()
     spawn_parser.add_argument('item', help='item type to spawn in')
@@ -51,7 +52,7 @@ class FactorioShell(cmd2.Cmd):
     @cmd2.with_argparser(spawn_parser)
     def do_spawn(self, args):
         """grant items to player without spending resources or using crafting time"""
-        self.sim.place_in_inventory(args.item, args.amount)
+        client.spawn(args.item, args.amount)
 
     def research_tech_choices(self):
         return self.sim.all_researchable()
@@ -187,7 +188,8 @@ class FactorioShell(cmd2.Cmd):
 
     def do_inventory(self, args):
         """Return the player's inventory"""
-        print(json.dumps(self.sim.current_items, indent=4))
+        current_items = client.get_inventory()
+        print(json.dumps(current_items, indent=4))
 
     next_parser = cmd2.Cmd2ArgumentParser()
     next_parser.add_argument('minutes', type=int, help='the number of minutes to run the simulation for')

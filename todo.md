@@ -16,3 +16,5 @@ priority to resources over others. Making potions before bmd, etc.
   - notif the player when research is ready
 
 - Implement save on quit :(
+
+- It would some times be useful to be running the same simulation connected to multiple consoles, running multiple commands at the same time. Could implement some basic client-server architecture, maybe an interface

@@ -19,3 +19,14 @@ Testing
 
 - data extraction done using [Data Exporter to JSON](https://mods.factorio.com/mod/recipelister) mod by Erythion.
 
+## local setup 
+
+$ python3 -m venv venv
+$ source venv/bin/activate
+$ pip install flask requests cmd2
+
+flask --app server run
+python3 ./main.py
+
+
+https://www.b-list.org/weblog/2022/may/13/boring-python-dependencies/

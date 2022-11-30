@@ -70,11 +70,8 @@ class FactorioShell(cmd2.Cmd):
         - `tech` is already researched
         - missing required resources
         """
-        res, msg = self.sim.research(args.tech)
-        if res == 0:
-            self.poutput(f'successfully researched {args.tech}')
-        else:
-            self.poutput(msg)
+        msg = client.research(args.tech)
+        print(msg)
     
     tech_needed_parser = cmd2.Cmd2ArgumentParser()
     tech_needed_parser.add_argument('tech', help='name of goal technology')

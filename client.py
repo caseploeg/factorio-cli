@@ -23,3 +23,8 @@ def get_inventory():
   r = requests.get(f'{path}inventory')
   r.raise_for_status()
   return r.json()
+
+
+def research(technology):
+  r = requests.post(f'{path}research?technology={technology}')
+  return r.text

@@ -10,8 +10,12 @@ data_dict = load_files()
 sim = Sim(data_dict)
 
 @app.route("/")
-def hello_world():
-  return f"{sim.game_time}"
+def root():
+  time = f"{sim.game_time}\n" 
+  endpoints = []
+  for rule in app.url_map.iter_rules():
+    endpoints.append(rule.endpoint)
+  return time + '<br>'.join(endpoints) 
 
 @app.route("/time")
 def time():
@@ -32,3 +36,13 @@ def spawn():
 @app.route("/inventory")
 def inventory():
   return sim.current_items
+
+@app.route("/research/", methods=["POST"])
+def research():
+  technology = request.args.get('technology')
+  res, msg = sim.research(technology)
+  # TODO: do better result handling than this
+  if res == 0:
+    return (msg, 200)
+  else:
+    return (msg, 400)

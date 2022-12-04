@@ -37,11 +37,22 @@ def spawn():
 def inventory():
   return sim.current_items
 
-@app.route("/research/", methods=["POST"])
+@app.route("/research", methods=["POST"])
 def research():
   technology = request.args.get('technology')
   res, msg = sim.research(technology)
   # TODO: do better result handling than this
+  if res == 0:
+    return (msg, 200)
+  else:
+    return (msg, 400)
+
+@app.route("/place", methods=["POST"])
+def place():
+  machine = request.args.get('machine')
+  item = request.args.get('item')
+  amount = int(request.args.get('amount'))
+  res, msg = sim.place_machine(machine, item, amount)
   if res == 0:
     return (msg, 200)
   else:

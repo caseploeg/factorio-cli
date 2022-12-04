@@ -167,7 +167,6 @@ class FactorioShell(cmd2.Cmd):
     place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')
     place_parser.add_argument('item', choices_provider=place_item_choices, help='item type this machine will generate')
     place_parser.add_argument('amount', type=int, default=1, nargs='?', help='number of machines to place with the given config')
-    place_parser.add_argument('-l', '--limit', type=int, nargs='?', help='limit the production rate of the item to LIMIT')
 
     @cmd2.with_argparser(place_parser)
     def do_place(self, args):
@@ -175,13 +174,8 @@ class FactorioShell(cmd2.Cmd):
         - machine is not in inventory
         - item is not compatible with the machine
         """
-        res, msg = self.sim.place_machine(args.machine, args.item, args.amount)
-        if res == 0:
-            self.poutput(f'successfully placed {args.machine}, processing {args.item}')
-            if args.limit is not None:
-                self.sim.set_limit(args.item, args.limit)
-        else:
-            self.poutput(msg)
+        msg = client.place(args.machine, args.item, args.amount)
+        self.poutput(msg)
 
     def do_inventory(self, args):
         """Return the player's inventory"""

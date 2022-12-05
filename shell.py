@@ -116,7 +116,7 @@ class FactorioShell(cmd2.Cmd):
 
     def wish_item_choices(self):
         # suggest recipes and technology
-        return set(self.sim.data.recipes.keys()).union(set(self.sim.data.technology.keys()))
+        return set(self.data.recipes.keys()).union(set(self.data.technology.keys()))
     
     wish_parser = cmd2.Cmd2ArgumentParser()
     wish_parser.add_argument('item', choices_provider=wish_item_choices, help='item type')
@@ -133,15 +133,15 @@ class FactorioShell(cmd2.Cmd):
             }
         }
         found = False
-        if args.item in self.sim.data.recipes:
-            self.poutput(json.dumps(self.sim.shopping_list(request, args.level), indent=4))
+        if args.item in self.data.recipes:
+            self.poutput(json.dumps(utils.shopping_list(self.data.recipes, request, args.level), indent=4))
             found = True
-        if args.item in self.sim.data.technology:
+        if args.item in self.data.technology:
             # if the player wished for a technology, output the list of potions required for research
-            self.poutput(json.dumps(self.sim.get_potion_list(args.item)))
+            self.poutput(json.dumps(utils.get_potion_list(self.data.technology, args.item)))
             found = True
         if not found: 
-            self.poutput(f'could not find {item}')
+            self.poutput(f'could not find {args.item}')
 
     def place_machine_choices(self, arg_tokens):
         # todo: change this to only display machines currently in inventory

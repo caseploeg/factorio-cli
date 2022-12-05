@@ -8,31 +8,10 @@ from errors import *
 from constants import *
 from files import load_files
 from init import *
-
-
-def convert_to_sh(d):
-    sh = dict()
-    for k, v in d.items():
-        sh[k] = {'name': k, 'amount': v}
-    return sh
-
-
-def is_mineable(resource):
-    if resource in {'stone', 'coal', 'iron-ore', 'copper-ore'}:
-        return 0, None 
-    else:
-        return 1, f'{resource} cannot be mined'
-
-
-def is_smeltable(resource):
-    if resource in {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}:
-        return 0, None
-    else:
-        return 1, f'{resource} cannont be smelted'
+from utils import *
 
 
 class Sim():
-
     def __init__(self, data_dict):
         self.data = SimpleNamespace(**data_dict)
         self.clear()
@@ -48,71 +27,6 @@ class Sim():
             sh[k]['amount'] = self.craft_time(k, v['amount']) * 10 // denom
         return sh
         
-    def get_potion_list(self, tech):
-        packs = defaultdict(int)
-        amount = self.data.technology[tech]['research_unit_count']  
-        for ing in self.data.technology[tech]['research_unit_ingredients']:
-            name = ing['name'] 
-            if name in packs:
-                packs[name]['amount'] += amount
-            else:
-                packs[name] = {'name': name, 'amount': amount}
-        return packs
-
-    # give a dictionary
-    # {
-    #   item_name: {'name': item_name, 'amount': amount_wanted},
-    # }
-    # return a new dictionary of the same format,
-    # with all items required to build the items in the shopping list
-    # if level == 0 -> only the direct ingredients are calculated
-    # if level == 1 -> all resources required are calculated (raw materials, sub-components...)
-    # if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
-    # NOTE: shopping_list respects bulk recipes, but rounds up when the production ratio does not match the amount needed
-    # ex: wish iron-stick 2 -> need 1 iron-plate , but wish iron-stick 1 -> need 1 iron-plate as well - no fractions
-    # see grant_excess_production() to see how extra items from bulk orders get placed in player inventory
-    def shopping_list(self, items, level): 
-        # avoid side effects >:)
-        all_items = items.copy()
-        def helper(items):
-            ing_lists = list(
-                map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / self.data.recipes[items[x[0]]['name']]['main_product']['amount'])} for k in x[1]], 
-                map(lambda y: [y['name'], y['ingredients']],
-                filter(lambda z: z['name'] in items.keys(),
-                self.data.recipes.values()))))
-            ing_lists.append(list(filter(lambda x: x['name'] not in self.data.recipes, items.values())))  
-            # flatten
-            master_list = dict() 
-            done = True
-            for ing_list in ing_lists:
-                for ing in ing_list:
-                    name, amount = ing['name'], ing['amount']
-                    if name in master_list:
-                        master_list[name]['amount'] += amount
-                    else:
-                        master_list[name] = ing 
-                        if name in self.data.recipes:
-                            done = False
-                    # update count for all items required, based on latest information
-                    all_items[name] = master_list[name]
-            if level > 0 and not done:
-                res = helper(master_list)
-                return res 
-            # return a complete shopping list with all sub-components
-            elif level == 1 and done:
-                return all_items 
-            # return raw resources (max depth, no sub-components)
-            elif level == 2 and done:
-                return master_list 
-            # return shopping list of depth 1 
-            else:
-                return master_list 
-        return helper(items)
-
-    def does_recipe_exist(self, item):
-        if item in self.data.recipes:
-            return True
-        raise InvalidRecipeError(f'{item} does not have a recipe!')
 
     def is_recipe_unlocked(self, item):
         if item in self.current_recipes:

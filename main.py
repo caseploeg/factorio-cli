@@ -4,6 +4,5 @@ from sim import Sim
 
 if __name__ == "__main__":
     data_dict = load_files()
-    sim = Sim(data_dict)
-    shell = FactorioShell(sim)
+    shell = FactorioShell(data_dict)
     shell.cmdloop()

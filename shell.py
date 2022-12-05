@@ -7,22 +7,24 @@ import argparse
 import datetime
 import json
 import ast
+from types import SimpleNamespace
 
 from shortcuts import convert_aliases
 import client
+import utils
 
 class FactorioShell(cmd2.Cmd):
     intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
     prompt = "(0:00:00) "
 
     mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
-    def __init__(self, sim):
+    def __init__(self, data_dict):
         super().__init__(startup_script='scripts/startup.txt', silence_startup_script=True)
         # register hooks
         self.register_postcmd_hook(self.update_prompt)
         self.register_postparsing_hook(self.arg_alias_hook)
         # handle args 
-        self.sim = sim
+        self.data = SimpleNamespace(**data_dict) 
 
     def update_prompt(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
         """Update shell prompt with the amount of time elapsed in the simulation"""
@@ -56,7 +58,8 @@ class FactorioShell(cmd2.Cmd):
         client.spawn(args.item, args.amount)
 
     def research_tech_choices(self):
-        return self.sim.all_researchable()
+        #TODO: fix this 
+        return [] 
 
     research_parser = cmd2.Cmd2ArgumentParser()
     research_parser.add_argument('tech', choices_provider=research_tech_choices, help='name of technology to research')
@@ -81,7 +84,7 @@ class FactorioShell(cmd2.Cmd):
     def do_tech_needed(self, args):
         """ Given a goal technology, return all the technologies required to unlock it, as well as all the science packs
         """
-        self.poutput(self.sim.tech_needed(args.tech))
+        self.poutput(utils.tech_needed(self.data.technology, args.tech))
 
     def do_suggest(self, args):
         """ Return all technologies that could be researched next

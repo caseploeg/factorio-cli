@@ -327,8 +327,6 @@ class Sim():
     def set_limit(self, item, amount):
         self.limited_items[item] = amount
 
-    
-
     def mine(self, resource, amount):
         res, msg = is_mineable(resource)
         if res != 0:
@@ -476,3 +474,15 @@ class Sim():
             self.game_time += seconds
             ci = self.current_items
         return produce(ci)
+
+    def machines(self):
+        combined = defaultdict()
+        combined.update(self.miners)
+        combined.update(self.assemblers)
+        combined.update(self.furnaces)
+        return '\n'.join([f'{k} : {v}' for k, v in combined])
+
+    def production(self):
+        production = self.next(60, True)
+        data = [[k, v['actual'], v['potential']] for k, v in production.items()]
+        return data

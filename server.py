@@ -3,6 +3,7 @@ from flask import request
 
 from files import load_files
 from sim import Sim
+from shell import *
 
 app = Flask(__name__)
 
@@ -54,6 +55,50 @@ def place():
   amount = int(request.args.get('amount'))
   res, msg = sim.place_machine(machine, item, amount)
   if res == 0:
-    return (msg, 200)
+    #TODO: the sim function doesn't return anything on success
+    return ('pog', 200)
   else:
     return (msg, 400)
+
+@app.route("/next", methods=["POST"])
+def next():
+    minutes = int(request.args.get('minutes'))
+    sim.next(minutes * 60)
+    return '', 200
+
+@app.route("/craft", methods=["POST"])
+def craft():
+  item = request.args.get('item')
+  amount = int(request.args.get('amount'))
+  res, msg = sim.craft(item, amount)
+  if res == 0:
+    return 'pog', 200
+  else:
+    return msg, 400
+
+@app.route("/mine", methods=["POST"])
+def mine():
+  resource = request.args.get('resource')
+  amount = int(request.args.get('amount'))
+  res, msg = sim.mine(resource, amount)
+  if res == 0:
+    return 'pog', 200
+  else:
+    return msg, 400
+
+@app.route("/cookbook", methods=["GET"])
+def cookbook():
+  return '\n'.join(sim.current_recipes)
+
+@app.route("/machines", methods=["GET"])
+def machines():
+  return sim.machines()
+
+@app.route("/suggest", methods=["GET"])
+def suggest():
+  return '\n'.join(sim.all_researchable())
+
+@app.route("/production", methods=["GET"])
+def production():
+  return sim.production()
+

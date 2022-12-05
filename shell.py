@@ -6,6 +6,7 @@ from cmd2.table_creator import (
 import argparse
 import datetime
 import json
+import ast
 
 from shortcuts import convert_aliases
 import client
@@ -85,13 +86,14 @@ class FactorioShell(cmd2.Cmd):
     def do_suggest(self, args):
         """ Return all technologies that could be researched next
         """ 
-        self.poutput(self.sim.all_researchable())
+        msg = client.suggest()
+        self.poutput(msg)
 
     def do_cookbook(self, args):
         """ Return all recipes currently available to the player
         """
-        self.columnize(list(self.sim.current_recipes))
-        self.poutput()
+        msg = client.cookbook()
+        self.poutput(msg)
 
     machines_parser = cmd2.Cmd2ArgumentParser()
     group = machines_parser.add_mutually_exclusive_group()
@@ -103,19 +105,11 @@ class FactorioShell(cmd2.Cmd):
     def do_machines(self, args):
         """ Return all machines currently running
         """
-        miners = {str(k): v for k,v in self.sim.miners.items()}
-        assemblers = {str(k): v for k,v in self.sim.assemblers.items()}
-        furnaces = {str(k): v for k,v in self.sim.furnaces.items()}
-        if args.miners:
-            self.poutput(json.dumps(miners, indent=4))
-        elif args.assemblers:
-            self.poutput(json.dumps(assemblers, indent=4))
-        elif args.furnaces:
-            self.poutput(json.dumps(furnaces, indent=4))
+        msg = client.machines()
+        if msg:
+            self.poutput(msg)
         else:
-            self.poutput(json.dumps(miners, indent=4))
-            self.poutput(json.dumps(assemblers, indent=4))
-            self.poutput(json.dumps(furnaces, indent=4))
+            self.poutput("no machines :(")
 
     def wish_item_choices(self):
         # suggest recipes and technology
@@ -188,14 +182,14 @@ class FactorioShell(cmd2.Cmd):
     @cmd2.with_argparser(next_parser)
     def do_next(self, args):
         """Simulate factory production for a given number of minutes"""
-        seconds = args.minutes * 60
-        self.sim.next(seconds)
+        client.next(args.minutes)
     
     def do_prod(self, args):
         """Return production statistcs for the current state of the factory"""
         self.poutput('running the factory for one minute will have the following effect:') 
-        production = self.sim.next(60, True)
-        data = [[k, v['actual'], v['potential']] for k, v in production.items()]
+        data_str = client.production()
+        #TODO: just send JSON from the server instead
+        data = ast.literal_eval(data_str)
         cols = [Column("Item", width=30), Column("Actual", width=10), Column("Potential", width=10)]
         st = SimpleTable(cols)
         table = st.generate_table(data)
@@ -208,11 +202,8 @@ class FactorioShell(cmd2.Cmd):
     @cmd2.with_argparser(mine_parser) 
     def do_mine(self, args):
         """Mine a resource"""
-        res, msg = self.sim.mine(args.resource, args.amount)
-        if res == 0:
-            self.poutput(f'successfully mined {args.resource}')
-        else:
-            self.poutput(msg)
+        msg = client.mine(args.resource, args.amount)
+        self.poutput(msg)
 
     def craft_item_choices(self, arg_tokens):
         # only suggest items that the player has the resources to actually craft
@@ -225,22 +216,8 @@ class FactorioShell(cmd2.Cmd):
     @cmd2.with_argparser(craft_parser)
     def do_craft(self, args):
         """Craft an item in the player's inventory"""
-        res, msg = self.sim.craft(args.item, args.amount)
-        if res == 0:
-            self.poutput(f'successfully crafted {args.item}')
-        else:
-            self.perror(msg)
-
-    def ratio_item_choices(self):
-        return self.sim.data.recipes.keys()
-
-    ratio_parser = cmd2.Cmd2ArgumentParser()
-    ratio_parser.add_argument('item', choices_provider=ratio_item_choices, help='item type')
-
-    @cmd2.with_argparser(ratio_parser)
-    def do_ratio(self, args):
-        """Find the optimal production ratio for an item"""
-        self.poutput(json.dumps(self.sim.ratio(args.item), indent=4))
+        msg = client.craft(args.item, args.amount)
+        self.poutput(msg)
 
     limit_parser = cmd2.Cmd2ArgumentParser() 
     limit_parser.add_argument('item', help='item type')

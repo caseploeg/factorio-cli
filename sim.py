@@ -18,7 +18,7 @@ class Sim():
 
     def ratio(self, item):
         """Find the optimal production ratio for assembling an item"""
-        sh = self.shopping_list(convert_to_sh({item: 1}), 0)
+        sh = shopping_list(self.data.recipes, convert_to_sh({item: 1}), 0)
         r_list = []
         for k, v in sh.items():
             r_list.append(int(self.craft_time(k, v['amount']) * 10))
@@ -74,7 +74,7 @@ class Sim():
                 missing[item] = amount - ci[item]
                 ci[item] = 0
         msh = convert_to_sh(missing)
-        missing_sh = self.shopping_list(msh, 0)
+        missing_sh = shopping_list(self.data.recipes, msh, 0)
         if res == 0:
             return res, missing, available 
         if res == 1:
@@ -172,7 +172,7 @@ class Sim():
         res, msg = self.is_recipe_unlocked(item)
         if res != 0:
             return 1, None, None 
-        sh = self.shopping_list({
+        sh = shopping_list(self.data.recipes, {
             item: {
                 'name': item,
                 'amount': amount
@@ -215,6 +215,8 @@ class Sim():
             return 0, None
         elif res == 2:
             return 1, f'crafting {amount} {item} failed'
+        else:
+            return 1, f'something went wrong, {item} does not exist?'
 
     def set_limit(self, item, amount):
         self.limited_items[item] = amount
@@ -234,7 +236,7 @@ class Sim():
     def research(self, tech):
         res, msg = self.researchable(tech)
         if res == 0:
-            pl = self.get_potion_list(tech)
+            pl = get_potion_list(self.data.technology, tech)
             self.deduct_list(pl)
             self.current_tech.add(tech)
             # unlock recipes
@@ -255,7 +257,7 @@ class Sim():
             return 1, f'researchable - {tech} could not be found in the list of tecnologies'
         if tech in self.current_tech:
             return 1, f'researchable - {tech} has already been researched'
-        pl = self.get_potion_list(tech)
+        pl = get_potion_list(self.data.technology, tech)
         preq = self.data.technology[tech]['prerequisites']    
         if not self.preqs_researched(tech):
             return 1, f'researchable - one or more prerequisite technologies for {tech} have not been researched'
@@ -325,7 +327,7 @@ class Sim():
             def machine_craft(item, num_produced, ci):
                 wish = {item: {'name': item, 'amount': num_produced}}
                 if item not in self.data.resources:
-                    self.deduct_list(self.shopping_list(wish, 0), ci)
+                    self.deduct_list(shopping_list(self.data.recipes, wish, 0), ci)
                 self.place_in_inventory(item, num_produced, ci)
 
             def miner_actual(item, potential):
@@ -337,7 +339,7 @@ class Sim():
                     potential = min(potential, self.limited_items[item] - ci[item])
                 # find actual production rate 
                 wish = {item: {'name': item, 'amount': potential}}
-                while not self.check_list(self.shopping_list(wish, 0), ci):
+                while not self.check_list(shopping_list(self.data.recipes, wish, 0), ci):
                     wish[item]['amount'] -= 1
                 return wish[item]['amount']
             

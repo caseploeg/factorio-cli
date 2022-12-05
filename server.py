@@ -44,7 +44,7 @@ def research():
   res, msg = sim.research(technology)
   # TODO: do better result handling than this
   if res == 0:
-    return (msg, 200)
+    return ('pog', 200)
   else:
     return (msg, 400)
 
@@ -101,4 +101,12 @@ def suggest():
 @app.route("/production", methods=["GET"])
 def production():
   return sim.production()
+
+@app.route("/limit", methods=["POST"])
+def limit():
+  item = request.args.get('item')
+  amount = int(request.args.get('amount'))
+  #TODO: limits should do error handling
+  sim.set_limit(item, amount)
+  return 'pog', 200
 

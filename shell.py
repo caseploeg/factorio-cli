@@ -145,20 +145,18 @@ class FactorioShell(cmd2.Cmd):
 
     def place_machine_choices(self, arg_tokens):
         # todo: change this to only display machines currently in inventory
-        return list(self.sim.data.mining_drills.keys()) + list(self.sim.data.furnaces.keys()) + list(self.sim.data.assemblers.keys())
+        return list(self.data.mining_drills.keys()) + list(self.data.furnaces.keys()) + list(self.data.assemblers.keys())
      
     def place_item_choices(self, arg_tokens):
         """Choices provider for place cmd"""
         # todo: make this work with machine aliases as well
         machine = arg_tokens['machine'][0]
-        if machine in self.sim.data.mining_drills:
+        if machine in self.data.mining_drills:
             return {'stone', 'coal', 'iron-ore', 'copper-ore'}       
-        elif machine in self.sim.data.furnaces:
+        elif machine in self.data.furnaces:
             return {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}
-        elif machine in self.sim.data.assemblers:
-            return self.sim.current_recipes
-        else:
-            return self.sim.current_recipes.union({'stone', 'coal', 'iron-ore', 'copper-ore', 'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'})
+        elif machine in self.data.assemblers:
+            return self.data.recipes
 
     place_parser = cmd2.Cmd2ArgumentParser()
     place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')
@@ -210,10 +208,13 @@ class FactorioShell(cmd2.Cmd):
 
     def craft_item_choices(self, arg_tokens):
         # only suggest items that the player has the resources to actually craft
-        return filter(lambda x: self.sim.craftable(x, 1)[0] == 0, self.sim.current_recipes)
+        return []
+        #TODO: fix this
+        # return filter(lambda x: self.sim.craftable(x, 1)[0] == 0, self.sim.current_recipes)
+
 
     craft_parser = cmd2.Cmd2ArgumentParser()
-    craft_parser.add_argument('item', choices_provider=craft_item_choices, help='item type')
+    craft_parser.add_argument('item', choices_provider=wish_item_choices, help='item type')
     craft_parser.add_argument('amount', nargs='?', default=1, type=int, help='amount of the given item, defaults to 1')
 
     @cmd2.with_argparser(craft_parser)
@@ -229,4 +230,5 @@ class FactorioShell(cmd2.Cmd):
     @cmd2.with_argparser(limit_parser)
     def do_limit(self, args):
         """Set rate limit on production for certain items"""
-        self.sim.set_limit(args.item, args.amount)
+        msg = client.limit(args.item, args.amount)
+        self.poutput(msg)

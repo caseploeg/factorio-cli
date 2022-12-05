@@ -55,3 +55,7 @@ def suggest():
 def production():
   r = requests.get(f'{path}production')
   return r.text
+
+def limit(item, amount):
+  r = requests.post(f'{path}limit?item={item}&amount={amount}')
+  return r.text

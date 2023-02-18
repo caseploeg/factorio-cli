@@ -4,4 +4,4 @@ alias create prodl lprod
 # idea: use grep + text processing to get production information on raw materials, try to sort output and highlight deficiencies 
 alias create raw prod "|" grep -E "(ore|plate)"
 alias create init @ scripts/factory.txt
-alias create export history ">" export.txt
+alias create export history -s ">" export.txt

@@ -418,7 +418,7 @@ class Sim():
         combined.update(self.miners)
         combined.update(self.assemblers)
         combined.update(self.furnaces)
-        return '\n'.join([f'{k} : {v}' for k, v in combined])
+        return '\n'.join([f'{k} : {v}' for k,v in combined.items()])
 
     def production(self):
         production = self.next(60, True)

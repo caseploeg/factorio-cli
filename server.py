@@ -38,6 +38,18 @@ def spawn():
 def inventory():
   return sim.current_items
 
+
+@app.route("/state")
+def state():
+  return sim.serialize_state(), 200
+
+@app.route("/update", methods=["POST"])
+def update():
+  json_s = request.get_json() 
+  sim.deserialize_state(json_s)
+  return '', 200
+
+
 @app.route("/research", methods=["POST"])
 def research():
   technology = request.args.get('technology')

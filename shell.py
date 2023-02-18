@@ -232,3 +232,18 @@ class FactorioShell(cmd2.Cmd):
         """Set rate limit on production for certain items"""
         msg = client.limit(args.item, args.amount)
         self.poutput(msg)
+
+    loadsave_parser = cmd2.Cmd2ArgumentParser()
+    loadsave_parser.add_argument('file', help='path to save file')
+
+    @cmd2.with_argparser(loadsave_parser)
+    def do_load(self, args):
+        with open(args.file) as save_file:
+            content = ''.join(save_file.readlines())
+            client.update(content)
+
+    @cmd2.with_argparser(loadsave_parser)
+    def do_save(self, args):
+        with open(args.file, 'w') as save_file:
+            cur_state = client.state()
+            save_file.write(cur_state)

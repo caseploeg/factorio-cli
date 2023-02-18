@@ -295,6 +295,51 @@ class Sim():
         self.furnaces = defaultdict(int)
         self.limited_items = dict() 
 
+    def update_state(self, game_time, current_tech, current_recipes, current_items, miners, assemblers, furnaces, limited_items):
+        self.game_time = game_time 
+        # possessions
+        self.current_tech = current_tech 
+        self.current_recipes = current_recipes 
+        self.current_items = current_items
+        # machines
+        self.miners = miners 
+        self.assemblers = assemblers 
+        self.furnaces = furnaces 
+        self.limited_items = limited_items 
+    
+
+    def get_state(self):
+        return {
+            'game_time': self.game_time,
+            'current_tech': list(self.current_tech), 
+            'current_recipes': list(self.current_recipes),
+            'current_items': self.current_items,
+            'miners': self.miners, 
+            'assemblers': self.assemblers, 
+            'furnaces': self.furnaces, 
+            'limited_items': self.limited_items
+        }
+
+
+    def serialize_state(self):
+        s = self.get_state()
+        return json.dumps(s)
+    
+    def deserialize_state(self, s_json):
+        s = json.loads(s_json)
+        print(s)
+        self.game_time = s['game_time']
+        self.current_tech = set(s['current_tech'])
+        self.current_recipes = set(s['current_recipes'])
+        self.current_items = defaultdict(int, s['current_items'])
+        self.miners = s['miners']
+        self.assemblers = s['assemblers']
+        self.furnaces = s['furnaces']
+        self.limited_items = s['limited_items']
+
+
+    
+
     # simulate production for a given number of seconds 
     # todo: fix simulation so assemblers and furnaces produce based on available
     # materials -- do *not* use `craft()`

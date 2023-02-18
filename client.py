@@ -1,4 +1,5 @@
 import requests
+import json
 
 path = "http://localhost:5000/"
 
@@ -58,4 +59,15 @@ def production():
 
 def limit(item, amount):
   r = requests.post(f'{path}limit?item={item}&amount={amount}')
+  return r.text
+
+def state():
+  r = requests.get(f'{path}state')
+  return r.text
+
+def update(state):
+  headers = {
+      "Content-Type": "application/json"
+  }
+  r = requests.post(f'{path}update', data=json.dumps(state), headers=headers)
   return r.text

@@ -15,15 +15,12 @@ priority to resources over others. Making potions before bmd, etc.
   - keep track of current progress
   - notif the player when research is ready
 
-- Implement save on quit :(
-
 - It would some times be useful to be running the same simulation connected to multiple consoles, running multiple commands at the same time. Could implement some basic client-server architecture, maybe an interface
 
 - Reimplement ratelimiting production on specific items
 
 - add useful error messaging for failed crafting! I want to know what items I'm missing
 
-- auto-complete to assembling-machine-1 if I don't have the others unlocked yet (use unlocked recipes for auto-complete)
 - research command should autocomplete with the results of 'suggest' command
   - 'suggest' command should highlight technologies that I have enough potions for already
 

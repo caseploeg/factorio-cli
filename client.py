@@ -37,6 +37,10 @@ def craft(item, amount):
   r = requests.post(f'{path}craft?item={item}&amount={amount}')
   return r.text
 
+def craftable(item, amount):
+  r = requests.post(f'{path}craftable?item={item}&amount={amount}')
+  return r.text
+
 def mine(resource, amount):
   r = requests.post(f'{path}mine?resource={resource}&amount={amount}')
   return r.text

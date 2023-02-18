@@ -88,6 +88,16 @@ def craft():
   else:
     return msg, 400
 
+@app.route("/craftable", methods=["POST"])
+def craftable():
+  item = request.args.get('item')
+  amount = int(request.args.get('amount'))
+  res, missing, available, not_enough_item = sim.craftable(item, amount)
+  if res == 0:
+    return 'pog', 200
+  else:
+    return 'not pog', 400
+
 @app.route("/mine", methods=["POST"])
 def mine():
   resource = request.args.get('resource')

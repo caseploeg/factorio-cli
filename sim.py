@@ -175,7 +175,7 @@ class Sim():
         # check if item recipe is unlocked
         res, msg = self.is_recipe_unlocked(item)
         if res != 0:
-            return 1, None, None 
+            return 1, None, None, '' 
         sh = shopping_list(self.data.recipes, {
             item: {
                 'name': item,

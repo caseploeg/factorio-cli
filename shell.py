@@ -208,13 +208,12 @@ class FactorioShell(cmd2.Cmd):
 
     def craft_item_choices(self, arg_tokens):
         # only suggest items that the player has the resources to actually craft
-        return []
-        #TODO: fix this
-        # return filter(lambda x: self.sim.craftable(x, 1)[0] == 0, self.sim.current_recipes)
+        # TODO: cache / send less requests
+        return filter(lambda x: client.craftable(x, 1) == 'pog', client.cookbook().split())
 
 
     craft_parser = cmd2.Cmd2ArgumentParser()
-    craft_parser.add_argument('item', choices_provider=wish_item_choices, help='item type')
+    craft_parser.add_argument('item', choices_provider=craft_item_choices, help='item type')
     craft_parser.add_argument('amount', nargs='?', default=1, type=int, help='amount of the given item, defaults to 1')
 
     @cmd2.with_argparser(craft_parser)

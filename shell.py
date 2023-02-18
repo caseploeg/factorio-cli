@@ -178,7 +178,7 @@ class FactorioShell(cmd2.Cmd):
         print(json.dumps(current_items, indent=4))
 
     next_parser = cmd2.Cmd2ArgumentParser()
-    next_parser.add_argument('minutes', type=int, help='the number of minutes to run the simulation for')
+    next_parser.add_argument('minutes', type=int, default=1, nargs='?', help='the number of minutes to run the simulation for')
 
     @cmd2.with_argparser(next_parser)
     def do_next(self, args):

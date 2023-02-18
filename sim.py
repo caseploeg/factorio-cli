@@ -49,7 +49,7 @@ class Sim():
     #   or something useful like that
     def has_items(self, sh, ci):
         # ci is a copy of current_items
-        # we have to make a copy of current_items to check if we have the items to
+        # we make a copy of current_items to check if we have the items to
         # craft a shopping list because we need to deduct items along the way, but
         # if crafting fails, we should revert to the original state of current_items
         available = Counter()
@@ -58,6 +58,9 @@ class Sim():
         # res = 1 -> missing items go deeper
         # res = 2 -> out of raw material, can't go deeper
         res = 0 
+
+        not_enough_item = ''
+
         for item, v in sh.items():
             amount = v['amount']
             if ci[item] >= amount:
@@ -67,6 +70,7 @@ class Sim():
                 # this condition is met if the item needed has not been researched
                 # or is a raw material, (can not be crafted)
                 res = 2
+                not_enough_item = item
                 break
             else:
                 res = 1 
@@ -76,14 +80,14 @@ class Sim():
         msh = convert_to_sh(missing)
         missing_sh = shopping_list(self.data.recipes, msh, 0)
         if res == 0:
-            return res, missing, available 
+            return res, missing, available, not_enough_item 
         if res == 1:
-            res, rest_missing, rest_av = self.has_items(missing_sh, ci)
-            return res, missing + rest_missing, available + rest_av
+            res, rest_missing, rest_av, not_enough_item = self.has_items(missing_sh, ci)
+            return res, missing + rest_missing, available + rest_av, not_enough_item
         elif res == 2:
             # todo: currently no meaningful information to pass down if
             # items are not craftable
-            return res, missing, available 
+            return res, missing, available, not_enough_item
 
     # iff players have more than or equal to `amount` of given `item` in their
     # inventory
@@ -201,7 +205,7 @@ class Sim():
                 self.place_in_inventory(name, (ratio * (1 + (amount // ratio))) - amount)
 
     def craft(self, item, amount):
-        res, missing, available = self.craftable(item, amount)
+        res, missing, available, not_enough_item = self.craftable(item, amount)
         if res == 0:
             missing[item] = amount
             av_sh = convert_to_sh(available)
@@ -214,9 +218,9 @@ class Sim():
                 self.next(time_spent)
             return 0, None
         elif res == 2:
-            return 1, f'crafting {amount} {item} failed'
+            return 1, f'crafting {amount} {item} failed, not enough {not_enough_item}'
         else:
-            return 1, f'something went wrong, {item} does not exist?'
+            return 1, f'something went wrong, {item} not a valid recipe?'
 
     def set_limit(self, item, amount):
         self.limited_items[item] = amount
@@ -281,7 +285,6 @@ class Sim():
             enabled.add(key)
         return enabled
           
-
     def clear(self):
         # time-related
         self.game_time = 0
@@ -306,7 +309,6 @@ class Sim():
         self.assemblers = assemblers 
         self.furnaces = furnaces 
         self.limited_items = limited_items 
-    
 
     def get_state(self):
         return {
@@ -335,9 +337,6 @@ class Sim():
         self.assemblers = s['assemblers']
         self.furnaces = s['furnaces']
         self.limited_items = s['limited_items']
-
-
-    
 
     # simulate production for a given number of seconds 
     # todo: fix simulation so assemblers and furnaces produce based on available

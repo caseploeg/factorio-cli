@@ -152,7 +152,7 @@ class Sim():
             storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
             for mt, key in machine_types:
                 if machine in mt:
-                    storage[key][(item, machine)] += amount
+                    storage[key][f'{item}:{machine}'] += amount
 
         res, msg = self.deduct_item(machine, amount)
         if res != 0:
@@ -327,7 +327,6 @@ class Sim():
     
     def deserialize_state(self, s_json):
         s = json.loads(s_json)
-        print(s)
         self.game_time = s['game_time']
         self.current_tech = set(s['current_tech'])
         self.current_recipes = set(s['current_recipes'])
@@ -398,7 +397,8 @@ class Sim():
 
             # core algo: for each machine: potential -> actual -> craft
             for machine_group, key in machine_groups: 
-                for (item, machine), amount in machine_group.items():
+                for machine_item_key, amount in machine_group.items():
+                    item, machine = machine_item_key.split(':')
                     potential = calc_potential[key](machine, item, amount, seconds)  
                     actual = calc_actual[key](item, potential) 
                     prod_rates[item]['potential'] += potential 

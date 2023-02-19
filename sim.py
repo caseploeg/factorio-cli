@@ -66,7 +66,7 @@ class Sim():
             if ci[item] >= amount:
                 available[item] = amount
                 ci[item] -= amount
-            elif item not in self.current_recipes:
+            elif (item not in self.current_recipes) or (not self.is_crafting_recipe(item)):
                 # this condition is met if the item needed has not been researched
                 # or is a raw material, (can not be crafted)
                 res = 2
@@ -170,12 +170,19 @@ class Sim():
         store(machine, item, amount)
         return 0, None
 
+
+    def is_crafting_recipe(self, item):
+        return self.data.recipes[item]['category'] == 'crafting'
+
     def craftable(self, item, amount):
         """return type: res, missing, available"""
         # check if item recipe is unlocked
         res, msg = self.is_recipe_unlocked(item)
         if res != 0:
-            return 1, None, None, '' 
+            return 1, None, None, f'{item} recipe is locked' 
+        # check if crafting recipe
+        if not self.is_crafting_recipe(item):
+            return 1, None, None, f'{item} does not have a crafting recipe'
         sh = shopping_list(self.data.recipes, {
             item: {
                 'name': item,
@@ -193,6 +200,7 @@ class Sim():
         time = 0
         for name, amount in craft_list.items():
             time += self.craft_time(name, amount) 
+            print(time, name, amount)
         return time
     
     def craft_time(self, name, amount):
@@ -205,22 +213,23 @@ class Sim():
                 self.place_in_inventory(name, (ratio * (1 + (amount // ratio))) - amount)
 
     def craft(self, item, amount):
-        res, missing, available, not_enough_item = self.craftable(item, amount)
+        res, missing, available, msg = self.craftable(item, amount)
         if res == 0:
             missing[item] = amount
             av_sh = convert_to_sh(available)
             self.deduct_list(av_sh)
             self.place_in_inventory(item, amount)
             time_spent = self.craft_time_list(missing)
+            print(time_spent)
             # put excess production into player inventory based on bulk orders 
             self.grant_excess_production(missing)
             if time_spent > 0:
                 self.next(time_spent)
             return 0, None
         elif res == 2:
-            return 1, f'crafting {amount} {item} failed, not enough {not_enough_item}'
+            return 1, f'crafting {amount} {item} failed, {msg}'
         else:
-            return 1, f'something went wrong, {item} not a valid recipe?'
+            return 1, f'something went wrong, {msg}'
 
     def set_limit(self, item, amount):
         self.limited_items[item] = amount

@@ -27,5 +27,3 @@ priority to resources over others. Making potions before bmd, etc.
 - bug: if the limit on an item is less than the current inventory count, production with show a negative expected value
 
 - request: techbook command, output current technologies researched
-
-- bug: craftable reports "not enough iron-ore" to craft a bmd with starting inventory?

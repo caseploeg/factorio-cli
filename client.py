@@ -25,6 +25,10 @@ def research(technology):
   r = requests.post(f'{path}research?technology={technology}')
   return r.text
 
+def researchable(technology):
+  r = requests.post(f'{path}researchable?technology={technology}')
+  return r.text
+
 def place(machine, item, amount):
   r = requests.post(f'{path}place?machine={machine}&item={item}&amount={amount}')
   return r.text

@@ -21,9 +21,6 @@ priority to resources over others. Making potions before bmd, etc.
 
 - add useful error messaging for failed crafting! I want to know what items I'm missing
 
-- research command should autocomplete with the results of 'suggest' command
-  - 'suggest' command should highlight technologies that I have enough potions for already
-
-- bug: if the limit on an item is less than the current inventory count, production with show a negative expected value
+- bug: if the limit on an item is less than the current inventory count, production will show a negative expected value
 
 - request: techbook command, output current technologies researched

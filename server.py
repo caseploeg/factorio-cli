@@ -58,6 +58,16 @@ def research():
   if res == 0:
     return ('pog', 200)
   else:
+    return ('not pog', 200)
+
+@app.route("/researchable", methods=["POST"])
+def researchable():
+  technology = request.args.get('technology')
+  res, msg = sim.researchable(technology)
+  # TODO: do better result handling than this
+  if res == 0:
+    return ('pog', 200)
+  else:
     return (msg, 400)
 
 @app.route("/place", methods=["POST"])

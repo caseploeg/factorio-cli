@@ -1,4 +1,5 @@
 import cmd2
+import cmd2.ansi
 from cmd2.table_creator import (
     Column, 
     SimpleTable
@@ -13,6 +14,7 @@ from shortcuts import convert_aliases
 import client
 import utils
 
+
 class FactorioShell(cmd2.Cmd):
     intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
     prompt = "(0:00:00) "
@@ -25,6 +27,8 @@ class FactorioShell(cmd2.Cmd):
         self.register_postparsing_hook(self.arg_alias_hook)
         # handle args 
         self.data = SimpleNamespace(**data_dict) 
+        print(dir(cmd2.ansi))
+        self.allow_ansi = cmd2.ansi.allow_style 
 
     def update_prompt(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
         """Update shell prompt with the amount of time elapsed in the simulation"""
@@ -58,8 +62,16 @@ class FactorioShell(cmd2.Cmd):
         client.spawn(args.item, args.amount)
 
     def research_tech_choices(self):
-        #TODO: fix this 
-        return [] 
+        options = client.suggest().split()
+        items = []
+        for i in range(len(options)):
+            researchable = client.researchable(options[i])
+            if researchable == 'pog':
+                description = cmd2.ansi.style("researchable",fg=cmd2.ansi.Fg.LIGHT_GREEN)
+            else:
+                description = cmd2.ansi.style("researchable",fg=cmd2.ansi.Fg.LIGHT_RED)
+            items.append(cmd2.CompletionItem(options[i], description))
+        return items 
 
     research_parser = cmd2.Cmd2ArgumentParser()
     research_parser.add_argument('tech', choices_provider=research_tech_choices, help='name of technology to research')

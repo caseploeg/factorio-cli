@@ -172,7 +172,7 @@ class FactorioShell(cmd2.Cmd):
         """Choices provider for place cmd"""
         # todo: make this work with machine aliases as well
         machine = arg_tokens['machine'][0]
-        return place_item_helper(machine)
+        return self.place_item_helper(machine)
 
 
     place_parser = cmd2.Cmd2ArgumentParser()

@@ -1,5 +1,6 @@
 import client
 import random
+import time
 
 
 
@@ -13,7 +14,7 @@ if __name__ == "__main__":
     shell = FactorioShell(data_dict)
 
 
-    for i in range(10):
+    while True: 
         client.mine('stone', 5)
         client.mine('iron-ore', 5)
         client.mine('copper-ore', 5)
@@ -37,4 +38,5 @@ if __name__ == "__main__":
         client.place('stone-furnace', 'iron-plate', 1)
         client.place('burner-mining-drill', 'iron-ore', 1)
         """
+        time.sleep(5)
        

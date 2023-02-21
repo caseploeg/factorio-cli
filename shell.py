@@ -27,7 +27,6 @@ class FactorioShell(cmd2.Cmd):
         self.register_postparsing_hook(self.arg_alias_hook)
         # handle args 
         self.data = SimpleNamespace(**data_dict) 
-        print(dir(cmd2.ansi))
         self.allow_ansi = cmd2.ansi.allow_style 
 
     def update_prompt(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
@@ -158,17 +157,23 @@ class FactorioShell(cmd2.Cmd):
     def place_machine_choices(self, arg_tokens):
         # todo: change this to only display machines currently in inventory
         return list(self.data.mining_drills.keys()) + list(self.data.furnaces.keys()) + list(self.data.assemblers.keys())
-     
-    def place_item_choices(self, arg_tokens):
-        """Choices provider for place cmd"""
-        # todo: make this work with machine aliases as well
-        machine = arg_tokens['machine'][0]
+
+    def place_item_helper(self, machine):
         if machine in self.data.mining_drills:
             return {'stone', 'coal', 'iron-ore', 'copper-ore'}       
         elif machine in self.data.furnaces:
             return {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}
         elif machine in self.data.assemblers:
             return self.data.recipes
+        else:
+            return {}
+
+    def place_item_choices(self, arg_tokens):
+        """Choices provider for place cmd"""
+        # todo: make this work with machine aliases as well
+        machine = arg_tokens['machine'][0]
+        return place_item_helper(machine)
+
 
     place_parser = cmd2.Cmd2ArgumentParser()
     place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')

@@ -24,3 +24,5 @@ priority to resources over others. Making potions before bmd, etc.
 - bug: if the limit on an item is less than the current inventory count, production will show a negative expected value
 
 - request: techbook command, output current technologies researched
+
+- bug: it should not be possible to place a stone furnace that will smelt steel-plates without having steel-processing researched

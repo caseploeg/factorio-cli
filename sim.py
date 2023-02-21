@@ -342,9 +342,9 @@ class Sim():
         self.current_tech = set(s['current_tech'])
         self.current_recipes = set(s['current_recipes'])
         self.current_items = defaultdict(int, s['current_items'])
-        self.miners = s['miners']
-        self.assemblers = s['assemblers']
-        self.furnaces = s['furnaces']
+        self.miners = defaultdict(int, s['miners'])
+        self.assemblers = defaultdict(int, s['assemblers'])
+        self.furnaces = defaultdict(int, s['furnaces'])
         self.limited_items = s['limited_items']
 
     # simulate production for a given number of seconds 

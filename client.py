@@ -53,6 +53,10 @@ def cookbook():
   r = requests.get(f'{path}cookbook')
   return r.text
 
+def techbook():
+  r = requests.get(f'{path}techbook')
+  return r.text
+
 def machines():
   r = requests.get(f'{path}machines')
   return r.text

@@ -122,6 +122,10 @@ def mine():
 def cookbook():
   return '\n'.join(sim.current_recipes)
 
+@app.route("/techbook", methods=["GET"])
+def techbook():
+  return '\n'.join(sim.current_tech)
+
 @app.route("/machines", methods=["GET"])
 def machines():
   return sim.machines()

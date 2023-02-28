@@ -103,6 +103,10 @@ class FactorioShell(cmd2.Cmd):
         msg = client.suggest()
         self.poutput(msg)
 
+    def do_techbook(self, args):
+        msg = client.techbook()
+        self.poutput(msg)
+
     def do_cookbook(self, args):
         """ Return all recipes currently available to the player
         """

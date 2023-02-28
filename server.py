@@ -126,6 +126,10 @@ def cookbook():
 def techbook():
   return '\n'.join(sim.current_tech)
 
+@app.route("/limits", methods=["GET"])
+def limits():
+  return '\n'.join(sim.limited_items)
+
 @app.route("/machines", methods=["GET"])
 def machines():
   return sim.machines()

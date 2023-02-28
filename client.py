@@ -57,6 +57,10 @@ def techbook():
   r = requests.get(f'{path}techbook')
   return r.text
 
+def limits():
+  r = requests.get(f'{path}limits')
+  return r.text
+
 def machines():
   r = requests.get(f'{path}machines')
   return r.text

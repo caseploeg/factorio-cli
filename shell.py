@@ -107,6 +107,10 @@ class FactorioShell(cmd2.Cmd):
         msg = client.techbook()
         self.poutput(msg)
 
+    def do_limits(self, args):
+        msg = client.limits()
+        self.poutput(msg)
+
     def do_cookbook(self, args):
         """ Return all recipes currently available to the player
         """

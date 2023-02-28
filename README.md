@@ -1,32 +1,39 @@
 # factorio-cli
-simulated factory building, rocketeering, and wizardy
+automation, rockets, and wizardy
 
-Project Goals:
-
-build a powerful CLI to support a factory simulation.
-inspire optimization.
-experiment with time
-enable fast iteration of ideas
-learn stuff by writing cool software
-
-Needs:
-
-Testing
-
+## project goals:
+- simulate factory automation processes 
+- build a powerful CLI to interact with the system 
+- enable fast iteration of ideas
+- write cool software on top of the simulation, 
+    - bots
+    - visualization
+    - multiplayer 
 
 ## implementation
-- built with [cmd2](https://github.com/python-cmd2/cmd2), an extension of [cmd](https://docs.python.org/3/library/cmd.html) from the python standard library 
-
+- CLI built with [cmd2](https://github.com/python-cmd2/cmd2), an extension of [cmd](https://docs.python.org/3/library/cmd.html) from the python standard library 
 - data extraction done using [Data Exporter to JSON](https://mods.factorio.com/mod/recipelister) mod by Erythion.
+- Simulation runs on a Flask server
 
-## local setup 
+# simulation features
+- inventory system
+- mine resources
+- craft items
+- research technology
+- place machines that automate crafting and mining
+- track automated production statistics
+- limit production of specific items
 
+## fun
+- graph.py outputs production statistics overtime
+- fbot.py randomly crafts and places items
+
+## local setup (WIP)
+https://www.b-list.org/weblog/2022/may/13/boring-python-dependencies/
+```
 $ python3 -m venv venv
 $ source venv/bin/activate
 $ pip install flask requests cmd2
-
-flask --app server run
-python3 ./main.py
-
-
-https://www.b-list.org/weblog/2022/may/13/boring-python-dependencies/
+$ flask --app server run
+$ python3 ./main.py
+```

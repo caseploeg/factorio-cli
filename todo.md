@@ -38,6 +38,11 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 - Potion researching (labs) should be happening in the background like other machines,
   - keep track of current progress
   - notif the player when research is ready
+- chemistry recipes need to work
+- assembling-machine.json -> crafting category (oil-processing, chemistry)
+    - mining-drill.json -> resource category (fluids)
+
+- energy consumption
 
 ## Shell Commands
 
@@ -47,7 +52,6 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 
 - bug: if the limit on an item is less than the current inventory count, production will show a negative expected value
     - this allow breaks the production graph (super negative values break the scaling)
-
 
 - bug: it should not be possible to place a stone furnace that will smelt steel-plates without having steel-processing researched
 

@@ -2,9 +2,8 @@
 automation, rockets, and wizardy
 
 ## project goals:
-- simulate factory automation processes 
+- simulate factory automation 
 - build a powerful CLI to interact with the system 
-- enable fast iteration of ideas
 - write cool software on top of the simulation, 
     - bots
     - visualization
@@ -13,9 +12,9 @@ automation, rockets, and wizardy
 ## implementation
 - CLI built with [cmd2](https://github.com/python-cmd2/cmd2), an extension of [cmd](https://docs.python.org/3/library/cmd.html) from the python standard library 
 - data extraction done using [Data Exporter to JSON](https://mods.factorio.com/mod/recipelister) mod by Erythion.
-- Simulation runs on a Flask server
+- simulation runs on a Flask server
 
-# simulation features
+## simulation features
 - inventory system
 - mine resources
 - craft items
@@ -24,7 +23,7 @@ automation, rockets, and wizardy
 - track automated production statistics
 - limit production of specific items
 
-## fun
+## cool software 
 - graph.py outputs production statistics overtime
 - fbot.py randomly crafts and places items
 

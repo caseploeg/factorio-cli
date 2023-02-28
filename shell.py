@@ -216,7 +216,7 @@ class FactorioShell(cmd2.Cmd):
         data_str = client.production()
         #TODO: just send JSON from the server instead
         data = ast.literal_eval(data_str)
-        cols = [Column("Item", width=30), Column("Actual", width=10), Column("Potential", width=10)]
+        cols = [Column("Item", width=30), Column("Actual", width=10), Column("Potential", width=10), Column("Inventory", width=10), Column("Limit", width=10)]
         st = SimpleTable(cols)
         table = st.generate_table(data)
         self.poutput(table)

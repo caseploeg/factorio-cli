@@ -431,5 +431,5 @@ class Sim():
 
     def production(self):
         production = self.next(60, True)
-        data = [[k, v['actual'], v['potential']] for k, v in production.items()]
+        data = [[k, v['actual'], v['potential'], self.current_items[k], (self.limited_items[k] if k in self.limited_items else '')] for k, v in production.items()]
         return data

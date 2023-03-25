@@ -54,7 +54,7 @@ def shopping_list(recipes, items, level):
     all_items = items.copy()
     def helper(items):
         ing_lists = list(
-            map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / recipes[items[x[0]]['name']]['main_product']['amount'])} for k in x[1]], 
+            map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / recipes[items[x[0]]['name']]['products'][0]['amount'])} for k in x[1]], 
             map(lambda y: [y['name'], y['ingredients']],
             filter(lambda z: z['name'] in items.keys(),
             recipes.values()))))
@@ -98,8 +98,11 @@ def convert_to_sh(d):
         sh[k] = {'name': k, 'amount': v}
     return sh
 
-def is_mineable(resource):
-    if resource in {'stone', 'coal', 'iron-ore', 'copper-ore'}:
+def is_mineable(resource, item_category, miner_categories):
+    if not (item_category in miner_categories):
+        return 1, f'{resource} has category: {item_category} not supported by miner with categories: {miner_categories}'
+
+    if resource in {'stone', 'coal', 'iron-ore', 'copper-ore', 'crude-oil'}:
         return 0, None 
     else:
         return 1, f'{resource} cannot be mined'

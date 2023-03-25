@@ -5,6 +5,7 @@ def get_starter_inventory():
     inventory['stone-furnace'] = 1
     inventory['burner-mining-drill'] = 1
     inventory['iron-plate'] = 5
+    inventory['water'] = 1_000_000_000
     return inventory
 
 def get_starter_recipes():

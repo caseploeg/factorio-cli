@@ -140,11 +140,24 @@ class Sim():
         ci[item] += int(amount)
     
     def is_machine_compatible(self, machine, item):
-        machine_types = zip([self.data.mining_drills, self.data.assemblers, self.data.furnaces], [x for x in range(3)])
-        predicates = {0: is_mineable, 1: self.is_recipe_unlocked, 2: is_smeltable}
-        for mt, key in machine_types:
-            if machine in mt:
-                return predicates[key](item)
+        if machine in self.data.mining_drills:
+            item_category = self.data.resources[item]['resource_category']
+            machine_categories = self.data.mining_drills[machine]['resource_categories']
+            return is_mineable(item, item_category, machine_categories) 
+        elif machine in self.data.assemblers:
+            res, msg = self.is_recipe_unlocked(item)
+            if res == 0:
+                item_category = self.data.recipes[item]['category']
+                machine_categories = self.data.assemblers[machine]['crafting_categories']
+
+                if item_category in machine_categories:
+                    return 0, 'pog'
+                else:
+                    return 1, f'incompatible combination, item: {item} has crafting category {item_category} but machine {machine} has categories {machine_categories}'
+            else:
+                return res, msg
+        elif machine in self.data.furnaces:
+            return is_smeltable(item) 
 
     def place_machine(self, machine, item, amount=1):
         def store(machine, item, amount):
@@ -218,7 +231,7 @@ class Sim():
             missing[item] = amount
             av_sh = convert_to_sh(available)
             self.deduct_list(av_sh)
-            self.place_in_inventory(item, amount)
+            self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], amount)
             time_spent = self.craft_time_list(missing)
             print(time_spent)
             # put excess production into player inventory based on bulk orders 
@@ -235,14 +248,13 @@ class Sim():
         self.limited_items[item] = amount
 
     def mine(self, resource, amount):
-        res, msg = is_mineable(resource)
-        if res != 0:
-            return 1, f'failed to mine {amount} {resource}, {msg}'
-        else:
+        if resource in {'stone', 'coal', 'iron-ore', 'copper-ore', 'crude-oil'}:
             self.place_in_inventory(resource, amount)
             time_spent = self.data.resources[resource]['mineable_properties']['mining_time'] * amount
             self.next(time_spent)
             return 0, None
+        else:
+            return 1, f'{resource} cannot be mined'
 
     # research a given technology, raise exception if potions not available
     # or given technology can not be researched yet
@@ -367,7 +379,7 @@ class Sim():
             def assembler_potential(assembler, item, amount, seconds):
                 return (self.data.assemblers[assembler]['crafting_speed'] 
                       * amount 
-                      * self.data.recipes[item]['main_product']['amount'] 
+                      * self.data.recipes[item]['products'][0]['amount'] 
                       * (seconds // self.data.recipes[item]['energy']))
 
             def furnace_potential(furnace, item, amount, seconds):
@@ -380,7 +392,9 @@ class Sim():
                 wish = {item: {'name': item, 'amount': num_produced}}
                 if item not in self.data.resources:
                     self.deduct_list(shopping_list(self.data.recipes, wish, 0), ci)
-                self.place_in_inventory(item, num_produced, ci)
+                    self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], num_produced, ci)
+                else:
+                    self.place_in_inventory(item, num_produced, ci)
 
             def miner_actual(item, potential):
                 return potential 

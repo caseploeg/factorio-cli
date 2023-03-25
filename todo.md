@@ -33,7 +33,7 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 
 - Problem: When I'm running the simulation in interactive mode, I sometimes make inefficient calls to the commands, like calling `place bmd iron-ore 1` twice in a row instead of doing `place bmd iron-ore 2`. When I export my command history to a script file, these calls should be optimized
 
-## Simulation Feature Requests
+## Simulation Feature
 
 - Potion researching (labs) should be happening in the background like other machines,
   - keep track of current progress
@@ -62,4 +62,8 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 - what does a sophisticated factorio bot look like?
 - what does an optimized path look like?
 
+multi product recipes not supported, only the first product of the recipe is obtained, still possible to win the game.
+basic-oil-processing
+ - category: 'oil-processing'
 
+just give the player infinite water in their inventory

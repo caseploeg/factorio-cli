@@ -10,6 +10,7 @@ def load_files():
         'data/resource.json',
         'data/furnace.json',
         'data/assembling-machine.json',
+        'data/rocket-silo.json',
     ]
     # data will be accessed through key names
     keys = [
@@ -19,6 +20,7 @@ def load_files():
         'resources',
         'furnaces',
         'assemblers',
+        'rocket_silo',
     ]
     with ExitStack() as stack: 
         files = [

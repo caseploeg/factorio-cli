@@ -144,7 +144,7 @@ class Sim():
             item_category = self.data.resources[item]['resource_category']
             machine_categories = self.data.mining_drills[machine]['resource_categories']
             return is_mineable(item, item_category, machine_categories) 
-        elif machine in self.data.assemblers:
+        elif machine in self.data.assemblers: 
             res, msg = self.is_recipe_unlocked(item)
             if res == 0:
                 item_category = self.data.recipes[item]['category']
@@ -164,7 +164,7 @@ class Sim():
             machine_types = [
               (self.data.mining_drills, 0),
               (self.data.assemblers, 1),
-              (self.data.furnaces, 2)
+              (self.data.furnaces, 2),
             ]
             storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
             for mt, key in machine_types:

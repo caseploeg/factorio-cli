@@ -5,3 +5,7 @@ alias create prodl lprod
 alias create raw prod "|" grep -E "(ore|plate)"
 alias create init @ scripts/factory.txt
 alias create export history -s ">" export.txt
+mine iron-ore 10
+place burner-mining-drill iron-ore
+place stone-furnace iron-plate
+next

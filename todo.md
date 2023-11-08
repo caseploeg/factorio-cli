@@ -63,7 +63,4 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 - what does an optimized path look like?
 
 multi product recipes not supported, only the first product of the recipe is obtained, still possible to win the game.
-basic-oil-processing
- - category: 'oil-processing'
-
 just give the player infinite water in their inventory

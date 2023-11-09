@@ -1,3 +1,5 @@
+"""Factory functions for creating initial state for the simulation"""
+
 from collections import defaultdict
 
 def get_starter_inventory():

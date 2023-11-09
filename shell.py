@@ -19,7 +19,9 @@ class FactorioShell(cmd2.Cmd):
     intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
     prompt = "(0:00:00) "
 
+    # todo: this is sus, move or refactor out of here
     mineable = ['stone', 'coal', 'iron-ore', 'copper-ore']
+
     def __init__(self, data_dict):
         super().__init__(startup_script='scripts/startup.txt', silence_startup_script=True)
         # register hooks

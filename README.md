@@ -23,7 +23,7 @@ automation, rockets, and wizardy
 - track automated production statistics
 - limit production of specific items
 
-## cool software 
+## cool software ./robots 
 - graph.py outputs production statistics overtime
 - fbot.py randomly crafts and places items
 

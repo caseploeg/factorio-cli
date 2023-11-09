@@ -1,15 +1,17 @@
+"""Factorio simulation"""
+
+# stdlib imports
 import functools
 import json
 from collections import defaultdict, Counter
 from types import SimpleNamespace
 import math
 
+# project imports
 from errors import * 
-from constants import *
 from files import load_files
 from init import *
 from utils import *
-
 
 class Sim():
     def __init__(self, data_dict):
@@ -331,23 +333,26 @@ class Sim():
         self.furnaces = furnaces 
         self.limited_items = limited_items 
 
-    def get_state(self):
-        return {
-            'game_time': self.game_time,
-            'current_tech': list(self.current_tech), 
-            'current_recipes': list(self.current_recipes),
-            'current_items': self.current_items,
-            'miners': self.miners, 
-            'assemblers': self.assemblers, 
-            'furnaces': self.furnaces, 
-            'limited_items': self.limited_items
-        }
-
-
     def serialize_state(self):
-        s = self.get_state()
-        return json.dumps(s)
-    
+        # every field is sorted so that this function is deterministic. 
+        # the same actions performed in a simulation should produce the exact same
+        # save file every time! Important for running tests
+        def get_state():
+            return {
+                'game_time': self.game_time,
+                'current_tech': sorted(list(self.current_tech)),
+                'current_recipes': sorted(list(self.current_recipes)),
+                'current_items': dict(sorted(self.current_items.items())),
+                'miners': dict(sorted(self.miners.items())),
+                'assemblers': dict(sorted(self.assemblers.items())),
+                'furnaces': dict(sorted(self.furnaces.items())),
+                'limited_items': dict(sorted(self.limited_items))
+            }
+
+        # Sort the outer dictionary and ensure inner dictionaries are sorted as well
+        s = {k: v if isinstance(v, (int, str, list)) else dict(sorted(v.items())) for k, v in get_state().items()}
+        return json.dumps(s, sort_keys=True)
+
     def deserialize_state(self, s_json):
         s = json.loads(s_json)
         self.game_time = s['game_time']

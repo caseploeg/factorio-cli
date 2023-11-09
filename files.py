@@ -1,7 +1,6 @@
 from contextlib import ExitStack
 import json
 
-
 def load_files():
     filenames = [
         'data/recipe.json',

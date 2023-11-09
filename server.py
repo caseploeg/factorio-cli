@@ -1,3 +1,5 @@
+"""Flask server running a factorio simulation"""
+
 from flask import Flask
 from flask import request
 
@@ -10,22 +12,84 @@ app = Flask(__name__)
 data_dict = load_files()
 sim = Sim(data_dict)
 
+# ROOT
 @app.route("/")
 def root():
-  time = f"{sim.game_time}\n" 
-  endpoints = []
-  for rule in app.url_map.iter_rules():
-    endpoints.append(rule.endpoint)
-  return time + '<br>'.join(endpoints) 
+    base_url = request.url_root  # Get the base URL of the Flask application
+    endpoints = []
 
-@app.route("/time")
+    for rule in app.url_map.iter_rules():
+        # Check if 'GET' is in the list of methods allowed by the rule
+        if 'GET' in rule.methods and not rule.rule.startswith('/static'):
+            # Create an absolute URL for the endpoint
+            endpoint_url = f"{base_url.rstrip('/')}{rule.rule}"
+            # Append the HTML link to the endpoints list
+            endpoints.append(f'<a href="{endpoint_url}">{endpoint_url}</a>')
+
+    # Return the time followed by the HTML links separated by line breaks
+    return '<br>'.join(endpoints)
+
+# GET REQUESTS
+@app.route("/time", methods=["GET"])
 def time():
   return f"{sim.game_time}"
 
+@app.route("/cookbook", methods=["GET"])
+def cookbook():
+  return '\n'.join(sim.current_recipes)
+
+@app.route("/techbook", methods=["GET"])
+def techbook():
+  return '\n'.join(sim.current_tech)
+
+@app.route("/limits", methods=["GET"])
+def limits():
+  return '\n'.join(sim.limited_items)
+
+@app.route("/machines", methods=["GET"])
+def machines():
+  return sim.machines()
+
+@app.route("/suggest", methods=["GET"])
+def suggest():
+  return '\n'.join(sim.all_researchable())
+
+@app.route("/production", methods=["GET"])
+def production():
+  return sim.production()
+
+@app.route("/inventory")
+def inventory():
+  return sim.current_items
+
+@app.route("/craftable", methods=["GET"])
+def craftable():
+  item = request.args.get('item')
+  amount = int(request.args.get('amount'))
+  res, missing, available, not_enough_item = sim.craftable(item, amount)
+  if res == 0:
+    return 'pog', 200
+  else:
+    # should this be a 200 ? the result is true/false there is no error
+    return 'not pog', 400
+
+# export save file
+@app.route("/state")
+def state():
+  return sim.serialize_state(), 200
+
+# POST REQUESTS
 @app.route("/clear", methods=["POST"])
 def clear():
   sim.clear()
   return ('', 204)
+
+# load save file
+@app.route("/update", methods=["POST"])
+def update():
+  json_s = request.get_json() 
+  sim.deserialize_state(json_s)
+  return '', 200
 
 @app.route("/spawn", methods=["POST"])
 def spawn():
@@ -33,22 +97,6 @@ def spawn():
   amount = request.args.get('amount')
   sim.place_in_inventory(item, int(amount))
   return ('', 200)
-
-@app.route("/inventory")
-def inventory():
-  return sim.current_items
-
-
-@app.route("/state")
-def state():
-  return sim.serialize_state(), 200
-
-@app.route("/update", methods=["POST"])
-def update():
-  json_s = request.get_json() 
-  sim.deserialize_state(json_s)
-  return '', 200
-
 
 @app.route("/research", methods=["POST"])
 def research():
@@ -98,15 +146,6 @@ def craft():
   else:
     return msg, 400
 
-@app.route("/craftable", methods=["POST"])
-def craftable():
-  item = request.args.get('item')
-  amount = int(request.args.get('amount'))
-  res, missing, available, not_enough_item = sim.craftable(item, amount)
-  if res == 0:
-    return 'pog', 200
-  else:
-    return 'not pog', 400
 
 @app.route("/mine", methods=["POST"])
 def mine():
@@ -117,30 +156,6 @@ def mine():
     return 'pog', 200
   else:
     return msg, 400
-
-@app.route("/cookbook", methods=["GET"])
-def cookbook():
-  return '\n'.join(sim.current_recipes)
-
-@app.route("/techbook", methods=["GET"])
-def techbook():
-  return '\n'.join(sim.current_tech)
-
-@app.route("/limits", methods=["GET"])
-def limits():
-  return '\n'.join(sim.limited_items)
-
-@app.route("/machines", methods=["GET"])
-def machines():
-  return sim.machines()
-
-@app.route("/suggest", methods=["GET"])
-def suggest():
-  return '\n'.join(sim.all_researchable())
-
-@app.route("/production", methods=["GET"])
-def production():
-  return sim.production()
 
 @app.route("/limit", methods=["POST"])
 def limit():

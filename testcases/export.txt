@@ -1,0 +1,44 @@
+run_script "/Users/caseploeg/factorio/factorio-cli/scripts/startup.txt" > /dev/null
+set debug true
+alias create lprod prod "|" less
+alias create prodl lprod
+alias create raw prod "|" grep -E "(ore|plate)"
+alias create init @ scripts/factory.txt
+alias create export history -s ">" export.txt
+mine iron-ore 20
+mine stone 50
+place stone-furnace iron-plate
+place burner-mining-drill iron-ore
+next 2
+craft burner-mining-drill 3
+craft stone-furnace 2
+place burner-mining-drill iron-ore 3
+place stone-furnace iron-plate 2
+next 2
+craft burner-mining-drill 2
+place burner-mining-drill copper-ore
+place burner-mining-drill stone
+next 2
+craft burner-mining-drill 2
+place burner-mining-drill copper-ore 2
+next 2
+craft automation-science-pack 10
+next 2
+inventory
+place stone-furnace iron-plate 2
+craft stone-furnace 3
+place stone-furnace iron-plate 2
+place stone-furnace copper-plate
+next 2
+craft automation-science-pack 10
+research automation
+next 2
+craft burner-mining-drill 2
+craft assembling-machine-1 3
+place assembling-machine-1 iron-gear-wheel
+place assembling-machine-1 automation-science-pack
+place assembling-machine-1 automation-science-pack
+inventory
+next 2
+inventory
+save ./expected/export.txt

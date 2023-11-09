@@ -1,3 +1,5 @@
+"""Runs a CLI that interacts with the factorio simulation"""
+
 from shell import *
 from files import load_files
 from sim import Sim

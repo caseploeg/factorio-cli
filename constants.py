@@ -1,2 +1,0 @@
-SUCCESS = 0
-FIVE_MINUTES = 60 * 5

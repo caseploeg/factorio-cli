@@ -1,31 +1,42 @@
+"""requests client library. glue between cli and server running the simulation"""
+
 import requests
 import json
 
 path = "http://localhost:5000/"
 
+# todo some obvious way to client source code to correponding server source code
+# why does source code not have hyperlinks to more code
+# put the endpoint as its formatted on the server here, so it's easy to cross reference
 def get_game_time():
+  # /time
   r = requests.get(f'{path}time') 
   r.raise_for_status()
   return float(r.text) 
 
 def clear():
+  # /clear
   r = requests.post(f'{path}clear')
   r.raise_for_status()
 
 def spawn(item, amount):
+  # /spawn
   r = requests.post(f'{path}spawn?item={item}&amount={amount}')
   r.raise_for_status()
 
 def get_inventory():
+  # /inventory
   r = requests.get(f'{path}inventory')
   r.raise_for_status()
   return r.json()
 
 def research(technology):
+  # /research
   r = requests.post(f'{path}research?technology={technology}')
   return r.text
 
 def researchable(technology):
+  # /researchable
   r = requests.post(f'{path}researchable?technology={technology}')
   return r.text
 
@@ -42,7 +53,7 @@ def craft(item, amount):
   return r.text
 
 def craftable(item, amount):
-  r = requests.post(f'{path}craftable?item={item}&amount={amount}')
+  r = requests.get(f'{path}craftable?item={item}&amount={amount}')
   return r.text
 
 def mine(resource, amount):

@@ -12,6 +12,20 @@ from errors import *
 from files import load_files
 from init import *
 from utils import *
+from craft import *
+
+# operations:
+# craft
+# next
+# place
+# mine
+# research
+
+# questions: 
+# production
+# state
+# valid operation?
+
 
 class Sim():
     def __init__(self, data_dict):
@@ -185,10 +199,6 @@ class Sim():
         store(machine, item, amount)
         return 0, None
 
-
-    def is_crafting_recipe(self, item):
-        return self.data.recipes[item]['category'] == 'crafting'
-
     def craftable(self, item, amount):
         """return type: res, missing, available"""
         # check if item recipe is unlocked
@@ -196,7 +206,7 @@ class Sim():
         if res != 0:
             return 1, None, None, f'{item} recipe is locked' 
         # check if crafting recipe
-        if not self.is_crafting_recipe(item):
+        if not is_crafting_recipe(self, item):
             return 1, None, None, f'{item} does not have a crafting recipe'
         sh = shopping_list(self.data.recipes, {
             item: {
@@ -227,6 +237,7 @@ class Sim():
             if amount % ratio != 0:
                 self.place_in_inventory(name, (ratio * (1 + (amount // ratio))) - amount)
 
+    #TODO: what does craft.py look like?
     def craft(self, item, amount):
         res, missing, available, msg = self.craftable(item, amount)
         if res == 0:
@@ -372,7 +383,6 @@ class Sim():
     # next(60) + next(60) != next(120)
     def next(self, seconds, check_rates=False):
         """Simulate the next given seconds of production
-
         If check_rates=True, do not advance game time and do not actually craft items, only calculate production rates 
         """
         def produce(ci):
@@ -437,6 +447,7 @@ class Sim():
         if check_rates:
             ci = self.current_items.copy()
         else:
+            # move time forwards and commit to item changes
             self.game_time += seconds
             ci = self.current_items
         return produce(ci)

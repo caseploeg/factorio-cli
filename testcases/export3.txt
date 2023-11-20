@@ -1,0 +1,79 @@
+run_script "/Users/caseploeg/factorio/factorio-cli/scripts/startup.txt" > /dev/null
+set debug true
+alias create lprod prod "|" less
+alias create prodl lprod
+alias create raw prod "|" grep -E "(ore|plate)"
+alias create init @ scripts/factory.txt
+alias create export history -s ">" export.txt
+clear
+mine stone 20
+mine iron-ore 20
+mine copper-ore 20
+place stone-furnace iron-plate
+place burner-mining-drill iron-ore
+craft stone-furnace 4
+inventory
+wish burner-mining-drill
+craft burner-mining-drill
+craft copper-ore 20
+mine copper-ore 20
+mine stone 20
+craft burner-mining-drill
+place burner-mining-drill copper-ore
+place stone-furnace copper-plate
+inventory
+craft burner-mining-drill
+inventory
+place burner-mining-drill iron-ore
+place stone-furnace iron-plate
+inventory
+mine stone 20
+inventory
+craft burner-mining-drill 2
+inventory
+craft burner-mining-drill
+place burner-mining-drill iron-ore
+place stone-furnace iron-plate
+craft stone-furnace 8
+craft stone-furnace 5
+place stone-furnace iron-plate 3
+inventory
+place stone-furnace copper-plate
+inventory
+craft burner-mining-drill
+mine stone 30
+craft burner-mining-drill
+place burner-mining-drill stone
+inventory
+craft burner-mining-drill 4
+place burner-mining-drill iron-ore 4
+inventory
+craft stone-furnace
+inventory
+craft stone-furnace 3
+inventory
+wish automation-science-pack
+inventory
+craft automation-science-pack
+inventory
+craft automation-science-pack 10
+wish automation
+craft automation-science-pack 4
+inventory
+craft automation-science-pack 6
+research automation
+craft assembling-machine-1
+place assembling-machine-1 iron-gear-wheel
+prod
+inventory
+craft burner-mining-drill 4
+place burner-mining-drill copper-ore 4
+inventory
+craft asm1
+craft assembling-machine-1
+inventory
+place assembling-machine-1 copper-cable
+inventory
+prodl
+next
+inventory

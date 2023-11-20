@@ -41,4 +41,3 @@ place assembling-machine-1 automation-science-pack
 inventory
 next 2
 inventory
-save ./expected/export.txt

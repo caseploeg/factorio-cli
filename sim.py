@@ -344,7 +344,7 @@ class Sim():
             }
 
         # Sort the outer dictionary and ensure inner dictionaries are sorted as well
-        s = {k: v if isinstance(v, (int, str, list)) else dict(sorted(v.items())) for k, v in get_state().items()}
+        s = {k: v if isinstance(v, (int, str, list, float)) else dict(sorted(v.items())) for k, v in get_state().items()}
         return json.dumps(s, sort_keys=True)
 
     def deserialize_state(self, s_json):

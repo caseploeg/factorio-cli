@@ -82,7 +82,7 @@ class Sim():
             if ci[item] >= amount:
                 available[item] = amount
                 ci[item] -= amount
-            elif (item not in self.current_recipes) or (not self.is_crafting_recipe(item)):
+            elif (item not in self.current_recipes) or (not is_crafting_recipe(self, item)):
                 # this condition is met if the item needed has not been researched
                 # or is a raw material, (can not be crafted)
                 res = 2
@@ -199,24 +199,7 @@ class Sim():
         store(machine, item, amount)
         return 0, None
 
-    def craftable(self, item, amount):
-        """return type: res, missing, available"""
-        # check if item recipe is unlocked
-        res, msg = self.is_recipe_unlocked(item)
-        if res != 0:
-            return 1, None, None, f'{item} recipe is locked' 
-        # check if crafting recipe
-        if not is_crafting_recipe(self, item):
-            return 1, None, None, f'{item} does not have a crafting recipe'
-        sh = shopping_list(self.data.recipes, {
-            item: {
-                'name': item,
-                'amount': amount
-            }
-        }, 0) 
-        # check if the player has the items available to craft
-        return self.has_items(sh, self.current_items.copy())
-
+ 
     # todo: add option for partial crafting, so if a player wants to craft 5 miners
     # but only has materials to make 3, the system will craft 3 miners and give a
     # warning that 2 could not be crafted because of resource constraints
@@ -239,7 +222,7 @@ class Sim():
 
     #TODO: what does craft.py look like?
     def craft(self, item, amount):
-        res, missing, available, msg = self.craftable(item, amount)
+        res, missing, available, msg = craftable(self, item, amount)
         if res == 0:
             missing[item] = amount
             av_sh = convert_to_sh(available)

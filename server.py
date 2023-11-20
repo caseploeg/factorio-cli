@@ -6,6 +6,7 @@ from flask import request
 from files import load_files
 from sim import Sim
 from shell import *
+from craft import *
 
 app = Flask(__name__)
 
@@ -63,10 +64,10 @@ def inventory():
   return sim.current_items
 
 @app.route("/craftable", methods=["GET"])
-def craftable():
+def SERVERcraftable():
   item = request.args.get('item')
   amount = int(request.args.get('amount'))
-  res, missing, available, not_enough_item = sim.craftable(item, amount)
+  res, missing, available, not_enough_item = craftable(sim, item, amount)
   if res == 0:
     return 'pog', 200
   else:

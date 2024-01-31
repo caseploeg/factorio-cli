@@ -117,13 +117,54 @@ class Sim():
             ci = self.current_items
         return produce(ci)
 
+    def place_machine(self, machine, item, amount=1):
+        def store(machine, item, amount):
+            machine_types = [
+              (self.data.mining_drills, 0),
+              (self.data.assemblers, 1),
+              (self.data.furnaces, 2),
+            ]
+            storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
+            for mt, key in machine_types:
+                if machine in mt:
+                    storage[key][f'{item}:{machine}'] += amount
+        res, msg = self.deduct_item(machine, amount)
+        if res != 0:
+            return res, f'failed to place {amount} of {machine}, {msg}'
+        res, msg = self.is_machine_compatible(machine, item)
+        if res != 0:
+            self.place_in_inventory(machine, amount)
+            return res, f'failed to place {machine} producing {item}, {msg}'
+        store(machine, item, amount)
+        return 0, None
 
+    def mine(self, resource, amount):
+        if resource in {'stone', 'coal', 'iron-ore', 'copper-ore', 'crude-oil'}:
+            self.place_in_inventory(resource, amount)
+            time_spent = self.data.resources[resource]['mineable_properties']['mining_time'] * amount
+            self.next(time_spent)
+            return 0, None
+        else:
+            return 1, f'{resource} cannot be mined'
 
+    # research a given technology, raise exception if potions not available
+    # or given technology can not be researched yet
+    def research(self, tech):
+        res, msg = self.researchable(tech)
+        if res == 0:
+            pl = get_potion_list(self.data.technology, tech)
+            self.deduct_list(pl)
+            self.current_tech.add(tech)
+            # unlock recipes
+            for effect in self.data.technology[tech]['effects']:
+                if effect['type'] == 'unlock-recipe':
+                    self.current_recipes.add(effect['recipe'])
+            return 0, None
+        else:
+            return res, msg
 
-
-# iff players have more than or equal to `amount` of given `item` in their
+    # return True iff players have more than or equal to `amount` of given `item` in their
     # inventory
-    #   return True
     def check_item(self, item, amount, ci=None, ret_missing=False):
         if ci == None:
             ci = self.current_items
@@ -190,29 +231,6 @@ class Sim():
         elif machine in self.data.furnaces:
             return is_smeltable(item) 
 
-    def place_machine(self, machine, item, amount=1):
-        def store(machine, item, amount):
-            machine_types = [
-              (self.data.mining_drills, 0),
-              (self.data.assemblers, 1),
-              (self.data.furnaces, 2),
-            ]
-            storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
-            for mt, key in machine_types:
-                if machine in mt:
-                    storage[key][f'{item}:{machine}'] += amount
-
-        res, msg = self.deduct_item(machine, amount)
-        if res != 0:
-            return res, f'failed to place {amount} of {machine}, {msg}'
-            
-        res, msg = self.is_machine_compatible(machine, item)
-        if res != 0:
-            self.place_in_inventory(machine, amount)
-            return res, f'failed to place {machine} producing {item}, {msg}'
-
-        store(machine, item, amount)
-        return 0, None
 
  
     # todo: add option for partial crafting, so if a player wants to craft 5 miners
@@ -234,35 +252,8 @@ class Sim():
             if amount % ratio != 0:
                 self.place_in_inventory(name, (ratio * (1 + (amount // ratio))) - amount)
 
-    
-
     def set_limit(self, item, amount):
         self.limited_items[item] = amount
-
-    def mine(self, resource, amount):
-        if resource in {'stone', 'coal', 'iron-ore', 'copper-ore', 'crude-oil'}:
-            self.place_in_inventory(resource, amount)
-            time_spent = self.data.resources[resource]['mineable_properties']['mining_time'] * amount
-            self.next(time_spent)
-            return 0, None
-        else:
-            return 1, f'{resource} cannot be mined'
-
-    # research a given technology, raise exception if potions not available
-    # or given technology can not be researched yet
-    def research(self, tech):
-        res, msg = self.researchable(tech)
-        if res == 0:
-            pl = get_potion_list(self.data.technology, tech)
-            self.deduct_list(pl)
-            self.current_tech.add(tech)
-            # unlock recipes
-            for effect in self.data.technology[tech]['effects']:
-                if effect['type'] == 'unlock-recipe':
-                    self.current_recipes.add(effect['recipe'])
-            return 0, None
-        else:
-            return res, msg
 
     def preqs_researched(self, tech):
         preq = self.data.technology[tech]['prerequisites']    
@@ -299,13 +290,10 @@ class Sim():
         return enabled
           
     def clear(self):
-        # time-related
         self.game_time = 0
-        # possessions
         self.current_tech = get_starter_tech() 
         self.current_recipes = self.get_starter_recipes() 
         self.current_items = get_starter_inventory() 
-        # machines
         self.miners = defaultdict(int)
         self.assemblers = defaultdict(int)
         self.furnaces = defaultdict(int)
@@ -313,11 +301,9 @@ class Sim():
 
     def update_state(self, game_time, current_tech, current_recipes, current_items, miners, assemblers, furnaces, limited_items):
         self.game_time = game_time 
-        # possessions
         self.current_tech = current_tech 
         self.current_recipes = current_recipes 
         self.current_items = current_items
-        # machines
         self.miners = miners 
         self.assemblers = assemblers 
         self.furnaces = furnaces 
@@ -352,7 +338,6 @@ class Sim():
         self.assemblers = defaultdict(int, s['assemblers'])
         self.furnaces = defaultdict(int, s['furnaces'])
         self.limited_items = s['limited_items']
-
 
     def machines(self):
         combined = defaultdict()

@@ -1,6 +1,7 @@
 """Code related to crafting items"""
 
-from utils import shopping_list
+from collections import defaultdict, Counter
+from utils import * 
 
 # data dependent, not state dependent
 def is_crafting_recipe(sim, item):
@@ -25,7 +26,7 @@ def craftable(sim, item, amount):
         }
     }, 0) 
     # check if the player has the items available to craft
-    return has_items(sh, sim.current_items.copy())
+    return has_items(sim, sh, sim.current_items.copy())
 
 # basically craftable()
 # given a shopping list(sh) and a copy of current_items(ci)
@@ -40,7 +41,7 @@ def craftable(sim, item, amount):
 # todo: if not craftable, 
 #   return which raw material the player is missing
 #   or something useful like that
-def has_items(self, sh, ci):
+def has_items(sim, sh, ci):
     # ci is a copy of current_items
     # we make a copy of current_items to check if we have the items to
     # craft a shopping list because we need to deduct items along the way, but
@@ -57,7 +58,7 @@ def has_items(self, sh, ci):
         if ci[item] >= amount:
             available[item] = amount
             ci[item] -= amount
-        elif (item not in self.current_recipes) or (not is_crafting_recipe(self, item)):
+        elif (item not in sim.current_recipes) or (not is_crafting_recipe(sim, item)):
             # this condition is met if the item needed has not been researched
             # or is a raw material, (can not be crafted)
             res = 2
@@ -69,11 +70,11 @@ def has_items(self, sh, ci):
             missing[item] = amount - ci[item]
             ci[item] = 0
     msh = convert_to_sh(missing)
-    missing_sh = shopping_list(self.data.recipes, msh, 0)
+    missing_sh = shopping_list(sim.data.recipes, msh, 0)
     if res == 0:
         return res, missing, available, not_enough_item 
     if res == 1:
-        res, rest_missing, rest_av, not_enough_item = has_items(missing_sh, ci)
+        res, rest_missing, rest_av, not_enough_item = has_items(sim, missing_sh, ci)
         return res, missing + rest_missing, available + rest_av, not_enough_item
     elif res == 2:
         # todo: currently no meaningful information to pass down if

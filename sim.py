@@ -213,7 +213,7 @@ class Sim():
     def craft_time_list(self, craft_list):
         time = 0
         for name, amount in craft_list.items():
-            time += self.craft_time(name, amount) 
+            time += craft_time(self.data, name, amount) 
             print(time, name, amount)
         return time
 

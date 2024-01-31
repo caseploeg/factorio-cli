@@ -13,6 +13,7 @@ from files import load_files
 from init import *
 from utils import *
 from craft import *
+from data import *
 
 # operations:
 # craft
@@ -50,16 +51,10 @@ class Sim():
         else:
             return 1, f'something went wrong, {msg}'
 
-    # simulate production for a given number of seconds 
-    # todo: fix simulation so assemblers and furnaces produce based on available
-    # materials -- do *not* use `craft()`
-    # NOTE: two consecutive calls to next() do not have the same effect as one long next()
-    # because production depends on the current state of inventory before next() was called
-    # next(60) + next(60) != next(120)
     def next(self, seconds, check_rates=False):
-        """Simulate the next given seconds of production
-        If check_rates=True, do not advance game time and do not actually craft items, only calculate production rates 
-        """
+        # simulate factory production, moving forwards in time
+        # depends on current state of inventory before next() was called.
+        # next(60) + next(60) != next(120), because state changes after each call 
         def produce(ci):
             def miner_potential(miner, item, amount, seconds):
                 return (self.data.mining_drills[miner]['mining_speed']
@@ -147,9 +142,9 @@ class Sim():
         else:
             return 1, f'{resource} cannot be mined'
 
-    # research a given technology, raise exception if potions not available
-    # or given technology can not be researched yet
     def research(self, tech):
+        # research a given technology, raise exception if potions not available
+        # or given technology can not be researched yet
         res, msg = self.researchable(tech)
         if res == 0:
             pl = get_potion_list(self.data.technology, tech)
@@ -211,28 +206,7 @@ class Sim():
             ci = self.current_items
         # enfore integral system - avoid very real issues
         ci[item] += int(amount)
-    
-    def is_machine_compatible(self, machine, item):
-        if machine in self.data.mining_drills:
-            item_category = self.data.resources[item]['resource_category']
-            machine_categories = self.data.mining_drills[machine]['resource_categories']
-            return is_mineable(item, item_category, machine_categories) 
-        elif machine in self.data.assemblers: 
-            res, msg = self.is_recipe_unlocked(item)
-            if res == 0:
-                item_category = self.data.recipes[item]['category']
-                machine_categories = self.data.assemblers[machine]['crafting_categories']
-                if item_category in machine_categories:
-                    return 0, 'pog'
-                else:
-                    return 1, f'incompatible combination, item: {item} has crafting category {item_category} but machine {machine} has categories {machine_categories}'
-            else:
-                return res, msg
-        elif machine in self.data.furnaces:
-            return is_smeltable(item) 
 
-
- 
     # todo: add option for partial crafting, so if a player wants to craft 5 miners
     # but only has materials to make 3, the system will craft 3 miners and give a
     # warning that 2 could not be crafted because of resource constraints
@@ -242,10 +216,9 @@ class Sim():
             time += self.craft_time(name, amount) 
             print(time, name, amount)
         return time
-    
-    def craft_time(self, name, amount):
-        return self.data.recipes[name]['energy'] / self.data.recipes[name]['main_product']['amount'] * amount
 
+
+    # TODO: is this correct?
     def grant_excess_production(self, craft_list):
         for name, amount in craft_list.items():
             ratio = self.data.recipes[name]['main_product']['amount']
@@ -356,3 +329,24 @@ class Sim():
             return 0, None
         else:
             return 1, f'{item} is not unlocked'
+
+    # each machine type can only interact with specific items
+    # return errors for combinations that aren't allowed
+    def is_machine_compatible(self, machine, item):
+        if machine in self.data.mining_drills:
+            item_category = self.data.resources[item]['resource_category']
+            machine_categories = self.data.mining_drills[machine]['resource_categories']
+            return is_mineable(item, item_category, machine_categories) 
+        elif machine in self.data.assemblers: 
+            res, msg = self.is_recipe_unlocked(item)
+            if res == 0:
+                item_category = self.data.recipes[item]['category']
+                machine_categories = self.data.assemblers[machine]['crafting_categories']
+                if item_category in machine_categories:
+                    return 0, 'pog'
+                else:
+                    return 1, f'incompatible combination, item: {item} has crafting category {item_category} but machine {machine} has categories {machine_categories}'
+            else:
+                return res, msg
+        elif machine in self.data.furnaces:
+            return is_smeltable(item) 

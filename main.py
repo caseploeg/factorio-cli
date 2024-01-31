@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """Runs a CLI that interacts with the factorio simulation"""
 
 from shell import *

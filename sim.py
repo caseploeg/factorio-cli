@@ -26,23 +26,30 @@ from craft import *
 # state
 # valid operation?
 
-
 class Sim():
     def __init__(self, data_dict):
         self.data = SimpleNamespace(**data_dict)
         self.clear()
 
-    def ratio(self, item):
-        """Find the optimal production ratio for assembling an item"""
-        sh = shopping_list(self.data.recipes, convert_to_sh({item: 1}), 0)
-        r_list = []
-        for k, v in sh.items():
-            r_list.append(int(self.craft_time(k, v['amount']) * 10))
-        denom = math.gcd(*r_list)
-        for k, v in sh.items():
-            sh[k]['amount'] = self.craft_time(k, v['amount']) * 10 // denom
-        return sh
-        
+    #TODO: what does craft.py look like?
+    def craft(self, item, amount):
+        res, missing, available, msg = craftable(self, item, amount)
+        if res == 0:
+            missing[item] = amount
+            av_sh = convert_to_sh(available)
+            self.deduct_list(av_sh)
+            self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], amount)
+            time_spent = self.craft_time_list(missing)
+            print(time_spent)
+            # put excess production into player inventory based on bulk orders 
+            self.grant_excess_production(missing)
+            if time_spent > 0:
+                self.next(time_spent)
+            return 0, None
+        elif res == 2:
+            return 1, f'crafting {amount} {item} failed, {msg}'
+        else:
+            return 1, f'something went wrong, {msg}'
 
     def is_recipe_unlocked(self, item):
         if item in self.current_recipes:
@@ -165,7 +172,6 @@ class Sim():
             if res == 0:
                 item_category = self.data.recipes[item]['category']
                 machine_categories = self.data.assemblers[machine]['crafting_categories']
-
                 if item_category in machine_categories:
                     return 0, 'pog'
                 else:
@@ -203,7 +209,6 @@ class Sim():
     # todo: add option for partial crafting, so if a player wants to craft 5 miners
     # but only has materials to make 3, the system will craft 3 miners and give a
     # warning that 2 could not be crafted because of resource constraints
-
     def craft_time_list(self, craft_list):
         time = 0
         for name, amount in craft_list.items():
@@ -220,25 +225,7 @@ class Sim():
             if amount % ratio != 0:
                 self.place_in_inventory(name, (ratio * (1 + (amount // ratio))) - amount)
 
-    #TODO: what does craft.py look like?
-    def craft(self, item, amount):
-        res, missing, available, msg = craftable(self, item, amount)
-        if res == 0:
-            missing[item] = amount
-            av_sh = convert_to_sh(available)
-            self.deduct_list(av_sh)
-            self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], amount)
-            time_spent = self.craft_time_list(missing)
-            print(time_spent)
-            # put excess production into player inventory based on bulk orders 
-            self.grant_excess_production(missing)
-            if time_spent > 0:
-                self.next(time_spent)
-            return 0, None
-        elif res == 2:
-            return 1, f'crafting {amount} {item} failed, {msg}'
-        else:
-            return 1, f'something went wrong, {msg}'
+    
 
     def set_limit(self, item, amount):
         self.limited_items[item] = amount
@@ -342,7 +329,6 @@ class Sim():
                 'furnaces': dict(sorted(self.furnaces.items())),
                 'limited_items': dict(sorted(self.limited_items))
             }
-
         # Sort the outer dictionary and ensure inner dictionaries are sorted as well
         s = {k: v if isinstance(v, (int, str, list, float)) else dict(sorted(v.items())) for k, v in get_state().items()}
         return json.dumps(s, sort_keys=True)

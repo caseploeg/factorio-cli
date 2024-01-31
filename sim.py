@@ -126,10 +126,15 @@ class Sim():
         res, msg = self.deduct_item(machine, amount)
         if res != 0:
             return res, f'failed to place {amount} of {machine}, {msg}'
-        res, msg = self.is_machine_compatible(machine, item)
+        res, msg = is_machine_compatible(self.data, machine, item)
         if res != 0:
             self.place_in_inventory(machine, amount)
             return res, f'failed to place {machine} producing {item}, {msg}'
+        if machine in self.data.assemblers:
+            res, msg = self.is_recipe_unlocked(item)
+            if res != 0:
+                self.place_in_inventory(machine, amount)
+                return res, f'failed to place {machine} producing {item}, {msg}'
         store(machine, item, amount)
         return 0, None
 
@@ -216,7 +221,6 @@ class Sim():
             time += craft_time(self.data, name, amount) 
             print(time, name, amount)
         return time
-
 
     # TODO: is this correct?
     def grant_excess_production(self, craft_list):
@@ -330,23 +334,4 @@ class Sim():
         else:
             return 1, f'{item} is not unlocked'
 
-    # each machine type can only interact with specific items
-    # return errors for combinations that aren't allowed
-    def is_machine_compatible(self, machine, item):
-        if machine in self.data.mining_drills:
-            item_category = self.data.resources[item]['resource_category']
-            machine_categories = self.data.mining_drills[machine]['resource_categories']
-            return is_mineable(item, item_category, machine_categories) 
-        elif machine in self.data.assemblers: 
-            res, msg = self.is_recipe_unlocked(item)
-            if res == 0:
-                item_category = self.data.recipes[item]['category']
-                machine_categories = self.data.assemblers[machine]['crafting_categories']
-                if item_category in machine_categories:
-                    return 0, 'pog'
-                else:
-                    return 1, f'incompatible combination, item: {item} has crafting category {item_category} but machine {machine} has categories {machine_categories}'
-            else:
-                return res, msg
-        elif machine in self.data.furnaces:
-            return is_smeltable(item) 
+    

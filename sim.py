@@ -22,11 +22,6 @@ from data import *
 # mine
 # research
 
-# questions: 
-# production
-# state
-# valid operation?
-
 class Sim():
     def __init__(self, data_dict):
         self.data = SimpleNamespace(**data_dict)

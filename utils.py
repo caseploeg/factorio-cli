@@ -36,28 +36,32 @@ def get_potion_list(technology, tech):
                 packs[name] = {'name': name, 'amount': amount}
         return packs
 
-# give a dictionary
+# given a dictionary (shopping list)
 # {
-#   item_name: {'name': item_name, 'amount': amount_wanted},
+#   item_name: {'name': item_name, 'amount': amount_requested},
 # }
-# return a new dictionary of the same format,
-# with all items required to build the items in the shopping list
+
+# return a new dictionary of the same format
+# with all ingredients required to craft the items in the original shopping list
 # if level == 0 -> only the direct ingredients are calculated
 # if level == 1 -> all resources required are calculated (raw materials, sub-components...)
 # if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
-# NOTE: shopping_list respects bulk recipes, but rounds up when the production ratio does not match the amount needed
-# ex: wish iron-stick 2 -> need 1 iron-plate , but wish iron-stick 1 -> need 1 iron-plate as well - no fractions
+
+# NOTE: shopping_list respects bulk recipes, but rounds up the amount produced when the recipe does not match the amount requested 
 # see grant_excess_production() to see how extra items from bulk orders get placed in player inventory
 
 def shopping_list(recipes, items, level): 
     # avoid side effects >:)
     all_items = items.copy()
+    # main logic is in a helper function because we recursively compute requirements
     def helper(items):
+        # for each item, create a list of dicts that map {ingredient: amount needed}, based on given recipes
         ing_lists = list(
             map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / recipes[items[x[0]]['name']]['products'][0]['amount'])} for k in x[1]], 
             map(lambda y: [y['name'], y['ingredients']],
             filter(lambda z: z['name'] in items.keys(),
             recipes.values()))))
+        # add items without a recipe
         ing_lists.append(list(filter(lambda x: x['name'] not in recipes, items.values())))  
         # flatten
         master_list = dict() 

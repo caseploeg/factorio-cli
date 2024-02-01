@@ -67,7 +67,7 @@ class Sim():
             def machine_craft(item, num_produced, ci):
                 wish = {item: {'name': item, 'amount': num_produced}}
                 if item not in self.data.resources:
-                    self.deduct_list(shopping_list(self.data.recipes, wish, 0), ci)
+                    self.deduct_list(shopping_list(self.data.recipes, wish), ci)
                     self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], num_produced, ci)
                 else:
                     self.place_in_inventory(item, num_produced, ci)
@@ -79,7 +79,7 @@ class Sim():
                     potential = min(potential, self.limited_items[item] - ci[item])
                 # find actual production rate 
                 wish = {item: {'name': item, 'amount': potential}}
-                while not self.check_list(shopping_list(self.data.recipes, wish, 0), ci):
+                while not self.check_list(shopping_list(self.data.recipes, wish), ci):
                     wish[item]['amount'] -= 1
                 return wish[item]['amount']
             def furnace_actual(item, potential):

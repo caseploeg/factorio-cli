@@ -43,12 +43,11 @@ def get_potion_list(technology, tech):
 
 # return a new dictionary of the same format
 # with all ingredients required to craft the items in the original shopping list
-# if level == 0 -> only the direct ingredients are calculated
 
 # NOTE: shopping_list respects bulk recipes, but rounds up the amount produced when the recipe does not match the amount requested 
 # see grant_excess_production() to see how extra items from bulk orders get placed in player inventory
 
-def shopping_list(recipes, items, level): 
+def shopping_list(recipes, items): 
     # for each item, create a list of dicts that map {ingredient: amount needed}, based on that item's recipe
     ing_lists = list(
         map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / recipes[items[x[0]]['name']]['products'][0]['amount'])} for k in x[1]], 

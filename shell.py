@@ -142,7 +142,6 @@ class FactorioShell(cmd2.Cmd):
     wish_parser = cmd2.Cmd2ArgumentParser()
     wish_parser.add_argument('item', choices_provider=wish_item_choices, help='item type')
     wish_parser.add_argument('amount', nargs='?', default=1, type=int, help='amount of the given item, defaults to 1')
-    wish_parser.add_argument('-l', '--level', nargs='?', default=0, type=int, choices=[0,1,2], help='determines type of items included in the wishlist.\nlevel=zero, by default, returns only immediate ingredients for a recipe.\nlevel=one, returns all intermediate ingredients required.\nlevel=two, returns only the raw materials required.')
 
     @cmd2.with_argparser(wish_parser)
     def do_wish(self, args):
@@ -155,7 +154,7 @@ class FactorioShell(cmd2.Cmd):
         }
         found = False
         if args.item in self.data.recipes:
-            self.poutput(json.dumps(utils.shopping_list(self.data.recipes, request, args.level), indent=4))
+            self.poutput(json.dumps(utils.shopping_list(self.data.recipes, request), indent=4))
             found = True
         if args.item in self.data.technology:
             # if the player wished for a technology, output the list of potions required for research

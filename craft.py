@@ -24,7 +24,7 @@ def craftable(sim, item, amount):
             'name': item,
             'amount': amount
         }
-    }, 0) 
+    }) 
     # check if the player has the items available to craft
     return has_items(sim, sh, sim.current_items.copy())
 
@@ -70,7 +70,7 @@ def has_items(sim, sh, ci):
             missing[item] = amount - ci[item]
             ci[item] = 0
     msh = convert_to_sh(missing)
-    missing_sh = shopping_list(sim.data.recipes, msh, 0)
+    missing_sh = shopping_list(sim.data.recipes, msh)
     if res == 0:
         return res, missing, available, not_enough_item 
     if res == 1:

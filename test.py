@@ -19,7 +19,7 @@ class Test(unittest.TestCase):
                 'amount': 1
             },
         }
-        actual = shopping_list(data.recipes, request, 0)
+        actual = shopping_list(data.recipes, request)
         expected = {
             'iron-plate': {
                 'name': 'iron-plate',

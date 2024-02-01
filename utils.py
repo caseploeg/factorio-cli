@@ -44,58 +44,29 @@ def get_potion_list(technology, tech):
 # return a new dictionary of the same format
 # with all ingredients required to craft the items in the original shopping list
 # if level == 0 -> only the direct ingredients are calculated
-# if level == 1 -> all resources required are calculated (raw materials, sub-components...)
-# if level == 2 -> only raw materials are calculated (iron ore, coal, etc)
 
 # NOTE: shopping_list respects bulk recipes, but rounds up the amount produced when the recipe does not match the amount requested 
 # see grant_excess_production() to see how extra items from bulk orders get placed in player inventory
 
 def shopping_list(recipes, items, level): 
-    if level < 0 or level > 2:
-        print(f'invalid level: {level} sent to shopping list!')
-        return dict() 
-    # avoid side effects >:)
-    all_items = items.copy()
-    # main logic is in a helper function because we recursively compute requirements
-    def helper(items):
-        # for each item, create a list of dicts that map {ingredient: amount needed}, based on given recipes
-        ing_lists = list(
-            map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / recipes[items[x[0]]['name']]['products'][0]['amount'])} for k in x[1]], 
-            map(lambda y: [y['name'], y['ingredients']],
-            filter(lambda z: z['name'] in items.keys(),
-            recipes.values()))))
-        # add items without a recipe
-        ing_lists.append(list(filter(lambda x: x['name'] not in recipes, items.values())))  
-        # flatten
-        master_list = dict() 
-        done = True
-        for ing_list in ing_lists:
-            for ing in ing_list:
-                name, amount = ing['name'], ing['amount']
-                if name in master_list:
-                    master_list[name]['amount'] += amount
-                else:
-                    master_list[name] = ing 
-                    if name in recipes:
-                        done = False
-                # update count for all items required, based on latest information
-                all_items[name] = master_list[name]
-        # return a list of direct ingredients required
-        if level == 0:
-            return master_list
-        if not done:
-            res = helper(master_list)
-            return res 
-        # return a complete shopping list with all sub-components
-        elif level == 1 and done:
-            return all_items 
-        # return only the raw resources required (no sub-components)
-        elif level == 2 and done:
-            return master_list 
-        else:
-            print("something went wrong")
-            return dict()
-    return helper(items)
+    # for each item, create a list of dicts that map {ingredient: amount needed}, based on that item's recipe
+    ing_lists = list(
+        map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / recipes[items[x[0]]['name']]['products'][0]['amount'])} for k in x[1]], 
+        map(lambda y: [y['name'], y['ingredients']],
+        filter(lambda z: z['name'] in items.keys(),
+        recipes.values()))))
+    # append the items without a recipe
+    ing_lists.append(list(filter(lambda x: x['name'] not in recipes, items.values())))  
+    flattened_list = defaultdict(int) 
+    for ing_list in ing_lists:
+        for ing in ing_list:
+            name, amount = ing['name'], ing['amount']
+            flattened_list[name] += amount
+
+    # Convert defaultdict to tha expected dict format 
+    flattened_list = {name: {'name': name, 'amount': amount} for name, amount in flattened_list.items()}    
+
+    return flattened_list 
 
 def does_recipe_exist(self, item):
     if item in self.data.recipes:

@@ -51,6 +51,9 @@ def get_potion_list(technology, tech):
 # see grant_excess_production() to see how extra items from bulk orders get placed in player inventory
 
 def shopping_list(recipes, items, level): 
+    if level < 0 or level > 2:
+        print(f'invalid level: {level} sent to shopping list!')
+        return dict() 
     # avoid side effects >:)
     all_items = items.copy()
     # main logic is in a helper function because we recursively compute requirements
@@ -77,18 +80,21 @@ def shopping_list(recipes, items, level):
                         done = False
                 # update count for all items required, based on latest information
                 all_items[name] = master_list[name]
-        if level > 0 and not done:
+        # return a list of direct ingredients required
+        if level == 0:
+            return master_list
+        if not done:
             res = helper(master_list)
             return res 
         # return a complete shopping list with all sub-components
         elif level == 1 and done:
             return all_items 
-        # return raw resources (max depth, no sub-components)
+        # return only the raw resources required (no sub-components)
         elif level == 2 and done:
             return master_list 
-        # return shopping list of depth 1 
         else:
-            return master_list 
+            print("something went wrong")
+            return dict()
     return helper(items)
 
 def does_recipe_exist(self, item):

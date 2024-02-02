@@ -147,10 +147,7 @@ class FactorioShell(cmd2.Cmd):
     def do_wish(self, args):
         """Return a shopping list for a given item, will also produce a potion list for technologies"""
         request = {
-            args.item: {
-                'name': args.item,
-                'amount': args.amount
-            }
+            args.item: args.amount
         }
         found = False
         if args.item in self.data.recipes:

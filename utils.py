@@ -30,42 +30,20 @@ def get_potion_list(technology, tech):
         amount = technology[tech]['research_unit_count']  
         for ing in technology[tech]['research_unit_ingredients']:
             name = ing['name'] 
-            if name in packs:
-                packs[name]['amount'] += amount
-            else:
-                packs[name] = {'name': name, 'amount': amount}
+            packs[name] += amount
         return packs
 
-# given a dictionary (shopping list)
-# {
-#   item_name: {'name': item_name, 'amount': amount_requested},
-# }
-
-# return a new dictionary of the same format
-# with all ingredients required to craft the items in the original shopping list
-
-# NOTE: shopping_list respects bulk recipes, but rounds up the amount produced when the recipe does not match the amount requested 
-# see grant_excess_production() to see how extra items from bulk orders get placed in player inventory
-
 def shopping_list(recipes, items): 
-    # for each item, create a list of dicts that map {ingredient: amount needed}, based on that item's recipe
-    ing_lists = list(
-        map(lambda x: [{'name': k['name'], 'amount': k['amount'] * math.ceil(items[x[0]]['amount'] / recipes[items[x[0]]['name']]['products'][0]['amount'])} for k in x[1]], 
-        map(lambda y: [y['name'], y['ingredients']],
-        filter(lambda z: z['name'] in items.keys(),
-        recipes.values()))))
-    # append the items without a recipe
-    ing_lists.append(list(filter(lambda x: x['name'] not in recipes, items.values())))  
-    flattened_list = defaultdict(int) 
-    for ing_list in ing_lists:
-        for ing in ing_list:
-            name, amount = ing['name'], ing['amount']
-            flattened_list[name] += amount
-
-    # Convert defaultdict to tha expected dict format 
-    flattened_list = {name: {'name': name, 'amount': amount} for name, amount in flattened_list.items()}    
-
-    return flattened_list 
+    filtered_recipes = filter(lambda z: z['name'] in items.keys(), recipes.values())
+    name_to_ing = map(lambda recipe: (recipe['name'], recipe['ingredients']), filtered_recipes)
+    sh = defaultdict(int) 
+    for name, ingredients in name_to_ing:
+        for ingredient in ingredients: 
+            # amount_needed always rounds up, excess production is always put in player inventory
+            # see grant_excess_production()
+            amount_needed = ingredient['amount'] * math.ceil(items[name] / recipes[name]['products'][0]['amount'])
+            sh[ingredient['name']] += amount_needed
+    return sh 
 
 def does_recipe_exist(self, item):
     if item in self.data.recipes:

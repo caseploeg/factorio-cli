@@ -31,8 +31,7 @@ class Sim():
         res, missing, available, msg = craftable(self, item, amount)
         if res == 0:
             missing[item] = amount
-            av_sh = convert_to_sh(available)
-            self.deduct_list(av_sh)
+            self.deduct_list(available)
             self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], amount)
             time_spent = self.craft_time_list(missing)
             print(time_spent)
@@ -65,7 +64,7 @@ class Sim():
                       * amount
                       * (seconds // self.data.recipes[item]['energy']))
             def machine_craft(item, num_produced, ci):
-                wish = {item: {'name': item, 'amount': num_produced}}
+                wish = {item: num_produced}
                 if item not in self.data.resources:
                     self.deduct_list(shopping_list(self.data.recipes, wish), ci)
                     self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], num_produced, ci)
@@ -78,10 +77,10 @@ class Sim():
                 if item in self.limited_items:
                     potential = min(potential, self.limited_items[item] - ci[item])
                 # find actual production rate 
-                wish = {item: {'name': item, 'amount': potential}}
+                wish = {item: potential}
                 while not self.check_list(shopping_list(self.data.recipes, wish), ci):
-                    wish[item]['amount'] -= 1
-                return wish[item]['amount']
+                    wish[item] -= 1
+                return wish[item]
             def furnace_actual(item, potential):
                 return assembler_actual(item, potential) 
             prod_rates = defaultdict(lambda: defaultdict(int))
@@ -172,19 +171,19 @@ class Sim():
     def check_list(self, sh, ci=None, ret_missing=False):
         def reduce_sh(accum, x):
             res, missing = accum
-            r, m = self.check_item(x['name'], x['amount'], ci, ret_missing=True)
+            r, m = self.check_item(x[0], x[1], ci, ret_missing=True)
             res = r and res
-            missing[x['name']] = m
+            missing[x[0]] = m
             return res, missing
             
         if ci == None:
             ci = self.current_items
         if ret_missing:
             vals = [True, dict()]
-            res, missing = functools.reduce(lambda x, y: reduce_sh(x, y), sh.values(), vals)
+            res, missing = functools.reduce(lambda accum, x: reduce_sh(accum, x), sh.items(), vals)
             return 0 if res else 1, missing 
         else:
-            return functools.reduce(lambda x, y: x and self.check_item(y['name'], y['amount'], ci), sh.values(), True) 
+            return functools.reduce(lambda accum, x: accum and self.check_item(x[0], x[1], ci), sh.items(), True) 
 
     def deduct_item(self, item, amount, ci=None):
         if ci == None:
@@ -199,7 +198,7 @@ class Sim():
         if ci == None:
             ci = self.current_items
         for k, v in sh.items():
-            ci[k] -= v['amount']
+            ci[k] -= v
 
     def place_in_inventory(self, item, amount, ci=None):
         if ci == None:

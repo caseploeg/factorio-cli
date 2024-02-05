@@ -42,7 +42,7 @@ def has_items(sim, sh, ci):
     # check that missing items have unlocked crafting recipes 
     for item, v in missing.items():
         if (item not in sim.current_recipes) or (not is_crafting_recipe(sim, item)):
-            return 2, None, None, f'can not craft {item}'
+            return 2, Counter(), Counter(), f'can not craft {item}'
 
     # deduct the items that were available from the current copy of inventory
     for item, v in available.items():

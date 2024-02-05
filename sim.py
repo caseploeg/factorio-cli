@@ -156,19 +156,16 @@ class Sim():
 
     # return True iff players have more than or equal to `amount` of given `item` in their
     # inventory
-    def check_item(self, item, amount, ci=None, ret_missing=False):
+    def check_item(self, item, amount, ci=None):
         if ci == None:
             ci = self.current_items
         res = ci[item] >= amount 
-        if ret_missing:
-            return res, max(0, amount - ci[item]), min(amount, ci[item])
-        else:
-            return res
+        return res, max(0, amount - ci[item]), min(amount, ci[item])
 
     def check_list(self, sh, ci):
         def reduce_sh(accum, x):
             res, missing, available = accum
-            r, m, av = self.check_item(x[0], x[1], ci, ret_missing=True)
+            r, m, av = self.check_item(x[0], x[1], ci)
             res = r and res
             if m > 0:
                 missing[x[0]] = m
@@ -183,13 +180,14 @@ class Sim():
     def deduct_item(self, item, amount, ci=None):
         if ci == None:
             ci = self.current_items
-        if self.check_item(item, amount):
-            ci[item] -= amount
-            return 0, None
-        else:
+        if ci[item] < amount:
             return 1, f'player has < {amount} of {item} in inventory'
+        ci[item] -= amount
+        return 0, None
 
     def deduct_list(self, sh, ci=None):
+        # NOTE: this function doesn't error check because it only gets called
+        # after some validation has already been done
         if ci == None:
             ci = self.current_items
         for k, v in sh.items():

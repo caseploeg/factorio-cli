@@ -25,54 +25,30 @@ def craftable(sim, item, amount):
     # check if the player has the items available to craft
     return has_items(sim, sh, sim.current_items.copy())
 
-# basically craftable()
 # given a shopping list(sh) and a copy of current_items(ci)
-# if player has enough materials to craft all items in the shopping list,
-#   return:
-#     0 
-#     a Counter containing all intermediate items needed for crafting 
-# if missing some items,
-#   return:
-#     2
-#     a meaningless Counter
-# todo: if not craftable, 
-#   return which raw material the player is missing
-#   or something useful like that
+# return:
+# res = 0 -> success
+# res = 1 -> missing items go deeper (recursion)
+# res = 2 -> out of raw material, can't go deeper
+# available: a Counter of all items that need to be deducted from inventory
+# missing:   a Counter of all items that need to be crafted
 def has_items(sim, sh, ci):
-    # ci is a copy of current_items
-    # we make a copy of current_items to check if we have the items to
-    # craft a shopping list because we need to deduct items along the way, but
-    # if crafting fails, we should revert to the original state of current_items
-    available = Counter()
-    missing = Counter()
-    # res = 0 -> success
-    # res = 1 -> missing items go deeper
-    # res = 2 -> out of raw material, can't go deeper
-    res = 0 
-    not_enough_item = ''
-    for item, v in sh.items():
-        amount = v
-        if ci[item] >= amount:
-            available[item] = amount
-            ci[item] -= amount
-        elif (item not in sim.current_recipes) or (not is_crafting_recipe(sim, item)):
-            # this condition is met if the item needed has not been researched
-            # or is a raw material, (can not be crafted)
-            res = 2
-            not_enough_item = item
-            break
-        else:
-            res = 1 
-            available[item] = ci[item]
-            missing[item] = amount - ci[item]
-            ci[item] = 0
-    missing_sh = shopping_list(sim.data.recipes, missing)
+    res, missing, available = sim.check_list(sh, ci)
+    # player has all the ingredients in the shopping list in their inventory!
     if res == 0:
-        return res, missing, available, not_enough_item 
-    if res == 1:
-        res, rest_missing, rest_av, not_enough_item = has_items(sim, missing_sh, ci)
-        return res, missing + rest_missing, available + rest_av, not_enough_item
-    elif res == 2:
-        # todo: currently no meaningful information to pass down if
-        # items are not craftable
-        return res, missing, available, not_enough_item
+        return res, missing, available, ''
+
+    # otherwise, we need to recursively craft the intermediate ingredients
+    # check that missing items have unlocked crafting recipes 
+    for item, v in missing.items():
+        if (item not in sim.current_recipes) or (not is_crafting_recipe(sim, item)):
+            return 2, None, None, f'can not craft {item}'
+
+    # deduct the items that were available from the current copy of inventory
+    for item, v in available.items():
+        ci[item] -= v
+
+    missing_sh = shopping_list(sim.data.recipes, missing)
+    res, rest_missing, rest_av, msg = has_items(sim, missing_sh, ci)
+    return res, missing + rest_missing, available + rest_av, msg 
+    

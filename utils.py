@@ -50,12 +50,6 @@ def does_recipe_exist(self, item):
         return True
     raise InvalidRecipeError(f'{item} does not have a recipe!')
 
-def convert_to_sh(d):
-    sh = dict()
-    for k, v in d.items():
-        sh[k] = {'name': k, 'amount': v}
-    return sh
-
 def is_mineable(resource, item_category, miner_categories):
     if not (item_category in miner_categories):
         return 1, f'{resource} has category: {item_category} not supported by miner with categories: {miner_categories}'

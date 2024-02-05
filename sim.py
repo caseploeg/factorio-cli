@@ -27,6 +27,8 @@ class Sim():
         self.data = SimpleNamespace(**data_dict)
         self.clear()
 
+    # TODO: error message on crafting can return the full missing list
+    # TODO: has_items could be calling check_list?
     def craft(self, item, amount):
         res, missing, available, msg = craftable(self, item, amount)
         if res == 0:
@@ -78,8 +80,10 @@ class Sim():
                     potential = min(potential, self.limited_items[item] - ci[item])
                 # find actual production rate 
                 wish = {item: potential}
-                while not self.check_list(shopping_list(self.data.recipes, wish), ci):
+                is_missing, _, _ = self.check_list(shopping_list(self.data.recipes, wish), ci)
+                while is_missing:
                     wish[item] -= 1
+                    is_missing, _, _ = self.check_list(shopping_list(self.data.recipes, wish), ci)
                 return wish[item]
             def furnace_actual(item, potential):
                 return assembler_actual(item, potential) 
@@ -164,26 +168,24 @@ class Sim():
             ci = self.current_items
         res = ci[item] >= amount 
         if ret_missing:
-            return res, max(0, amount - ci[item])
+            return res, max(0, amount - ci[item]), min(amount, ci[item])
         else:
             return res
 
-    def check_list(self, sh, ci=None, ret_missing=False):
+    def check_list(self, sh, ci):
         def reduce_sh(accum, x):
-            res, missing = accum
-            r, m = self.check_item(x[0], x[1], ci, ret_missing=True)
+            res, missing, available = accum
+            r, m, av = self.check_item(x[0], x[1], ci, ret_missing=True)
             res = r and res
-            missing[x[0]] = m
-            return res, missing
+            if m > 0:
+                missing[x[0]] = m
+            if av > 0:
+                available[x[0]] = av
+            return res, missing, available
             
-        if ci == None:
-            ci = self.current_items
-        if ret_missing:
-            vals = [True, dict()]
-            res, missing = functools.reduce(lambda accum, x: reduce_sh(accum, x), sh.items(), vals)
-            return 0 if res else 1, missing 
-        else:
-            return functools.reduce(lambda accum, x: accum and self.check_item(x[0], x[1], ci), sh.items(), True) 
+        vals = [True, Counter(), Counter()]
+        res, missing, available = functools.reduce(lambda accum, x: reduce_sh(accum, x), sh.items(), vals)
+        return not res, missing, available 
 
     def deduct_item(self, item, amount, ci=None):
         if ci == None:
@@ -240,7 +242,7 @@ class Sim():
         preq = self.data.technology[tech]['prerequisites']    
         if not self.preqs_researched(tech):
             return 1, f'researchable - one or more prerequisite technologies for {tech} have not been researched'
-        res, missing = self.check_list(pl, ret_missing=True) 
+        res, missing, _ = self.check_list(pl, self.current_items) 
         if res != 0: 
             return res, f'researchable - missing the potions required to research {tech}, {missing}'
         return 0, None

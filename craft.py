@@ -48,7 +48,7 @@ def has_items(sim, sh, ci):
     for item, v in available.items():
         ci[item] -= v
 
-    missing_sh = shopping_list(sim.data.recipes, missing)
-    res, rest_missing, rest_av, msg = has_items(sim, missing_sh, ci)
+    # recursively check the player has the ingredients to craft the missing items
+    res, rest_missing, rest_av, msg = has_items(sim, shopping_list(sim.data.recipes, missing), ci)
     return res, missing + rest_missing, available + rest_av, msg 
     

@@ -28,7 +28,6 @@ class Sim():
         self.clear()
 
     # TODO: error message on crafting can return the full missing list
-    # TODO: has_items could be calling check_list?
     def craft(self, item, amount):
         res, missing, available, msg = craftable(self, item, amount)
         if res == 0:
@@ -66,9 +65,8 @@ class Sim():
                       * amount
                       * (seconds // self.data.recipes[item]['energy']))
             def machine_craft(item, num_produced, ci):
-                wish = {item: num_produced}
                 if item not in self.data.resources:
-                    self.deduct_list(shopping_list(self.data.recipes, wish), ci)
+                    self.deduct_list(shopping_list(self.data.recipes, {item: num_produced}), ci)
                     self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], num_produced, ci)
                 else:
                     self.place_in_inventory(item, num_produced, ci)
@@ -78,7 +76,8 @@ class Sim():
                 # respect rate limits
                 if item in self.limited_items:
                     potential = min(potential, self.limited_items[item] - ci[item])
-                # find actual production rate 
+                # find actual production rate, make as many items as possible as long as the ingredients
+                # are in inventory
                 wish = {item: potential}
                 is_missing, _, _ = self.check_list(shopping_list(self.data.recipes, wish), ci)
                 while is_missing:
@@ -88,11 +87,10 @@ class Sim():
             def furnace_actual(item, potential):
                 return assembler_actual(item, potential) 
             prod_rates = defaultdict(lambda: defaultdict(int))
-            machine_groups = zip([self.miners, self.assemblers, self.furnaces], [x for x in range(3)])
             calc_actual = {0: miner_actual, 1: assembler_actual, 2: furnace_actual}
             calc_potential = {0: miner_potential, 1: assembler_potential, 2: furnace_potential}
             # core algo: for each machine: potential -> actual -> craft
-            for machine_group, key in machine_groups: 
+            for key, machine_group, in enumerate([self.miners, self.assemblers, self.furnaces]): 
                 for machine_item_key, amount in machine_group.items():
                     item, machine = machine_item_key.split(':')
                     potential = calc_potential[key](machine, item, amount, seconds)  
@@ -112,13 +110,8 @@ class Sim():
 
     def place_machine(self, machine, item, amount=1):
         def store(machine, item, amount):
-            machine_types = [
-              (self.data.mining_drills, 0),
-              (self.data.assemblers, 1),
-              (self.data.furnaces, 2),
-            ]
             storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
-            for mt, key in machine_types:
+            for key, mt in enumerate([self.data.mining_drills, self.data.assemblers, self.data.furnaces]):
                 if machine in mt:
                     storage[key][f'{item}:{machine}'] += amount
         res, msg = self.deduct_item(machine, amount)

@@ -165,6 +165,7 @@ class FactorioShell(cmd2.Cmd):
         return list(self.data.mining_drills.keys()) + list(self.data.furnaces.keys()) + list(self.data.assemblers.keys())
 
     def place_item_helper(self, machine):
+        machine = convert_aliases([machine])[0] 
         if machine in self.data.mining_drills:
             return {'stone', 'coal', 'iron-ore', 'copper-ore'}       
         elif machine in self.data.furnaces:

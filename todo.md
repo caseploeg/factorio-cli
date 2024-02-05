@@ -31,8 +31,6 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 
 ## Exporting / Sharing / Saving
 
-- Problem: When I'm running the simulation in interactive mode, I sometimes make inefficient calls to the commands, like calling `place bmd iron-ore 1` twice in a row instead of doing `place bmd iron-ore 2`. When I export my command history to a script file, these calls should be optimized
-
 ## Simulation Feature
 
 - Potion researching (labs) should be happening in the background like other machines,
@@ -41,7 +39,6 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 - chemistry recipes need to work
 - assembling-machine.json -> crafting category (oil-processing, chemistry)
     - mining-drill.json -> resource category (fluids)
-
 - energy consumption
 
 ## Shell Commands
@@ -55,6 +52,10 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 
 - bug: it should not be possible to place a stone furnace that will smelt steel-plates without having steel-processing researched
 
+## features?
+
+- implement electricity system
+- web frontend?
 
 ## Questions
 

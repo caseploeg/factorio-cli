@@ -281,7 +281,7 @@ class Sim():
                 'miners': dict(sorted(self.miners.items())),
                 'assemblers': dict(sorted(self.assemblers.items())),
                 'furnaces': dict(sorted(self.furnaces.items())),
-                'limited_items': dict(sorted(self.limited_items))
+                'limited_items': dict(sorted(self.limited_items.items()))
             }
         # Sort the outer dictionary and ensure inner dictionaries are sorted as well
         s = {k: v if isinstance(v, (int, str, list, float)) else dict(sorted(v.items())) for k, v in get_state().items()}

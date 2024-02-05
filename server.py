@@ -166,3 +166,7 @@ def limit():
   sim.set_limit(item, amount)
   return 'pog', 200
 
+
+@app.shell_context_processor
+def make_shell_context():
+  return {'sim': sim}

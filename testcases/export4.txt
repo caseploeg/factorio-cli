@@ -1,0 +1,9 @@
+run_script "/Users/caseploeg/factorio/factorio-cli/scripts/startup.txt" > /dev/null
+set debug true
+alias create lprod prod "|" less
+alias create prodl lprod
+alias create raw prod "|" grep -E "(ore|plate)"
+alias create init @ scripts/factory.txt
+alias create export history -s ">" export.txt
+inventory
+limit iron-plate 5

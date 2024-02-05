@@ -154,8 +154,6 @@ class Sim():
         else:
             return res, msg
 
-    # return True iff players have more than or equal to `amount` of given `item` in their
-    # inventory
     def check_item(self, item, amount, ci=None):
         if ci == None:
             ci = self.current_items
@@ -199,9 +197,6 @@ class Sim():
         # enfore integral system - avoid very real issues
         ci[item] += int(amount)
 
-    # todo: add option for partial crafting, so if a player wants to craft 5 miners
-    # but only has materials to make 3, the system will craft 3 miners and give a
-    # warning that 2 could not be crafted because of resource constraints
     def craft_time_list(self, craft_list):
         time = 0
         for name, amount in craft_list.items():

@@ -51,32 +51,34 @@ class Sim():
         # depends on current state of inventory before next() was called.
         # next(60) + next(60) != next(120), because state changes after each call 
         def produce(ci):
+            # potential = amount_of_machines * craft_speed * seconds // energy
+            def p_eq(amount_machines, amount_produced, speed, seconds, energy):
+                return amount_machines * speed * amount_produced * (seconds if energy == 1 else (seconds // energy))
+
             def miner_potential(miner, item, amount, seconds):
-                return (self.data.mining_drills[miner]['mining_speed']
-                      * amount 
-                      * seconds)
+                return p_eq(amount, 1, self.data.mining_drills[miner]['mining_speed'], seconds, 1)
+
             def assembler_potential(assembler, item, amount, seconds):
-                return (self.data.assemblers[assembler]['crafting_speed'] 
-                      * amount 
-                      * self.data.recipes[item]['products'][0]['amount'] 
-                      * (seconds // self.data.recipes[item]['energy']))
+                return p_eq(amount, self.data.recipes[item]['products'][0]['amount'], self.data.assemblers[assembler]['crafting_speed'], seconds, self.data.recipes[item]['energy'])
+
             def furnace_potential(furnace, item, amount, seconds):
-                return (self.data.furnaces[furnace]['crafting_speed']
-                      * amount
-                      * (seconds // self.data.recipes[item]['energy']))
+                return p_eq(amount, 1, self.data.furnaces[furnace]['crafting_speed'], seconds, self.data.recipes[item]['energy'])
+
             def machine_craft(item, num_produced, ci):
                 if item not in self.data.resources:
                     self.deduct_list(shopping_list(self.data.recipes, {item: num_produced}), ci)
                     self.place_in_inventory(self.data.recipes[item]['products'][0]['name'], num_produced, ci)
                 else:
                     self.place_in_inventory(item, num_produced, ci)
+
             def miner_actual(item, potential):
                 return potential 
+
             def assembler_actual(item, potential):
                 # respect rate limits
                 if item in self.limited_items:
                     potential = min(potential, self.limited_items[item] - ci[item])
-                # find actual production rate, make as many items as possible as long as the ingredients
+                # find actual production rate, make as many items as possible with current inventory 
                 # are in inventory
                 wish = {item: potential}
                 is_missing, _, _ = self.check_list(shopping_list(self.data.recipes, wish), ci)
@@ -84,8 +86,10 @@ class Sim():
                     wish[item] -= 1
                     is_missing, _, _ = self.check_list(shopping_list(self.data.recipes, wish), ci)
                 return wish[item]
+
             def furnace_actual(item, potential):
                 return assembler_actual(item, potential) 
+
             prod_rates = defaultdict(lambda: defaultdict(int))
             calc_actual = {0: miner_actual, 1: assembler_actual, 2: furnace_actual}
             calc_potential = {0: miner_potential, 1: assembler_potential, 2: furnace_potential}
@@ -99,6 +103,7 @@ class Sim():
                     prod_rates[item]['actual'] += actual
                     machine_craft(item, actual, ci)
             return prod_rates
+
         # ---- end of produce() helper function                    
         if check_rates:
             ci = self.current_items.copy()

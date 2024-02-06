@@ -51,10 +51,6 @@ def limits():
 def machines():
   return sim.machines()
 
-@app.route("/suggest", methods=["GET"])
-def suggest():
-  return '\n'.join(sim.all_researchable())
-
 @app.route("/production", methods=["GET"])
 def production():
   return sim.production()

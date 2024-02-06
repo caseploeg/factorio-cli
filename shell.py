@@ -120,10 +120,6 @@ class FactorioShell(cmd2.Cmd):
         self.poutput(msg)
 
     machines_parser = cmd2.Cmd2ArgumentParser()
-    group = machines_parser.add_mutually_exclusive_group()
-    group.add_argument('-a', '--assemblers', action='store_true', help='display only assemblers')
-    group.add_argument('-f', '--furnaces', action='store_true', help='display only furnaces')
-    group.add_argument('-m', '--miners', action='store_true', help='display only miners')
 
     @cmd2.with_argparser(machines_parser)
     def do_machines(self, args):
@@ -181,7 +177,6 @@ class FactorioShell(cmd2.Cmd):
         machine = arg_tokens['machine'][0]
         return self.place_item_helper(machine)
 
-
     place_parser = cmd2.Cmd2ArgumentParser()
     place_parser.add_argument('machine', choices_provider=place_machine_choices, help='machine type to be placed')
     place_parser.add_argument('item', choices_provider=place_item_choices, help='item type this machine will generate')
@@ -226,15 +221,12 @@ class FactorioShell(cmd2.Cmd):
 
     @cmd2.with_argparser(mine_parser) 
     def do_mine(self, args):
-        """Mine a resource"""
         msg = client.mine(args.resource, args.amount)
         self.poutput(msg)
 
     def craft_item_choices(self, arg_tokens):
-        # only suggest items that the player has the resources to actually craft
         # TODO: cache / send less requests
         return filter(lambda x: client.craftable(x, 1) == 'pog', client.cookbook().split())
-
 
     craft_parser = cmd2.Cmd2ArgumentParser()
     craft_parser.add_argument('item', choices_provider=craft_item_choices, help='item type')

@@ -116,17 +116,17 @@ class Sim():
             for key, mt in enumerate([self.data.mining_drills, self.data.assemblers, self.data.furnaces]):
                 if machine in mt:
                     storage[key][f'{item}:{machine}'] += amount
-        res, msg = self.deduct_item(machine, amount)
-        if res != 0:
-            return res, f'failed to place {amount} of {machine}, {msg}'
+
         res, msg = is_machine_compatible(self.data, machine, item)
         if res != 0:
-            self.place_in_inventory(machine, amount)
             return res, f'failed to place {machine} producing {item}, {msg}'
         if machine in self.data.assemblers:
             if item not in self.current_recipes:
-                self.place_in_inventory(machine, amount)
-                return res, f'failed to place {machine} producing {item}, recipe locked' 
+                return 1, f'failed to place {machine} producing {item}, recipe locked' 
+        # deduct the item *after* validation, so that we don't have to put it back if something goes wrong
+        res, msg = self.deduct_item(machine, amount)
+        if res != 0:
+            return res, f'failed to place {amount} of {machine}, {msg}'
         store(machine, item, amount)
         return 0, None
 

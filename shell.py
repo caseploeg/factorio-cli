@@ -81,14 +81,9 @@ class FactorioShell(cmd2.Cmd):
     def do_research(self, args): 
         """
         Research a given technology
-
-        Will fail if:
-        - prerequisites are not met
-        - `tech` is already researched
-        - missing required resources
         """
         msg = client.research(args.tech)
-        print(msg)
+        self.poutput(msg)
     
     tech_needed_parser = cmd2.Cmd2ArgumentParser()
     tech_needed_parser.add_argument('tech', help='name of goal technology')

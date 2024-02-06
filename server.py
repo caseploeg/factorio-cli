@@ -16,18 +16,14 @@ sim = Sim(data_dict)
 # ROOT
 @app.route("/")
 def root():
-    base_url = request.url_root  # Get the base URL of the Flask application
+    # serve a directory GET endpoints at root
+    base_url = request.url_root 
     endpoints = []
-
     for rule in app.url_map.iter_rules():
-        # Check if 'GET' is in the list of methods allowed by the rule
         if 'GET' in rule.methods and not rule.rule.startswith('/static'):
-            # Create an absolute URL for the endpoint
             endpoint_url = f"{base_url.rstrip('/')}{rule.rule}"
-            # Append the HTML link to the endpoints list
             endpoints.append(f'<a href="{endpoint_url}">{endpoint_url}</a>')
 
-    # Return the time followed by the HTML links separated by line breaks
     return '<br>'.join(endpoints)
 
 # GET REQUESTS
@@ -71,8 +67,7 @@ def SERVERcraftable():
   if res == 0:
     return 'pog', 200
   else:
-    # should this be a 200 ? the result is true/false there is no error
-    return 'not pog', 400
+    return 'not pog', 200
 
 # export save file
 @app.route("/state")
@@ -107,7 +102,7 @@ def research():
   if res == 0:
     return ('pog', 200)
   else:
-    return ('not pog', 200)
+    return (msg, 200)
 
 @app.route("/researchable", methods=["POST"])
 def researchable():
@@ -145,7 +140,7 @@ def craft():
   if res == 0:
     return 'pog', 200
   else:
-    return msg, 400
+    return msg, 200
 
 
 @app.route("/mine", methods=["POST"])
@@ -156,7 +151,7 @@ def mine():
   if res == 0:
     return 'pog', 200
   else:
-    return msg, 400
+    return msg, 200
 
 @app.route("/limit", methods=["POST"])
 def limit():

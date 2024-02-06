@@ -9,6 +9,8 @@ def craft_time(data, name, amount):
 # return errors for combinations that aren't allowed
 def is_machine_compatible(data, machine, item):
     if machine in data.mining_drills:
+        if item not in data.resources:
+            return 1, f'{item} cannot be mined'
         item_category = data.resources[item]['resource_category']
         machine_categories = data.mining_drills[machine]['resource_categories']
         return is_mineable(item, item_category, machine_categories) 

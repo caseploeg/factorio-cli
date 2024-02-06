@@ -91,15 +91,18 @@ class Sim():
             calc_actual = {0: miner_actual, 1: assembler_actual, 2: furnace_actual}
             calc_potential = {0: miner_potential, 1: assembler_potential, 2: furnace_potential}
             # core algo: for each machine: potential -> actual -> craft
-            for machine_group in [self.miners, self.assemblers, self.furnaces]: 
-                for machine_item_key, amount in machine_group.items():
-                    item, machine = machine_item_key.split(':')
-                    key = self.data.machines[machine]
-                    potential = calc_potential[key](machine, item, amount, seconds)  
-                    actual = calc_actual[key](item, potential) 
-                    prod_rates[item]['potential'] += potential 
-                    prod_rates[item]['actual'] += actual
-                    machine_craft(item, actual, ci)
+            # TODO: ordering of machines processed matters, because inventory is affected immediately
+            # players probably will probably want more control of this ordering
+            # having something deterministic will help with testing as well
+            for machine_item_key, amount in self.machines.items():
+                item, machine = machine_item_key.split(':')
+                key = self.data.machines[machine]
+                potential = calc_potential[key](machine, item, amount, seconds)  
+                actual = calc_actual[key](item, potential) 
+                prod_rates[item]['potential'] += potential 
+                prod_rates[item]['actual'] += actual
+                machine_craft(item, actual, ci)
+
             return prod_rates
 
         # ---- end of produce() helper function                    
@@ -112,22 +115,18 @@ class Sim():
         return produce(ci)
 
     def place_machine(self, machine, item, amount=1):
-        def store(machine, item, amount):
-            storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
-            key = self.data.machines[machine]
-            storage[key][f'{item}:{machine}'] += amount
-
         res, msg = is_machine_compatible(self.data, machine, item)
         if res != 0:
             return res, f'failed to place {machine} producing {item}, {msg}'
         if machine in self.data.assemblers:
             if item not in self.current_recipes:
                 return 1, f'failed to place {machine} producing {item}, recipe locked' 
+        
         # deduct the item *after* validation, so that we don't have to put it back if something goes wrong
         res, msg = self.deduct_item(machine, amount)
         if res != 0:
             return res, f'failed to place {amount} of {machine}, {msg}'
-        store(machine, item, amount)
+        self.machines[f'{item}:{machine}'] += amount
         return 0, None
 
     def mine(self, resource, amount):
@@ -241,19 +240,15 @@ class Sim():
         self.current_tech = get_starter_tech() 
         self.current_recipes = get_starter_recipes(self.data.recipes) 
         self.current_items = get_starter_inventory() 
-        self.miners = defaultdict(int)
-        self.assemblers = defaultdict(int)
-        self.furnaces = defaultdict(int)
         self.limited_items = dict() 
+        self.machines = defaultdict(int)
 
-    def update_state(self, game_time, current_tech, current_recipes, current_items, miners, assemblers, furnaces, limited_items):
+    def update_state(self, game_time, current_tech, current_recipes, current_items, machines, limited_items):
         self.game_time = game_time 
         self.current_tech = current_tech 
         self.current_recipes = current_recipes 
         self.current_items = current_items
-        self.miners = miners 
-        self.assemblers = assemblers 
-        self.furnaces = furnaces 
+        self.machines = machines 
         self.limited_items = limited_items 
 
     def serialize_state(self):
@@ -266,9 +261,7 @@ class Sim():
                 'current_tech': sorted(list(self.current_tech)),
                 'current_recipes': sorted(list(self.current_recipes)),
                 'current_items': dict(sorted(self.current_items.items())),
-                'miners': dict(sorted(self.miners.items())),
-                'assemblers': dict(sorted(self.assemblers.items())),
-                'furnaces': dict(sorted(self.furnaces.items())),
+                'machines': dict(sorted(self.machines.items())),
                 'limited_items': dict(sorted(self.limited_items.items()))
             }
         # Sort the outer dictionary and ensure inner dictionaries are sorted as well
@@ -281,9 +274,7 @@ class Sim():
         self.current_tech = set(s['current_tech'])
         self.current_recipes = set(s['current_recipes'])
         self.current_items = defaultdict(int, s['current_items'])
-        self.miners = defaultdict(int, s['miners'])
-        self.assemblers = defaultdict(int, s['assemblers'])
-        self.furnaces = defaultdict(int, s['furnaces'])
+        self.machines = defaultdict(int, s['machines'])
         self.limited_items = s['limited_items']
 
     def production(self):

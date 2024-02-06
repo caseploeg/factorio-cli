@@ -75,7 +75,7 @@ def limits():
 def machines():
   r = requests.get(f'{path}machines')
   return r.text
-
+  
 def suggest():
   r = requests.get(f'{path}suggest')
   return r.text

@@ -114,9 +114,8 @@ class Sim():
     def place_machine(self, machine, item, amount=1):
         def store(machine, item, amount):
             storage = {0: self.miners, 1: self.assemblers, 2: self.furnaces}
-            for key, mt in enumerate([self.data.mining_drills, self.data.assemblers, self.data.furnaces]):
-                if machine in mt:
-                    storage[key][f'{item}:{machine}'] += amount
+            key = self.data.machines[machine]
+            storage[key][f'{item}:{machine}'] += amount
 
         res, msg = is_machine_compatible(self.data, machine, item)
         if res != 0:

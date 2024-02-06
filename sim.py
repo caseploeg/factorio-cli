@@ -124,10 +124,9 @@ class Sim():
             self.place_in_inventory(machine, amount)
             return res, f'failed to place {machine} producing {item}, {msg}'
         if machine in self.data.assemblers:
-            res, msg = self.is_recipe_unlocked(item)
-            if res != 0:
+            if item not in self.current_recipes:
                 self.place_in_inventory(machine, amount)
-                return res, f'failed to place {machine} producing {item}, {msg}'
+                return res, f'failed to place {machine} producing {item}, recipe locked' 
         store(machine, item, amount)
         return 0, None
 
@@ -287,22 +286,9 @@ class Sim():
         self.furnaces = defaultdict(int, s['furnaces'])
         self.limited_items = s['limited_items']
 
-    def machines(self):
-        combined = defaultdict()
-        combined.update(self.miners)
-        combined.update(self.assemblers)
-        combined.update(self.furnaces)
-        return '\n'.join([f'{k} : {v}' for k,v in combined.items()])
-
     def production(self):
         production = self.next(60, True)
         data = [[k, v['actual'], v['potential'], self.current_items[k], (self.limited_items[k] if k in self.limited_items else '')] for k, v in production.items()]
         return data
-
-    def is_recipe_unlocked(self, item):
-        if item in self.current_recipes:
-            return 0, None
-        else:
-            return 1, f'{item} is not unlocked'
 
     

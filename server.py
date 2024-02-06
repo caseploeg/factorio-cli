@@ -43,10 +43,6 @@ def techbook():
 def limits():
   return '\n'.join(sim.limited_items)
 
-@app.route("/machines", methods=["GET"])
-def machines():
-  return sim.machines()
-
 @app.route("/suggest", methods=["GET"])
 def suggest():
   return '\n'.join(sim.all_researchable())

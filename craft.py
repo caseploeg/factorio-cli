@@ -13,8 +13,7 @@ def is_crafting_recipe(sim, item):
 def craftable(sim, item, amount):
     """return type: res, missing, available"""
     # check if item recipe is unlocked
-    res, msg = sim.is_recipe_unlocked(item)
-    if res != 0:
+    if item not in sim.current_recipes:
         return 1, None, None, f'{item} recipe is locked' 
     # check if crafting recipe
     if not is_crafting_recipe(sim, item):

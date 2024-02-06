@@ -114,11 +114,7 @@ class FactorioShell(cmd2.Cmd):
     def do_machines(self, args):
         """ Return all machines currently running
         """
-        msg = client.machines()
-        if msg:
-            self.poutput(msg)
-        else:
-            self.poutput("no machines :(")
+        self.poutput("no machines :(")
 
     def wish_item_choices(self):
         # suggest recipes and technology

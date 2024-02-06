@@ -77,15 +77,12 @@ class Sim():
             def assembler_actual(item, potential):
                 # respect rate limits
                 if item in self.limited_items:
-                    potential = min(potential, self.limited_items[item] - ci[item])
-                # find actual production rate, make as many items as possible with current inventory 
-                # are in inventory
-                wish = {item: potential}
-                is_missing, _, _ = self.check_list(shopping_list(self.data.recipes, wish), ci)
-                while is_missing:
-                    wish[item] -= 1
-                    is_missing, _, _ = self.check_list(shopping_list(self.data.recipes, wish), ci)
-                return wish[item]
+                    # should almost always be > 0 but if the limit was set after getting a lot of items we could go negative
+                    potential = min(potential, max(0, self.limited_items[item] - ci[item]))
+                # find the bottleneck ingredient ratio and multiply by amount produced by recipe
+                a = min([ci[x] // amount for x, amount in shopping_list(self.data.recipes, {item:1}).items()]) * self.data.recipes[item]['products'][0]['amount']
+
+                return min(a, potential) 
 
             def furnace_actual(item, potential):
                 return assembler_actual(item, potential) 

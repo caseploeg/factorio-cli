@@ -91,9 +91,10 @@ class Sim():
             calc_actual = {0: miner_actual, 1: assembler_actual, 2: furnace_actual}
             calc_potential = {0: miner_potential, 1: assembler_potential, 2: furnace_potential}
             # core algo: for each machine: potential -> actual -> craft
-            for key, machine_group, in enumerate([self.miners, self.assemblers, self.furnaces]): 
+            for machine_group in [self.miners, self.assemblers, self.furnaces]: 
                 for machine_item_key, amount in machine_group.items():
                     item, machine = machine_item_key.split(':')
+                    key = self.data.machines[machine]
                     potential = calc_potential[key](machine, item, amount, seconds)  
                     actual = calc_actual[key](item, potential) 
                     prod_rates[item]['potential'] += potential 

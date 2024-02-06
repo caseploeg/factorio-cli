@@ -63,4 +63,4 @@ def is_smeltable(resource):
     if resource in {'stone-brick', 'iron-plate', 'copper-plate', 'steel-plate'}:
         return 0, None
     else:
-        return 1, f'{resource} cannont be smelted'
+        return 1, f'{resource} cannot be smelted'

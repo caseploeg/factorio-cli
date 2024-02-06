@@ -12,3 +12,7 @@ def get_starter_inventory():
 
 def get_starter_tech():
     return set() 
+
+def get_starter_recipes(recipes):
+    return set(map(lambda item: item[0], filter(lambda item: item[1]['enabled'], recipes.items())))
+    

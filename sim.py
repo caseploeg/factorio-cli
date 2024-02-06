@@ -227,7 +227,6 @@ class Sim():
         if tech in self.current_tech:
             return 1, f'researchable - {tech} has already been researched'
         pl = get_potion_list(self.data.technology, tech)
-        preq = self.data.technology[tech]['prerequisites']    
         if not self.preqs_researched(tech):
             return 1, f'researchable - one or more prerequisite technologies for {tech} have not been researched'
         res, missing, _ = self.check_list(pl, self.current_items) 
@@ -235,25 +234,13 @@ class Sim():
             return res, f'researchable - missing the potions required to research {tech}, {missing}'
         return 0, None
 
-    # find all technologies that could be researched next 
     def all_researchable(self):
-        res = set()
-        for tech in self.data.technology:
-            if tech not in self.current_tech and self.preqs_researched(tech):
-                res.add(tech)
-        return res
+        return set(filter(lambda tech: tech not in self.current_tech and self.preqs_researched(tech), self.data.technology))
 
-    def get_starter_recipes(self):
-        enabled = set()
-        for key, value in self.data.recipes.items():
-          if value['enabled']:
-            enabled.add(key)
-        return enabled
-          
     def clear(self):
         self.game_time = 0
         self.current_tech = get_starter_tech() 
-        self.current_recipes = self.get_starter_recipes() 
+        self.current_recipes = get_starter_recipes(self.data.recipes) 
         self.current_items = get_starter_inventory() 
         self.miners = defaultdict(int)
         self.assemblers = defaultdict(int)

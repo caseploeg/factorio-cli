@@ -1,0 +1,68 @@
+run_script "/Users/caseploeg/factorio/factorio-cli/scripts/startup.txt" > /dev/null
+set debug true
+alias create lprod prod "|" less
+alias create prodl lprod
+alias create raw prod "|" grep -E "(ore|plate)"
+alias create init @ scripts/factory.txt
+alias create export history -s ">" export.txt
+inventory
+place burner-mining-drill iron-ore
+mine stone 100
+craft stone-furnace 10
+place stone-furnace iron-plate 5
+place stone-furnace copper-plate 5
+mine iron-ore 50
+mine copper-ore 50
+craft burner-mining-drill
+place burner-mining-drill copper-ore
+craft burner-mining-drill
+place burner-mining-drill iron-ore
+inventory
+craft burner-mining-drill 5
+place burner-mining-drill iron-ore 5
+craft automation-science-pack
+craft automation-science-pack 10
+research automation
+craft assembling-machine-1
+place assembling-machine-1 iron-gear-wheel
+limit iron-gear-wheel 20
+next
+inventory
+craft assembling-machine-1
+place assembling-machine-1 assembling-machine-1
+limit assembling-machine-1 5
+next
+inventory
+prodl
+next
+inventory
+prodl
+wish assembling-machine-1
+craft assembling-machine-1
+place assembling-machine-1 electronic-circuit
+craft assembling-machine-1
+place assembling-machine-1 copper-cable
+craft assembling-machine-1
+place assembling-machine-1 burner-mining-drill
+limit burner-mining-drill 10
+craft burner-mining-drill 10
+place burner-mining-drill stone
+craft burner-mining-drill
+place burner-mining-drill stone
+next
+inventory
+prodl
+next
+next
+inventory
+prodl
+limit iron-gear-wheel 200
+place assembling-machine-1 iron-gear-wheel
+place burner-mining-drill stone 2
+craft burner-mining-drill 10
+place burner-mining-drill stone 3
+place burner-mining-drill copper-ore 3
+place burner-mining-drill iron-ore 3
+inventory
+next
+prodl

@@ -173,7 +173,7 @@ def ping():
         time.sleep(0.1)
       else:
         flag[0] = False
-        yield f'data: {json.dumps(sim.current_items)}\n\n'
+        yield f'data: {json.dumps(sim.production())}\n\n'
 
   return Response(inventory_stream(), mimetype='text/event-stream')
 

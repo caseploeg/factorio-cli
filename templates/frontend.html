@@ -4,38 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Factorio Simulation GET Requests</title>
-    <script>
-        // Function to make a GET request and display the result
-        function makeGetRequest(endpoint) {
-            fetch(endpoint)
-                .then(response => response.text()) // Convert the response to text
-                .then(data => {
-                    document.getElementById('result').textContent = data; // Display the data
-                })
-                .catch(error => console.error('Error:', error)); // Log any errors
-        }
-        console.log("HELLO WORLD");
-        var source = new EventSource('/ping')
-        source.onmessage = function(event) {
-            console.log(event);
-            document.getElementById('inventory').textContent = event.data;
-        };
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+
     </script>
+  
 </head>
 <body>
-    <h1>Factorio Simulation GET Requests</h1>
-
-    <!-- Buttons to trigger GET requests -->
-    <button onclick="makeGetRequest('/time')">Get Game Time</button>
-    <button onclick="makeGetRequest('/cookbook')">Get Cookbook</button>
-    <!-- Add more buttons for other GET endpoints as needed -->
-
-    <!-- Element to display the result -->
-    <div id="result" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
-        <p>Result will be shown here...</p>
+    <h1>Factory Production</h1>
+    <div id="table">
     </div>
-    <div id="inventory">
-        <p></p>
+    <div>
+        <canvas id="lineChart"></canvas>
     </div>
 </body>
+
+<script>
+    // Function to create a table from the event data
+    function createTableFromEvent(data) {
+        // Create table element
+        const table = document.createElement('table');
+        table.setAttribute('border', '1');  // Add border to table for visibility
+
+        // Iterate over each row in the data
+        data.forEach(row => {
+            // Create a new row in the table
+            const tr = document.createElement('tr');
+
+            // Iterate over each cell in the row
+            
+            row.forEach(cell => {
+                // Create a new cell and add the text content
+                const td = document.createElement('td');
+                td.textContent = cell;
+                tr.appendChild(td);  // Append the cell to the row
+            });
+
+            table.appendChild(tr);  // Append the row to the table
+        });
+
+        // Append the table to the document body (or another element of your choice)
+        document.getElementById('table').replaceChildren(table);
+    }
+    var source = new EventSource('/ping')
+    source.onmessage = function(event) {
+        data = JSON.parse(event.data);
+        createTableFromEvent(data);
+    };
+
+    // Sample initial data - replace with your actual initial data
+    const initialData = {
+        labels: [],
+        datasets: [{
+            label: 'production',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [],
+        }]
+    };
+
+    // Configuration for the chart
+    const config = {
+        type: 'line',
+        data: initialData,
+        options: {}
+    };
+
+    // Initialize the chart
+    ctx = document.getElementById('lineChart');
+    //const lineChart = new Chart(ctx,config);
+
+
+    // Function to update the chart with new event data
+    function updateChartData(newLabels, newDataPoints) {
+        lineChart.data.labels = newLabels; // Update labels (x-axis)
+        lineChart.data.datasets.forEach((dataset) => {
+            dataset.data = newDataPoints; // Update data points (y-axis)
+        });
+        lineChart.update(); // Refresh the chart
+    }
+
+    // Example of how to call updateChartData with new event data
+    // Replace this with the actual way you receive and process event data
+    // updateChartData(["April", "May", "June"], [7, 8, 9]);
+</script>
+
+
 </html>

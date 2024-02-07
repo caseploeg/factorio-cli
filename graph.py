@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import time
-import client
+from client import production
 import ast
 
 # Production data over time
@@ -8,7 +8,7 @@ t = 0
 production_data = [] 
 flag = False
 while True:
-    prod_data = client.production() 
+    prod_data = production() 
     data = ast.literal_eval(prod_data)
     prod_dict = dict()
     prod_dict['time'] = t 

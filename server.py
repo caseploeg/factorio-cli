@@ -114,7 +114,6 @@ def place():
   item = request.args.get('item')
   amount = int(request.args.get('amount'))
   res, msg = sim.place_machine(machine, item, amount)
-  flag[0]=True
   if res == 0:
     #TODO: the sim function doesn't return anything on success
     return ('pog', 200)

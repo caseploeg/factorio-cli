@@ -4,6 +4,8 @@ import json
 import time
 
 from flask import Flask
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from flask import request, render_template, Response, stream_with_context
 
 from files import load_files
@@ -12,6 +14,12 @@ from shell import *
 from craft import *
 
 app = Flask(__name__)
+limiter = Limiter(
+  get_remote_address,
+  app=app,
+  default_limits=["1000 per hour"],
+  storage_uri="memory://",
+)
 
 data_dict = load_files()
 sim = Sim(data_dict)

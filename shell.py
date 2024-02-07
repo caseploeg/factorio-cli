@@ -94,10 +94,6 @@ class FactorioShell(cmd2.Cmd):
         """
         self.poutput(utils.tech_needed(self.data.technology, args.tech))
 
-    def do_techbook(self, args):
-        msg = client.techbook()
-        self.poutput(msg)
-
     def do_limits(self, args):
         msg = client.limits()
         self.poutput(msg)

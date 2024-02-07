@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorio Simulation GET Requests</title>
+    <script>
+        // Function to make a GET request and display the result
+        function makeGetRequest(endpoint) {
+            fetch(endpoint)
+                .then(response => response.text()) // Convert the response to text
+                .then(data => {
+                    document.getElementById('result').textContent = data; // Display the data
+                })
+                .catch(error => console.error('Error:', error)); // Log any errors
+        }
+        console.log("HELLO WORLD");
+        var source = new EventSource('/ping')
+        source.onmessage = function(event) {
+            console.log(event);
+            document.getElementById('inventory').textContent = event.data;
+        };
+    </script>
+</head>
+<body>
+    <h1>Factorio Simulation GET Requests</h1>
+
+    <!-- Buttons to trigger GET requests -->
+    <button onclick="makeGetRequest('/time')">Get Game Time</button>
+    <button onclick="makeGetRequest('/cookbook')">Get Cookbook</button>
+    <!-- Add more buttons for other GET endpoints as needed -->
+
+    <!-- Element to display the result -->
+    <div id="result" style="margin-top: 20px; border: 1px solid #ccc; padding: 10px;">
+        <p>Result will be shown here...</p>
+    </div>
+    <div id="inventory">
+        <p></p>
+    </div>
+</body>
+</html>

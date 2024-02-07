@@ -64,10 +64,6 @@ def cookbook():
   r = requests.get(f'{path}cookbook')
   return r.text
 
-def techbook():
-  r = requests.get(f'{path}techbook')
-  return r.text
-
 def limits():
   r = requests.get(f'{path}limits')
   return r.text

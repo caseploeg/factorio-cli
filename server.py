@@ -1,7 +1,10 @@
 """Flask server running a factorio simulation"""
 
+import json
+import time
+
 from flask import Flask
-from flask import request
+from flask import request, render_template, Response
 
 from files import load_files
 from sim import Sim
@@ -12,6 +15,7 @@ app = Flask(__name__)
 
 data_dict = load_files()
 sim = Sim(data_dict)
+flag = [False]
 
 # ROOT
 @app.route("/")
@@ -23,21 +27,16 @@ def root():
         if 'GET' in rule.methods and not rule.rule.startswith('/static'):
             endpoint_url = f"{base_url.rstrip('/')}{rule.rule}"
             endpoints.append(f'<a href="{endpoint_url}">{endpoint_url}</a>')
-
-    return '<br>'.join(endpoints)
+    return render_template('frontend.html')
 
 # GET REQUESTS
 @app.route("/time", methods=["GET"])
-def time():
+def game_time():
   return f"{sim.game_time}"
 
 @app.route("/cookbook", methods=["GET"])
 def cookbook():
   return '\n'.join(sim.current_recipes)
-
-@app.route("/techbook", methods=["GET"])
-def techbook():
-  return '\n'.join(sim.current_tech)
 
 @app.route("/limits", methods=["GET"])
 def limits():
@@ -53,6 +52,7 @@ def production():
 
 @app.route("/inventory")
 def inventory():
+  flag[0] = True
   return sim.current_items
 
 @app.route("/craftable", methods=["GET"])
@@ -74,6 +74,7 @@ def state():
 @app.route("/clear", methods=["POST"])
 def clear():
   sim.clear()
+  flag[0]=True
   return ('', 204)
 
 # load save file
@@ -81,6 +82,7 @@ def clear():
 def update():
   json_s = request.get_json() 
   sim.deserialize_state(json_s)
+  flag[0]=True
   return '', 200
 
 @app.route("/spawn", methods=["POST"])
@@ -88,6 +90,7 @@ def spawn():
   item = request.args.get('item')
   amount = request.args.get('amount')
   sim.place_in_inventory(item, int(amount))
+  flag[0]=True
   return ('', 200)
 
 @app.route("/research", methods=["POST"])
@@ -116,6 +119,7 @@ def place():
   item = request.args.get('item')
   amount = int(request.args.get('amount'))
   res, msg = sim.place_machine(machine, item, amount)
+  flag[0]=True
   if res == 0:
     #TODO: the sim function doesn't return anything on success
     return ('pog', 200)
@@ -126,6 +130,7 @@ def place():
 def next():
     minutes = int(request.args.get('minutes'))
     sim.next(minutes * 60)
+    flag[0]=True
     return '', 200
 
 @app.route("/craft", methods=["POST"])
@@ -133,6 +138,8 @@ def craft():
   item = request.args.get('item')
   amount = int(request.args.get('amount'))
   res, msg = sim.craft(item, amount)
+  print(flag[0], 'craft')
+  flag[0]=True
   if res == 0:
     return 'pog', 200
   else:
@@ -144,6 +151,7 @@ def mine():
   resource = request.args.get('resource')
   amount = int(request.args.get('amount'))
   res, msg = sim.mine(resource, amount)
+  flag[0]=True
   if res == 0:
     return 'pog', 200
   else:
@@ -157,6 +165,17 @@ def limit():
   sim.set_limit(item, amount)
   return 'pog', 200
 
+@app.route("/ping", methods=["GET"])
+def ping():
+  def inventory_stream():
+    while True:
+      if not flag[0]:
+        time.sleep(0.1)
+      else:
+        flag[0] = False
+        yield f'data: {json.dumps(sim.current_items)}\n\n'
+
+  return Response(inventory_stream(), mimetype='text/event-stream')
 
 @app.shell_context_processor
 def make_shell_context():

@@ -4,14 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Factorio Simulation GET Requests</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js">
-
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        th {
+            text-align: left;
+            padding: 0 10px;
+        }
+        td {
+            padding: 0 10px;
+        }
+    </style>
   
 </head>
 <body>
-    <h1>Factory Production</h1>
+    <h1>Factory Dashboard</h1>
     <div id="table">
+    <table>
+        <thead> <!-- Table header section -->
+            <tr> <!-- Table row for header -->
+              <th>Item</th> <!-- Table header cell -->
+              <th>Actual</th>
+              <th>Potential</th>
+              <th>Inventory</th>
+              <th>Limit</th>
+           </tr>
+        </thead>
+        <tbody id="tablebody">
+
+        </tbody>
+    </table>
+
     </div>
     <div>
         <canvas id="lineChart"></canvas>
@@ -22,10 +44,13 @@
     // Function to create a table from the event data
     function createTableFromEvent(data) {
         // Create table element
-        const table = document.createElement('table');
-        table.setAttribute('border', '1');  // Add border to table for visibility
-
+        // TODO: add table header
+        // TODO: filter: bottleneck, 
         // Iterate over each row in the data
+        table = document.getElementById('tablebody');
+        while (table.firstChild) {
+            table.removeChild(table.firstChild);
+        }
         data.forEach(row => {
             // Create a new row in the table
             const tr = document.createElement('tr');
@@ -41,9 +66,6 @@
 
             table.appendChild(tr);  // Append the row to the table
         });
-
-        // Append the table to the document body (or another element of your choice)
-        document.getElementById('table').replaceChildren(table);
     }
     var source = new EventSource('/ping')
     source.onmessage = function(event) {

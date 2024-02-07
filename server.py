@@ -16,6 +16,7 @@ app = Flask(__name__)
 data_dict = load_files()
 sim = Sim(data_dict)
 
+
 # ROOT
 @app.route("/")
 def root():
@@ -26,7 +27,17 @@ def root():
         if 'GET' in rule.methods and not rule.rule.startswith('/static'):
             endpoint_url = f"{base_url.rstrip('/')}{rule.rule}"
             endpoints.append(f'<a href="{endpoint_url}">{endpoint_url}</a>')
-    return render_template('frontend.html')
+        
+
+    def get_commit_hash():
+      try:
+          with open('commit_hash.txt', 'r') as file:
+              return file.read().strip()  # Read the commit hash and remove any newline characters
+      except FileNotFoundError:
+          return "unknown"  # Return a default value if the file doesn't exist
+
+    commit_hash = get_commit_hash()
+    return render_template('frontend.html', commit_hash=commit_hash)
 
 # GET REQUESTS
 @app.route("/time", methods=["GET"])

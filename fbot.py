@@ -8,11 +8,10 @@ from shell import *
 from files import load_files
 from sim import Sim
 
+# TODO: fbot does not do research :( 
 if __name__ == "__main__":
-
     data_dict = load_files()
     shell = FactorioShell(data_dict)
-
 
     while True: 
         client.mine('stone', 5)

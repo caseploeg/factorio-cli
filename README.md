@@ -1,9 +1,11 @@
 # factorio-cli
-automation, rockets, and wizardy
+automation, rockets, and wizardry
+
+turn based factorio for the command line. build a rocket u win. 
 
 ## project goals:
 - simulate factory automation 
-- build a powerful CLI to interact with the system 
+- build a powerful CLI to run the factory 
 - write cool software on top of the simulation, 
     - bots
     - visualization

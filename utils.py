@@ -34,6 +34,17 @@ def get_potion_list(technology, tech):
         return packs
 
 def shopping_list(recipes, items): 
+    """
+    Generates a shopping list of ingredients based on the desired items and their recipes.
+
+    >>> recipes = {
+    ...     'Cake': {'name': 'Cake', 'products': [{'amount': 1}], 'ingredients': [{'name': 'Flour', 'amount': 2}, {'name': 'Sugar', 'amount': 1}]},
+    ...     'Pie': {'name': 'Pie', 'products': [{'amount': 1}], 'ingredients': [{'name': 'Flour', 'amount': 3}, {'name': 'Sugar', 'amount': 2}]}
+    ... }
+    >>> items = {'Cake': 2, 'Pie': 3}
+    >>> shopping_list(recipes, items) == {'Flour': 13, 'Sugar': 8}
+    False 
+    """
     filtered_recipes = filter(lambda z: z['name'] in items.keys(), recipes.values())
     name_to_ing = map(lambda recipe: (recipe['name'], recipe['ingredients']), filtered_recipes)
     sh = defaultdict(int) 

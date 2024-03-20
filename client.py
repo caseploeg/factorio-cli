@@ -2,9 +2,11 @@
 
 import requests
 import json
+import os
 
-path = "https://factorio-cli.replit.app/"
+#path = "https://factorio-cli.replit.app/"
 #path = "http://127.0.0.1:5000/"
+path = os.getenv('SERVER_URL')
 
 # todo some obvious way to client source code to correponding server source code
 # why does source code not have hyperlinks to more code

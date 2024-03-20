@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Factorio Simulation GET Requests</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         th {
             text-align: left;
@@ -30,8 +29,7 @@
               <th>Limit</th>
            </tr>
         </thead>
-        <tbody id="tablebody">
-
+        <tbody id="prod_tablebody">
         </tbody>
     </table>
     </div>
@@ -41,10 +39,9 @@
     // Function to create a table from the event data
     function createTableFromEvent(data) {
         // Create table element
-        // TODO: add table header
         // TODO: filter: bottleneck, 
         // Iterate over each row in the data
-        table = document.getElementById('tablebody');
+        table = document.getElementById('prod_tablebody');
         while (table.firstChild) {
             table.removeChild(table.firstChild);
         }
@@ -53,7 +50,6 @@
             const tr = document.createElement('tr');
 
             // Iterate over each cell in the row
-            
             row.forEach(cell => {
                 // Create a new cell and add the text content
                 const td = document.createElement('td');
@@ -69,42 +65,6 @@
         data = JSON.parse(event.data);
         createTableFromEvent(data);
     };
-
-    // Sample initial data - replace with your actual initial data
-    const initialData = {
-        labels: [],
-        datasets: [{
-            label: 'production',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [],
-        }]
-    };
-
-    // Configuration for the chart
-    const config = {
-        type: 'line',
-        data: initialData,
-        options: {}
-    };
-
-    // Initialize the chart
-    ctx = document.getElementById('lineChart');
-    //const lineChart = new Chart(ctx,config);
-
-
-    // Function to update the chart with new event data
-    function updateChartData(newLabels, newDataPoints) {
-        lineChart.data.labels = newLabels; // Update labels (x-axis)
-        lineChart.data.datasets.forEach((dataset) => {
-            dataset.data = newDataPoints; // Update data points (y-axis)
-        });
-        lineChart.update(); // Refresh the chart
-    }
-
-    // Example of how to call updateChartData with new event data
-    // Replace this with the actual way you receive and process event data
-    // updateChartData(["April", "May", "June"], [7, 8, 9]);
 </script>
 
 

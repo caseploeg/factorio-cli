@@ -73,6 +73,7 @@ class Sim():
                     # should almost always be > 0 but if the limit was set after getting a lot of items we could go negative
                     potential = min(potential, max(0, self.limited_items[item] - ci[item]))
                 # find the bottleneck ingredient ratio and multiply by amount produced by recipe
+                # TODO: can we surface the bottleneck information to the player? 
                 a = min([ci[x] // amount for x, amount in shopping_list(self.data.recipes, {item:1}).items()]) * self.data.recipes[item]['products'][0]['amount']
 
                 return min(a, potential) 
@@ -87,8 +88,10 @@ class Sim():
             # TODO: ordering of machines processed matters, because inventory is affected immediately
             # players probably will probably want more control of this ordering
             # having something deterministic will help with testing as well
-            for machine_item_key, amount in self.machines.items():
-                item, machine = machine_item_key.split(':')
+            
+            # iterate through sorted keys - sort by priority! 
+            for machine_item_key, amount in sorted(self.machines.items(), key=lambda item: int(item[0].split(':')[-1])):
+                item, machine, _ = machine_item_key.split(':')
                 key = self.data.machines[machine]
                 potential = calc_potential[key](machine, item, amount, seconds)  
                 actual = calc_actual[key](item, potential) 
@@ -119,7 +122,8 @@ class Sim():
         res, msg = self.deduct_item(machine, amount)
         if res != 0:
             return res, f'failed to place {amount} of {machine}, {msg}'
-        self.machines[f'{item}:{machine}'] += amount
+        priority = 0
+        self.machines[f'{item}:{machine}:{priority}'] += amount
         return 0, None
 
     def mine(self, resource, amount):
@@ -206,6 +210,13 @@ class Sim():
 
     def set_limit(self, item, amount):
         self.limited_items[item] = amount
+    
+    def set_machine_prio(self, machine, item, oldprio, newprio):
+        oldkey = f'{item}:{machine}:{oldprio}'
+        newkey = f'{item}:{machine}:{newprio}'
+        if self.machines[oldkey] > 0:
+            self.machines[oldkey] -= 1
+            self.machines[newkey] += 1
 
     def preqs_researched(self, tech):
         preq = self.data.technology[tech]['prerequisites']    

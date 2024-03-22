@@ -104,13 +104,19 @@ class FactorioShell(cmd2.Cmd):
         msg = client.cookbook()
         self.poutput(msg)
 
-    machines_parser = cmd2.Cmd2ArgumentParser()
+    prio_parser = cmd2.Cmd2ArgumentParser()
+    prio_parser.add_argument('machine', help='name of goal technology')
+    prio_parser.add_argument('item', help='name of goal technology')
+    prio_parser.add_argument('old', help='name of goal technology')
+    prio_parser.add_argument('new', help='name of goal technology')
 
-    @cmd2.with_argparser(machines_parser)
-    def do_machines(self, args):
+    @cmd2.with_argparser(prio_parser)
+    def do_prio(self, args):
         """ Return all machines currently running
         """
-        self.poutput("no machines :(")
+
+        msg = client.prio(args.machine, args.item, args.old, args.new)
+        self.poutput(msg)
 
     def wish_item_choices(self):
         # suggest recipes and technology

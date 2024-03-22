@@ -139,6 +139,15 @@ def place():
   else:
     return (msg, 400)
 
+@app.route("/prio", methods=["POST"])
+def prio():
+  machine = request.args.get('machine')
+  item = request.args.get('item')
+  oldprio = int(request.args.get('oldprio'))
+  newprio = int(request.args.get('newprio'))
+  sim.set_machine_prio(machine, item, oldprio, newprio)
+  return 'prio set', 200
+
 @app.route("/next", methods=["POST"])
 def next():
     minutes = int(request.args.get('minutes'))
@@ -182,6 +191,14 @@ def ping():
         time.sleep(5)
 
   return Response(stream_with_context(inventory_stream()), mimetype='text/event-stream')
+
+@app.route("/stateping", methods=["GET"])
+def stateping():
+  def state_stream():
+    while True: 
+      yield f'data: {json.dumps(sim.serialize_state())}\n\n' 
+      time.sleep(5)
+  return Response(stream_with_context(state_stream()), mimetype='text/event-stream')
 
 @app.shell_context_processor
 def make_shell_context():

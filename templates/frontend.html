@@ -34,6 +34,8 @@
         <tbody id="prod_tablebody">
         </tbody>
     </table>
+
+    <h2>INVENTORY</h2>
     <p id="inventory"></p>
 
     <button id="mine10stone">Mine 10 Stone</button>
@@ -51,6 +53,11 @@
     <!--<button id="researchautomation">Research Automation</button>-->
 
     </div>
+
+    <h2>REQUEST HISTORY</h2>
+    <ul id="history"></ul>
+
+
     <p>Running on <a href="http://www.github.com/caseploeg/factorio-cli/commit/{{commit_hash}}">{{commit_hash}}</a></p>
 </body>
 
@@ -93,16 +100,33 @@
         el.innerHTML = time;
     }
 
+    function setHistory(data) {
+        el = document.getElementById('history');
+        console.log(data, typeof data);
+        while (el.firstChild) {
+            el.removeChild(el.firstChild);
+        } 
+
+        data.forEach(path => {
+            const li = document.createElement('li');
+            li.innerText = path.path;
+            el.appendChild(li)
+        });
+    }
+
     var source = new EventSource('/ping')
     source.onmessage = function(event) {
         data = JSON.parse(event.data);
         createTableFromEvent(data.production);
         state = JSON.parse(data.state);
+        var request_history = data.history;
         var timestamp = new Date().getTime();
         console.log(state, timestamp);
         createInventory(state.current_items);
         console.log(state.game_time);
         setTime(state.game_time);
+        console.log(request_history);
+        setHistory(JSON.parse(request_history));
     };
 </script>
 

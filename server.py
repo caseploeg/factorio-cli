@@ -21,8 +21,26 @@ limiter = Limiter(
   storage_uri="memory://",
 )
 
+request_history = []
+
 data_dict = load_files()
 sim = Sim(data_dict)
+
+### LETS TRY OUT A RECORD HISTORY
+from functools import wraps
+
+def record_request(f):
+  @wraps(f)
+  def decorated_function(*args, **kwargs):
+    # record request details
+    request_details = {
+      'path': request.url
+    }
+    request_history.append(request_details) 
+    return f(*args, **kwargs)
+  return decorated_function
+
+### RECORD HISTORY END
 
 
 # ROOT
@@ -128,6 +146,7 @@ def researchable():
     return (msg, 400)
 
 @app.route("/place", methods=["POST"])
+@record_request
 def place():
   machine = request.args.get('machine')
   item = request.args.get('item')
@@ -155,6 +174,7 @@ def next():
     return '', 200
 
 @app.route("/craft", methods=["POST"])
+@record_request
 def craft():
   item = request.args.get('item')
   amount = int(request.args.get('amount'))
@@ -166,6 +186,7 @@ def craft():
 
 
 @app.route("/mine", methods=["POST"])
+@record_request
 def mine():
   resource = request.args.get('resource')
   amount = int(request.args.get('amount'))
@@ -189,10 +210,11 @@ def ping():
     while True:
         data = {
           'production': sim.production(),
-          'state': sim.serialize_state()
+          'state': sim.serialize_state(),
+          'history': json.dumps(request_history),
         }
         yield f'data: {json.dumps(data)}\n\n'
-        time.sleep(5)
+        time.sleep(3)
 
   return Response(stream_with_context(inventory_stream()), mimetype='text/event-stream')
 
@@ -203,6 +225,11 @@ def stateping():
       yield f'data: {json.dumps(sim.serialize_state())}\n\n' 
       time.sleep(5)
   return Response(stream_with_context(state_stream()), mimetype='text/event-stream')
+
+
+@app.route("/history", methods=["GET"])
+def history():
+  return str(request_history), 200
 
 @app.shell_context_processor
 def make_shell_context():

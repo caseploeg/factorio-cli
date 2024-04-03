@@ -187,7 +187,11 @@ def limit():
 def ping():
   def inventory_stream():
     while True:
-        yield f'data: {json.dumps(sim.production())}\n\n'
+        data = {
+          'production': sim.production(),
+          'state': sim.serialize_state()
+        }
+        yield f'data: {json.dumps(data)}\n\n'
         time.sleep(5)
 
   return Response(stream_with_context(inventory_stream()), mimetype='text/event-stream')

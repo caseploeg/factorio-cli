@@ -16,8 +16,10 @@
   
 </head>
 <body>
-    <h1>Factory Dashboard</h1>
-    <p>Running on <a href="http://www.github.com/caseploeg/factorio-cli/commit/{{commit_hash}}">{{commit_hash}}</a></p>
+    <h1>**NEW** DEMOS 2 FACTORY</h1>
+    <p id="time">THIS FACTORY HAS BEEN RUNNING FOR _____ SECONDS</p>
+
+    <h2>PRODUCTION STATS</h2>
     <div id="table">
     <table>
         <thead> <!-- Table header section -->
@@ -32,7 +34,24 @@
         <tbody id="prod_tablebody">
         </tbody>
     </table>
+    <p id="inventory"></p>
+
+    <button id="mine10stone">Mine 10 Stone</button>
+    <!--<button id="mine10co">Mine 10 Copper Ore</button>-->
+    <button id="mine10io">Mine 10 Iron Ore</button>
+    <button id="craftbmd">Craft Mining Drill</button>
+    <button id="craftsf">Craft Stone Furnace</button>
+    <!--<button id="craftrp">Craft Automation Science Pack</button>-->
+    <button id="craftigw">Craft Gear</button>
+    <button id="placebmdstone">Place Mining Drill - Stone</button>
+    <button id="placebmdio">Place Mining Drill - Iron Ore</button>
+    <!--<button id="placebmdco">Place Mining Drill - Copper Ore</button>-->
+    <button id="placesfip">Place Furnace - Iron Plate</button>
+    <!--<button id="placesfcp">Place Furnace - Copper Plate</button>-->
+    <!--<button id="researchautomation">Research Automation</button>-->
+
     </div>
+    <p>Running on <a href="http://www.github.com/caseploeg/factorio-cli/commit/{{commit_hash}}">{{commit_hash}}</a></p>
 </body>
 
 <script>
@@ -60,11 +79,112 @@
             table.appendChild(tr);  // Append the row to the table
         });
     }
+
+    function createInventory(data) {
+        el = document.getElementById('inventory');
+        el.innerHTML = JSON.stringify(data);
+    }
+
+    function setTime(data) {
+        el = document.getElementById('time');
+
+        var time = "THIS FACTORY HAS BEEN RUNNING FOR " + JSON.stringify(data) + " SECONDS";
+
+        el.innerHTML = time;
+    }
+
     var source = new EventSource('/ping')
     source.onmessage = function(event) {
         data = JSON.parse(event.data);
-        createTableFromEvent(data);
+        createTableFromEvent(data.production);
+        state = JSON.parse(data.state);
+        var timestamp = new Date().getTime();
+        console.log(state, timestamp);
+        createInventory(state.current_items);
+        console.log(state.game_time);
+        setTime(state.game_time);
     };
+</script>
+
+<script>
+    document.getElementById('mine10stone').addEventListener('click', function() {
+        fetch('/mine?resource=stone&amount=10', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+<script>
+    document.getElementById('mine10co').addEventListener('click', function() {
+        fetch('/mine?resource=copper-ore&amount=10', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+<script>
+    document.getElementById('mine10io').addEventListener('click', function() {
+        fetch('/mine?resource=iron-ore&amount=10', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+
+<script>
+    document.getElementById('craftbmd').addEventListener('click', function() {
+        fetch('/craft?item=burner-mining-drill&amount=1', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+<script>
+    document.getElementById('craftsf').addEventListener('click', function() {
+        fetch('/craft?item=stone-furnace&amount=1', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+<script>
+    document.getElementById('craftigw').addEventListener('click', function() {
+        fetch('/craft?item=iron-gear-wheel&amount=1', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+   
+<script>
+    document.getElementById('placebmdstone').addEventListener('click', function() {
+        fetch('/place?machine=burner-mining-drill&item=stone&amount=1', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+<script>
+    document.getElementById('placebmdio').addEventListener('click', function() {
+        fetch('/place?machine=burner-mining-drill&item=iron-ore&amount=1', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+<script>
+    document.getElementById('placesfip').addEventListener('click', function() {
+        fetch('/place?machine=stone-furnace&item=iron-plate&amount=1', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
+</script>
+
+<script>
+    document.getElementById('placesfcp').addEventListener('click', function() {
+        fetch('/place?machine=stone-furnace&item=copper-plate&amount=1', {method: 'POST', headers: {}})
+        .then(data => console.log(data))
+        .catch((error) => {console.error('Error:', error)});
+    })
 </script>
 
 

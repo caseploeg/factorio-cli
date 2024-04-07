@@ -17,7 +17,7 @@ app = Flask(__name__)
 limiter = Limiter(
   get_remote_address,
   app=app,
-  default_limits=["1000 per hour"],
+  default_limits=["10000 per hour"],
   storage_uri="memory://",
 )
 
@@ -129,11 +129,7 @@ def spawn():
 def research():
   technology = request.args.get('technology')
   res, msg = sim.research(technology)
-  # TODO: do better result handling than this
-  if res == 0:
-    return ('pog', 200)
-  else:
-    return (msg, 200)
+  return (msg, 200)
 
 @app.route("/researchable", methods=["POST"])
 def researchable():
@@ -203,6 +199,12 @@ def limit():
   #TODO: limits should do error handling
   sim.set_limit(item, amount)
   return 'pog', 200
+
+@app.route("/launch", methods=["POST"])
+def launch():
+  if sim.launch():
+    return '3. 2. 1. LIFT OFF!!! GG', 200
+  return 'NOT ENOUGH ROCKET PARTS', 200
 
 @app.route("/ping", methods=["GET"])
 def ping():

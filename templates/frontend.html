@@ -36,19 +36,35 @@
     </table>
 
     <h2>INVENTORY</h2>
-    <p id="inventory"></p>
+    <!--<p id="inventory"></p>-->
+    <div>
+        <img src="{{url_for('static', filename='furnace_front_on.png')}}"/>
+        <p id="furnace_inv"></p>
+    </div>
+    <div>
+        <img src="{{url_for('static', filename='iron_ore.png')}}"/>
+        <p id="io_inv"></p>
+    </div>
+    <div>
+        <img src="{{url_for('static', filename='iron_ingot.png')}}"/>
+        <p id="ip_inv"></p>
+    </div>
+    <div>
+        <img src="{{url_for('static', filename='stone.png')}}"/>
+        <p id="stone_inv"></p>
+    </div>
 
     <button id="mine10stone">Mine 10 Stone</button>
-    <!--<button id="mine10co">Mine 10 Copper Ore</button>-->
     <button id="mine10io">Mine 10 Iron Ore</button>
-    <button id="craftbmd">Craft Mining Drill</button>
     <button id="craftsf">Craft Stone Furnace</button>
-    <!--<button id="craftrp">Craft Automation Science Pack</button>-->
-    <button id="craftigw">Craft Gear</button>
-    <button id="placebmdstone">Place Mining Drill - Stone</button>
-    <button id="placebmdio">Place Mining Drill - Iron Ore</button>
-    <!--<button id="placebmdco">Place Mining Drill - Copper Ore</button>-->
     <button id="placesfip">Place Furnace - Iron Plate</button>
+    <!--<button id="mine10co">Mine 10 Copper Ore</button>-->
+    <!--<button id="craftbmd">Craft Mining Drill</button>-->
+    <!--<button id="craftrp">Craft Automation Science Pack</button>-->
+    <!--<button id="craftigw">Craft Gear</button>-->
+    <!--<button id="placebmdstone">Place Mining Drill - Stone</button>-->
+    <!--<button id="placebmdio">Place Mining Drill - Iron Ore</button>-->
+    <!--<button id="placebmdco">Place Mining Drill - Copper Ore</button>-->
     <!--<button id="placesfcp">Place Furnace - Copper Plate</button>-->
     <!--<button id="researchautomation">Research Automation</button>-->
 
@@ -88,8 +104,23 @@
     }
 
     function createInventory(data) {
+        /*
         el = document.getElementById('inventory');
         el.innerHTML = JSON.stringify(data);
+        */
+
+        el = document.getElementById('furnace_inv');
+        el.innerHTML = JSON.stringify(data['stone-furnace']);
+
+        el = document.getElementById('io_inv');
+        el.innerHTML = JSON.stringify(data['iron-ore']);
+
+        el = document.getElementById('stone_inv');
+        el.innerHTML = JSON.stringify(data['stone'])
+
+        el = document.getElementById('ip_inv');
+        el.innerHTML = JSON.stringify(data['iron-plate']);
+
     }
 
     function setTime(data) {

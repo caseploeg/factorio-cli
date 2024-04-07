@@ -3,6 +3,7 @@ set debug true
 alias create lprod prod "|" less
 alias create prodl lprod
 alias create raw prod "|" grep -E "(ore|plate)"
+alias create science prod "|" grep -E "science"
 alias create init @ scripts/factory.txt
 alias create export history -s ">" export.txt
 inventory

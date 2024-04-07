@@ -1,0 +1,714 @@
+inventory
+place burner-mining-drill iron-ore
+place stone-furnace iron-plate
+mine stone 100
+mine iron-ore 100
+mine copper-ore 100
+craft burner-mining-drill
+place burner-mining-drill copper-ore
+craft burner-mining-drill
+place burner-mining-drill stone
+craft burner-mining-drill 10
+craft burner-mining-drill 5
+place burner-mining-drill iron-ore 4
+place burner-mining-drill stone
+next
+inventory
+craft stone-furnace 10
+place stone-furnace iron-plate 5
+place stone-furnace copper-plate 2
+craft burner-mining-drill 3
+place burner-mining-drill iron-ore 2
+place burner-mining-drill stone 1
+craft burner-mining-drill
+place burner-mining-drill copper-plate
+place burner-mining-drill copper-ore
+craft burner-mining-drill 2
+place burner-mining-drill copper-ore 2
+craft stone-furnace 5
+place stone-furnace copper-plate 3
+place stone-furnace iron-plate 2
+inventory
+craft stone-furnace 5
+craft burner-mining-drill 5
+next
+craft automation-science-pack 10
+research automation
+craft assembling-machine-1
+place assembling-machine-1 stone-furnace
+limit stone-furnace 100
+craft assembling-machine-1
+place assembling-machine-1 iron-gear-wheel
+limit iron-gear-wheel 100
+craft assembling-machine-1
+place assembling-machine-1 copper-cable
+limit copper-cable 100
+craft automation-science-pack 10
+craft assembling-machine-1
+place assembling-machine-1 automation-science-pack
+craft assembling-machine-1 5
+place assembling-machine-1 burner-mining-drill
+next
+inventory
+place burner-mining-drill iron-ore 5
+place burner-mining-drill copper-ore 5
+place burner-mining-drill stone 5
+inventory
+craft automation-science-pack 100
+research logistic-science-pack
+research logistics
+research electronics
+inventory | grep assembling-machine-1
+place assembling-machine-1 assembling-machine-1
+wish assembling-machine-1
+place assembling-machine-1 electronic-circuit
+next
+wish logistic-science-pack
+wish transport-belt
+place assembling-machine-1 transport-belt
+place assembling-machine-1 inserter
+place burner-mining-drill iron-ore 15
+place burner-mining-drill copper-ore 15
+raw
+place stone-furnace copper-plate 10
+place stone-furnace iron-plate 10
+raw
+place assembling-machine-1 logistic-science-pack
+craft assembling-machine-1
+place assembling-machine-1 logistic-science-pack
+next
+next
+place stone-furnace iron-plate 50
+place stone-furnace copper-plate 35
+limit iron-gear-wheel 1000
+limit copper-cable 1000
+next
+place assembling-machine-1 iron-gear-wheel 3
+next
+place assembling-machine-1 iron-gear-wheel 10
+place assembling-machine-1 electronic-circuit 10
+limit electronic-circuit 1000
+next
+next
+place burner-mining-drill copper-ore 35
+place burner-mining-drill iron-ore 35
+next
+next
+research steel-processing
+inventory
+place stone-furnace steel-plate 5
+place burner-mining-drill 30 iron-ore
+place burner-mining-drill iron-ore 30
+inventory
+place assembling-machine-1 logistic-science-pack 4
+next
+research advanced-material-processing
+wish inserter
+wish electronic-circuit
+place assembling-machine-1 copper-cable 5
+place assembling-machine-1 logistic-science-pack 5
+next
+research advanced-material-processing
+place assembling-machine-1 automation-science-pack 10
+next
+research advanced-material-processing
+inventory
+research automation-2
+research engine
+prod | grep sciene
+prod | grep sciene
+prod | grep sci
+place assembling-machine-1 automation-science-pack 5
+place assembling-machine-1 logistic-science-pack 5
+next
+research logistics-2
+next 10
+research logistics-2
+research engine
+place assembling-machine-1 inserter 10
+place assembling-machine-1 logistic-science-pack 5
+next
+next
+research engine
+research fluid-handling
+research oil-processing
+next
+research oil-processing
+craft oil-refinery
+place stone-furnace stone-brick
+prod | grep stone
+place stone-furnace stone-brick 5
+limit stone-brick 100
+next
+craft oil-refinery
+research railway
+research sulfur-processing
+next
+research sulfur-processing
+research optics
+next
+next
+research battery
+craft pumpjack
+place pumpjack crude-oil
+prod | grep oil
+next
+next
+inventory
+place burner-mining-drill crude-oil
+craft pumpjack
+place pumpjack iron-ore
+place pumpjack crude-oil
+inventory
+next
+research plastics
+research advanced-electronics
+wish advanced-circuit
+wish plastic-bar
+wish petroleum-gas
+craft oil-refinery
+place oil-refinery basic-oil-processing
+craft oil-refinery
+place oil-refinery iron-chest
+prod | grep oil
+next
+inventory | grep pret
+inventory | grep pet
+inventory
+next
+inventory
+next 2
+inventory
+research chemical-science-pack
+place assembling-machine-1 chemical-science-pack
+place assembling-machine-1 chemical-science-pack 10
+prod | grep pack
+wish chemical-science-pack
+wish sulfur
+place assembling-machine-1 sulfur
+craft am2
+craft assembling-machine-2
+place assembling-machine-2 sulfur
+craft chemical-plant
+place chemical-plant sulfur
+wish sulfur
+prod | grep pet
+wish basic-oil-processing
+craft pumpjack 10
+place pumpjack crude-oil 10
+craft pumpjack 10
+place pumpjack crude-oil 10
+next
+next
+wish sulfur
+inventory
+craft oil-refinery
+craft oil-refinery 5
+place oil-refinery basic-oil-processing 5
+place assembling-machine-1 pumpjack
+limit pumpjack 100
+next
+place assembling-machine-1 pumpjack 10
+next
+place pumpjack crude-oil 10
+inventory | grep pumpjack
+next
+inventory
+wish pumpjack
+place assembling-machine-1 pipe 10
+limit pipe 1000
+next
+place assembling-machine-1 pumpjack 10
+next
+place assembling-machine-1 pumpjack 10
+place assembling-machine-1 pumpjack 10
+next
+wish basic-oil-processing
+inventory | grep pet
+wish sulfur
+place assembling-machine-1 pumpjack 10
+place assembling-machine-1 pumpjack 10
+wish basic-oil-processing
+inventory
+research concrete
+research modules
+research productivity-module
+research effectivity-module
+research advanced-oil-processing
+wish chemical-science-pack
+wish advanced-circuit
+place assembling-machine-2 advanced-circuit
+prod | grep circuit
+inventory
+wish advanced-circuit
+wish plastic-bar
+inventory | grep burner-mining-drill
+limit burner-mining-drill 200
+place burner-mining-drill 300 coal
+place burner-mining-drill coal 100
+next
+craft plastic-bar
+wish chemical-plant
+craft pipe 10
+raw
+inventory | grep stone-furnace
+place stone-furnace iron-plate 100
+raw
+next
+limit inserter 1000
+limit transport-belt 500
+next
+raw
+craft chemical-plant
+place chemical-plant plastic-bar
+craft chemical-plant 10
+place chemical-plant plastic-bar 10
+wish plastic-bar
+inventory
+wish plastic-bar
+next
+wish basic-oil-processing
+place pumpjack crude-oil 90
+next
+next
+wish chemical-science-pack
+wish advanced-circuit
+craft advanced-circuit
+inventory
+place assembling-machine-1 advanced-circuit 10
+wish advanced-circuit
+next
+wish advanced-circuit
+place assembling-machine-1 copper-cable 10
+place assembling-machine-1 copper-cable 10
+place assembling-machine-1 copper-cable 10
+next
+place burner-mining-drill 200 copper-ore
+place burner-mining-drill copper-ore 200
+place stone-furnace 100 copper-plate
+place stone-furnace copper-plate 50
+inventory
+wish chemical-science-pack
+craft assembling-machine-2
+place assembling-machine-2 chemical-science-pack
+wish advanced-circuit
+next
+next
+next
+wish chemical-science-pack
+wish engine-unit
+place assembling-machine-1 engine-unit
+place assembling-machine-1 engine-unit 10
+next
+wish engine
+wish engine-unit
+place stone-furnace steel-plate 50
+raw
+place burner-mining-drill iron-ore 250
+raw
+prod | grep stone-furnace
+place stone-furnace steel-plate 50
+next
+inventory
+next
+next
+next
+next
+research advanced-oil-processing
+wish advanced-oil-processing
+craft chemical-plant 10
+raw
+inventory | grep iron
+inventory | grep stone-furnace
+place stone-furnace iron-plate 85
+raw
+next
+raw
+craft chemical-plant 10
+next
+craft oil-refinery 10
+place oil-refinery advanced-oil-processing 10
+place pumpjack crude-oil 100
+next
+next
+research low-density-structure
+prod | grep science
+wish chemical-science-pack
+prod | grep "(sulfur|circuit)"
+prod | grep sulfur
+prod | grep circuit
+wish advanced-circuit
+prod | grep plastic
+prod | grep cop
+wish copper-cable
+limit copper-cable 10000
+next
+place assembling-machine-1 advanced-circuit
+place assembling-machine-1 advanced-circuit 10
+next
+next
+place assembling-machine-1 chemical-science-pack 10
+next
+research low-density-structure
+prod | grep sci
+place assembling-machine-1 chemical-science-pack 10
+prod | grep sci
+next
+research low-density-structure
+next
+next
+research low-density-structure
+research advanced-material-processing-2
+place assembling-machine-1 chemical-science-pack 20
+prod | grep sci
+next
+prod | grep sci
+place assembling-machine-1 engine-unit 10
+place assembling-machine-1 advanced-circuit 10
+next
+next
+next
+next
+research advanced-electronics-2
+place assembling-machine-1 processing-unit 10
+place assembling-machine-1 assembling-machine-2 10
+limit assembling-machine-2 100
+next
+next
+place assembling-machine-2 processing-unit 10
+wish processing-unit
+wish sulfuric-acid
+inventory | grep chem
+place chemical-plant sulfuric-acid 10
+next
+next
+next
+research advanced-material-processing-2
+next 10
+research production-science-pack
+next
+next
+next
+research production-science-pack
+next 20
+research effectivity-module-2
+next 30
+research productivity-module-2
+save demo.json
+load demo.json
+inventory
+research prod
+raw
+wish sulfur
+inventory
+wish basic-oil-processing
+place pumpjack crude-oil 100
+next
+next
+next
+limit plastic-bar 1000
+next
+next
+next
+wish chemical-science-pack
+limit sulfuric-acide 100000
+next
+next
+next
+limit sulfuric-acid 100000
+next
+next
+next
+place assembling-machine-1 chemical-science-pack 10
+next
+place assembling-machine-1 chemical-science-pack 10
+place assembling-machine-1 chemical-science-pack 10
+research
+research effectivity-module-3
+wish production-science-pack
+place assembling-machine-1 rail 10
+place assembling-machine-1 electric-furnace 10
+place assembling-machine-1 productivity-module 10
+next
+wish productivity-module
+next
+wish rail
+place assembling-machine-1 iron-stick 10
+next
+limit rail 10000
+limit iron-stick 10000
+next
+next
+wish electric-
+wish electric-furnace
+prod | grep steel
+prod | grep circuit
+place assembling-machine-1 advanced-circuit 50
+prod | grep circuit
+next
+next
+place assembling-machine-1 advanced-circuit 50
+prod | grep circuit
+wish advanced-circuit
+prod | grep plast
+next
+prod | grep cir
+limit logistic-science-pack 1000
+limit chemical-science-pack 1000
+wish transport-belt
+next
+wish electric-furnace
+wish advanced-circuit
+place assembling-machine-1 electronic-circuit 50
+limit electronic-circuit 10000
+next
+next
+limit copper-cable 100000
+place assembling-machine-1 copper-cable 100
+inventory | grep assembling-machine-1
+next
+next
+next
+wish electronic-f
+wish electronic-furnace
+wish electric-furnace
+limit stone-brick 10000
+place stone-furnace stone-brick 100
+place assembling-machine-1 production-science-pack 25
+next
+next
+next
+next
+research effectivity-module-3
+research flammables
+research rocket-fuel
+next
+next
+next
+research productivity-module-3
+next
+next
+research productivity-module-3
+wish production-science-pack
+wish productivity-module
+next
+wish advanced-circuit
+next
+wish plastic-bar
+craft oil-refinery 25
+place burner-mining-drill stone 100
+next
+craft oil-refinery 25
+next
+next
+craft oil-refinery 25
+place oil-refinery basic-oil-processing
+next
+next
+limit processing-unit 1000
+next
+next
+craft oil-refinery 50
+place oil-refinery basic-oil-processing 50
+next
+next
+next
+research productivity-module-3
+research lubricant
+research electric-engine
+research robotics
+research utility-science-pack
+research speed-module
+research speed-module-2
+research speed-module-3
+next
+next
+next
+next
+research
+research speed-module-3
+inventory
+prod | grep oil
+craft oil-refinery
+craft oil-refinery 25
+craft pumpjack 50
+place pumpjack crude-oil 50
+next
+craft pumpjack 50
+place pumpjack crude-oil 50
+next
+craft pumpjack 50
+place pumpjack crude-oil 50
+next
+inventory
+next
+next
+research speed-module-3
+research rocket-control-unit
+place assembling-machine-1 utility-science-pack
+wish utility-science-pack
+inventory
+place assembling-machine-1 flying-robot-frame 10
+place assembling-machine-1 low-density-structure 10
+place chemical-plant battery
+craft chemical-plant 50
+place chemical-plant battery 10
+next
+place chemical-plant lubricant 10
+place assembling-machine-1 electric-engine-unit 10
+inventory | grep 2
+place am2 electric-engine-unit 10
+place assembling-machine-2 electric-engine-unit 10
+next
+next
+place assembling-machine-1 utility-science-pack 10
+next
+next
+next 10
+research rocket-control-unit
+next 10
+next 10
+research rocket-control-unit
+research rocket-silo
+limit plastic-bar 10000
+place chemical-plant plastic-bar 20
+next
+next 10
+next 10
+research rocket-silo
+next 10
+research rocket-silo
+place assembling-machine-1 utility-science-pack 25
+wish chemical-science-pack
+limit lubricant 20000
+wish sulfur
+place pumpjack crude-oil 100
+place oil-refinery basic-oil-processing 25
+next
+next
+research rocket-silo
+next 10
+research rocket-silo
+next
+research rocket-silo
+place chemical-plant sulfur 25
+craft chemical-plant 200
+place chemical-plant sulfur 100
+inventory | grep oil
+place oil-refinery basic-oil-processing 28
+next
+limit sulfuric-acid 10000
+next
+next
+wish chemical-science-pack
+place assembling-machine-1 engine-unit 25
+next
+next
+next
+next
+research rocket-silo
+craft rocket-silo
+place stone-furnace concrete 100
+place asssembling-machine-2 concrete 100
+place assembling-machine-2 concrete 10
+place assembling-machine-2 concrete 10
+place assembling-machine-2 concrete 10
+next
+craft rocket-silo
+place rocket-silo rocket-part
+wish rocket-part
+place chemical-plant rocket-fuel
+place assembling-machine-2 rocket-fuel
+place assembling-machine-2 rocket-fuel 10
+place assembling-machine-2 rocket-control-unit 10
+next
+wish rocket-fuel
+place oil-refinery heavy-oil-cracking
+place chemical-plant heavy-oil-cracking 10
+next
+place chemical-plant solid-fuel-from-heavy-oil 10
+next
+wish rocket-control-unit
+place assembling-machine-1 speed-module 10
+next
+wish rocket-part
+next
+next
+limit utility-science-pack 100
+limit production-science-pack 100
+next
+wish low-density-structure
+place stone-furnace steel-plate 100
+next
+place stone-furnace steel-plate 100
+craft stone-furnace 100
+place stone-furnace steel-plate 100
+next
+place stone-furnace steel-plate 100
+next
+wish rocket-part
+place assembling-machine-1 low-density-structure 10
+place assembling-machine-1 low-density-structure 10
+place assembling-machine-1 low-density-structure 10
+next
+next
+wish rocket-part
+place assembling-machine-1 rocket-control-unit 10
+place assembling-machine-2 rocket-fuel 20
+next
+next
+next
+next
+place assembling-machine-1 rocket-control-unit
+place assembling-machine-1 rocket-control-unit 10
+place assembling-machine-1 rocket-control-unit 25
+next
+craft oil-refinery 100
+place oil-refinery advanced-oil-processing 50
+place oil-refinery advanced-oil-processing 100
+place oil-refinery advanced-oil-processing 50
+next
+next
+next
+wish rocket-control-unit
+place assembling-machine-1 speed-module 20
+place assembling-machine-1 speed-module 20
+next
+next
+next
+next
+place pumpjack crude-oil 100
+limit advanced-oil-processing 5000
+next
+next
+limit battery 10000
+next
+next
+next
+inventory
+place chemical-plant solid-fuel-from-light-oil 50
+next
+next
+wish rocket-control-unit
+wish speed-module
+limit advanced-oil-processing 1000
+next
+next
+next
+next
+next 10
+place pumpjack crude-oil 100
+next
+next
+next
+place assembling-machine-1 advanced-circuit 25
+place assembling-machine-1 advanced-circuit 25
+next
+next
+next
+next 10
+next
+next
+next
+next
+launch

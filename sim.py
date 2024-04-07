@@ -20,6 +20,12 @@ class Sim():
         self.data = SimpleNamespace(**data_dict)
         self.clear()
 
+    def launch(self):
+        if self.current_items['rocket-part'] >= 100:
+            self.current_items['rocket-part'] -= 100
+            return True
+        return False
+    
     # TODO: error message on crafting can return the full missing list
     def craft(self, item, amount):
         res, missing, available, msg = craftable(self, item, amount)
@@ -144,12 +150,14 @@ class Sim():
             self.deduct_list(pl)
             self.current_tech.add(tech)
             # unlock recipes
+            unlocked = []
             for effect in self.data.technology[tech]['effects']:
                 if effect['type'] == 'unlock-recipe':
                     self.current_recipes.add(effect['recipe'])
-            return 0, None
-        else:
-            return res, msg
+                    unlocked.append(effect['recipe'])
+            unlocked_str = '\n'.join(unlocked)
+            msg = f'unlocked the following recipes:\n\n{unlocked_str}' 
+        return res, msg 
 
     def check_item(self, item, amount, ci=None):
         if ci == None:

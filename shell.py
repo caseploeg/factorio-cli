@@ -43,6 +43,9 @@ class FactorioShell(cmd2.Cmd):
         params.statement = self.statement_parser.parse(converted)
         return params 
 
+    def do_launch(self, args):
+        msg = client.launch()
+        self.poutput(msg)
 
     def do_time(self, args):
         """Return the current time elapased in the sim (in seconds)"""
@@ -134,10 +137,12 @@ class FactorioShell(cmd2.Cmd):
         }
         found = False
         if args.item in self.data.recipes:
+            self.poutput("CRAFTING RECIPE:")
             self.poutput(json.dumps(utils.shopping_list(self.data.recipes, request), indent=4))
             found = True
         if args.item in self.data.technology:
             # if the player wished for a technology, output the list of potions required for research
+            self.poutput("RESEARCH RECIPE:")
             self.poutput(json.dumps(utils.get_potion_list(self.data.technology, args.item)))
             found = True
         if not found: 

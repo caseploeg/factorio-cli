@@ -17,6 +17,10 @@ def get_game_time():
   r.raise_for_status()
   return float(r.text) 
 
+def launch():
+  r = requests.post(f'{path}launch')
+  return r.text
+
 def clear():
   # /clear
   r = requests.post(f'{path}clear')

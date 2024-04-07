@@ -65,3 +65,37 @@ Are my mining drills keeping up with the furnaces? Is iron-plating supply low?
 
 multi product recipes not supported, only the first product of the recipe is obtained, still possible to win the game.
 just give the player infinite water in their inventory
+
+
+
+
+
+TODO: 
+
+- need real feedback on the
+the research command, it should
+say what recipes just got unlocked
+- frontend needs to be like 3 
+buttons on mobile
+- frontend inventory needs to
+be parsed, easy to understand
+- frontend should expose
+  mining, 
+  placing and crafting stone furnace
+  - doing these actions should
+  give real feedback, basically
+  cookie clicker animation
+  - I could make it look like a cli
+- cli should do everything else 
+- production stats
+
+- need to visualize the
+tech tree? 
+
+- some way to show traffic,
+ active users, ... 
+
+[ ]
+[ ]
+[ ] 
+> ..... [send]

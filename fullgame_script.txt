@@ -711,4 +711,3 @@ next
 next
 next
 next
-launch

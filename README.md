@@ -34,7 +34,7 @@ https://www.b-list.org/weblog/2022/may/13/boring-python-dependencies/
 ```
 $ python3 -m venv venv
 $ source venv/bin/activate
-$ pip install flask requests cmd2
+$ pip install -r requirements.txt 
 $ flask --app server run
 $ python3 ./main.py
 ```

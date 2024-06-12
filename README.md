@@ -48,10 +48,10 @@ This project is using an end-to-end testing strategy to avoid unwanted breaking 
 ## local setup 
 https://www.b-list.org/weblog/2022/may/13/boring-python-dependencies/
 ```
-$ python3 -m venv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt 
-$ source ./setupdevenv.sh
-$ flask --app server run
-$ python3 ./main.py
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt 
+source ./setupdevenv.sh
+flask --app server run
+python3 ./main.py
 ```

@@ -1,6 +1,8 @@
 # factorio-cli
 
-The factorio-cli is text-based software for planning speedruns for the game factorio. It can also be understood as turn-based factorio where each in-game action has been abstracted into a text command.
+Simulate 10 hours of gameplay in < 1 minute on the command line.
+
+The factorio-cli is text-based software for planning speedruns for the game factorio. It can also be understood as turn-based factorio where each in-game action has been abstracted into a text command. 
 
 ## simulation features
 - inventory system

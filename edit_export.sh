@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# this script is a processing step that takes cli history exports and
+# removes unnecessary commands
+
 # Check if a file name is provided
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <filename>"

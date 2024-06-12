@@ -1,5 +1,9 @@
 # factorio-cli
 
+![factorio-cli screenshot](factorio-cli-screenshot.png)
+
+
+
 Simulate 10 hours of gameplay in < 1 minute on the command line.
 
 The factorio-cli is text-based software for planning speedruns for the game factorio. It can also be understood as turn-based factorio where each in-game action has been abstracted into a text command. 
@@ -35,7 +39,7 @@ This project is using an end-to-end testing strategy to avoid unwanted breaking 
     - visuals
     - multiplayer 
 
-## Dependencies
+## dependencies
 - [cmd2](https://github.com/python-cmd2/cmd2) for the cli 
 - [Data Exporter to JSON](https://mods.factorio.com/mod/recipelister) mod by Erythion for data extraction
 - [flask](https://flask.palletsprojects.com/en/3.0.x/)

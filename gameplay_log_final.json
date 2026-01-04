@@ -1,0 +1,223 @@
+[
+  {
+    "step": 1,
+    "time": "0:06:49",
+    "command": "get_inventory",
+    "args": [],
+    "result": "{'burner-mining-drill': 1, 'coal': 30, 'copper-ore': 0, 'copper-plate': 30, 'iron-gear-wheel': 9, 'iron-ore': 0, 'iron-plate': 37, 'stone': 0, 'stone-furnace': 1, 'water': 1000000000}"
+  },
+  {
+    "step": 2,
+    "time": "0:06:49",
+    "command": "production",
+    "args": [],
+    "result": "[[\"iron-plate\",0,126.0,37,\"\"],[\"copper-plate\",0,54.0,30,\"\"]]\n"
+  },
+  {
+    "step": 3,
+    "time": "0:06:49",
+    "command": "mine",
+    "args": [
+      "iron-ore",
+      100
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 4,
+    "time": "0:08:29",
+    "command": "mine",
+    "args": [
+      "copper-ore",
+      50
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 5,
+    "time": "0:09:19",
+    "command": "mine",
+    "args": [
+      "stone",
+      30
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 6,
+    "time": "0:09:49",
+    "command": "get_inventory",
+    "args": [],
+    "result": "{'burner-mining-drill': 1, 'coal': 30, 'copper-ore': 0, 'copper-plate': 80, 'iron-gear-wheel': 9, 'iron-ore': 0, 'iron-plate': 137, 'stone': 30, 'stone-furnace': 1, 'water': 1000000000}"
+  },
+  {
+    "step": 7,
+    "time": "0:09:49",
+    "command": "craft",
+    "args": [
+      "iron-gear-wheel",
+      6
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 8,
+    "time": "0:09:52",
+    "command": "craft",
+    "args": [
+      "burner-mining-drill",
+      5
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 9,
+    "time": "0:10:04",
+    "command": "get_inventory",
+    "args": [],
+    "result": "{'burner-mining-drill': 6, 'coal': 30, 'copper-ore': 0, 'copper-plate': 80, 'iron-gear-wheel': 0, 'iron-ore': 0, 'iron-plate': 110, 'stone': 10, 'stone-furnace': 0, 'water': 1000000000}"
+  },
+  {
+    "step": 10,
+    "time": "0:10:04",
+    "command": "place",
+    "args": [
+      "burner-mining-drill",
+      "iron-ore",
+      4
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 11,
+    "time": "0:10:04",
+    "command": "place",
+    "args": [
+      "burner-mining-drill",
+      "copper-ore",
+      2
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 12,
+    "time": "0:10:04",
+    "command": "craft",
+    "args": [
+      "stone-furnace",
+      5
+    ],
+    "result": "crafting 5 stone-furnace failed, can not craft stone"
+  },
+  {
+    "step": 13,
+    "time": "0:10:04",
+    "command": "place",
+    "args": [
+      "stone-furnace",
+      "iron-plate",
+      2
+    ],
+    "result": "failed to place 2 of stone-furnace, player has < 2 of stone-furnace in inventory"
+  },
+  {
+    "step": 14,
+    "time": "0:10:04",
+    "command": "get_inventory",
+    "args": [],
+    "result": "{'burner-mining-drill': 0, 'coal': 30, 'copper-ore': 0, 'copper-plate': 80, 'iron-gear-wheel': 0, 'iron-ore': 0, 'iron-plate': 110, 'stone': 10, 'stone-furnace': 0, 'water': 1000000000}"
+  },
+  {
+    "step": 15,
+    "time": "0:10:04",
+    "command": "next",
+    "args": [
+      1
+    ],
+    "result": null
+  },
+  {
+    "step": 16,
+    "time": "0:11:04",
+    "command": "production",
+    "args": [],
+    "result": "[[\"iron-plate\",60,126.0,110,\"\"],[\"copper-plate\",30,54.0,80,\"\"],[\"iron-ore\",60.0,60.0,60,\"\"],[\"copper-ore\",30.0,30.0,30,\"\"]]\n"
+  },
+  {
+    "step": 17,
+    "time": "0:11:04",
+    "command": "get_inventory",
+    "args": [],
+    "result": "{'burner-mining-drill': 0, 'coal': 30, 'copper-ore': 30, 'copper-plate': 80, 'iron-gear-wheel': 0, 'iron-ore': 60, 'iron-plate': 110, 'stone': 10, 'stone-furnace': 0, 'water': 1000000000}"
+  },
+  {
+    "step": 18,
+    "time": "0:11:04",
+    "command": "production",
+    "args": [],
+    "result": "[[\"iron-plate\",60,126.0,110,\"\"],[\"copper-plate\",30,54.0,80,\"\"],[\"iron-ore\",60.0,60.0,60,\"\"],[\"copper-ore\",30.0,30.0,30,\"\"]]\n"
+  },
+  {
+    "step": 19,
+    "time": "0:11:04",
+    "command": "limit",
+    "args": [
+      "iron-plate",
+      10
+    ],
+    "result": "pog"
+  },
+  {
+    "step": 20,
+    "time": "0:11:04",
+    "command": "next",
+    "args": [
+      3
+    ],
+    "result": null
+  },
+  {
+    "step": 21,
+    "time": "0:14:04",
+    "command": "production",
+    "args": [],
+    "result": "[[\"iron-plate\",0,126.0,110,10],[\"copper-plate\",54.0,54.0,110,\"\"],[\"iron-ore\",60.0,60.0,240,\"\"],[\"copper-ore\",30.0,30.0,90,\"\"]]\n"
+  },
+  {
+    "step": 22,
+    "time": "0:14:04",
+    "command": "get_inventory",
+    "args": [],
+    "result": "{'burner-mining-drill': 0, 'coal': 30, 'copper-ore': 90, 'copper-plate': 110, 'iron-gear-wheel': 0, 'iron-ore': 240, 'iron-plate': 110, 'stone': 10, 'stone-furnace': 0, 'water': 1000000000}"
+  },
+  {
+    "step": 23,
+    "time": "0:14:04",
+    "command": "next",
+    "args": [
+      5
+    ],
+    "result": null
+  },
+  {
+    "step": 24,
+    "time": "0:19:04",
+    "command": "production",
+    "args": [],
+    "result": "[[\"iron-plate\",0,126.0,110,10],[\"copper-plate\",54.0,54.0,200,\"\"],[\"iron-ore\",60.0,60.0,540,\"\"],[\"copper-ore\",30.0,30.0,150,\"\"]]\n"
+  },
+  {
+    "step": 25,
+    "time": "0:19:04",
+    "command": "get_inventory",
+    "args": [],
+    "result": "{'burner-mining-drill': 0, 'coal': 30, 'copper-ore': 150, 'copper-plate': 200, 'iron-gear-wheel': 0, 'iron-ore': 540, 'iron-plate': 110, 'stone': 10, 'stone-furnace': 0, 'water': 1000000000}"
+  },
+  {
+    "step": 26,
+    "time": "0:19:04",
+    "command": "production",
+    "args": [],
+    "result": "[[\"iron-plate\",0,126.0,110,10],[\"copper-plate\",54.0,54.0,200,\"\"],[\"iron-ore\",60.0,60.0,540,\"\"],[\"copper-ore\",30.0,30.0,150,\"\"]]\n"
+  }
+]

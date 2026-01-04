@@ -1,0 +1,329 @@
+[
+  {
+    "time": "0:00:00",
+    "command": "get_inventory",
+    "args": [],
+    "kwargs": {},
+    "result": "{'burner-mining-drill': 1, 'iron-plate': 5, 'stone-furnace': 1, 'water': 1000000000}"
+  },
+  {
+    "time": "0:00:00",
+    "command": "mine",
+    "args": [
+      "stone",
+      25
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:00:25",
+    "command": "mine",
+    "args": [
+      "coal",
+      15
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:00:40",
+    "command": "mine",
+    "args": [
+      "iron-ore",
+      30
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:01:10",
+    "command": "mine",
+    "args": [
+      "copper-ore",
+      20
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:01:30",
+    "command": "get_inventory",
+    "args": [],
+    "kwargs": {},
+    "result": "{'burner-mining-drill': 1, 'coal': 15, 'copper-ore': 20, 'iron-ore': 30, 'iron-plate': 5, 'stone': 25, 'stone-furnace': 1, 'water': 1000000000}"
+  },
+  {
+    "time": "0:01:30",
+    "command": "cookbook",
+    "args": [],
+    "kwargs": {},
+    "result": "lab\nboiler\niron-chest\nradar\nstone-furnace\noffshore-pump\nwooden-chest\nautomation-science-pack\ntransport-belt\nsmall-electric-pole\nelectronic-circuit\niron-plate\nburner-inserter\nrepair-pack\ncopper-cable\npipe-to-ground\npistol\nfirearm-magazine\nstone-brick\nburner-mining-drill\nelectric-mining-drill\niron-stick\npipe\ncopper-plate\nlight-armor\nsteam-engine\niron-gear-wheel\ninserter"
+  },
+  {
+    "time": "0:01:30",
+    "command": "craft",
+    "args": [
+      "stone-furnace",
+      6
+    ],
+    "kwargs": {},
+    "result": "crafting 6 stone-furnace failed, can not craft stone"
+  },
+  {
+    "time": "0:01:30",
+    "command": "craft",
+    "args": [
+      "iron-plate",
+      10
+    ],
+    "kwargs": {},
+    "result": "something went wrong, iron-plate does not have a crafting recipe"
+  },
+  {
+    "time": "0:01:30",
+    "command": "craft",
+    "args": [
+      "iron-gear-wheel",
+      3
+    ],
+    "kwargs": {},
+    "result": "crafting 3 iron-gear-wheel failed, can not craft iron-plate"
+  },
+  {
+    "time": "0:01:30",
+    "command": "craft",
+    "args": [
+      "burner-mining-drill",
+      3
+    ],
+    "kwargs": {},
+    "result": "crafting 3 burner-mining-drill failed, can not craft iron-plate"
+  },
+  {
+    "time": "0:01:30",
+    "command": "get_inventory",
+    "args": [],
+    "kwargs": {},
+    "result": "{'burner-mining-drill': 1, 'coal': 15, 'copper-ore': 20, 'iron-ore': 30, 'iron-plate': 5, 'stone': 25, 'stone-furnace': 1, 'water': 1000000000}"
+  },
+  {
+    "time": "0:01:30",
+    "command": "place",
+    "args": [
+      "burner-mining-drill",
+      "iron-ore",
+      2
+    ],
+    "kwargs": {},
+    "result": "failed to place 2 of burner-mining-drill, player has < 2 of burner-mining-drill in inventory"
+  },
+  {
+    "time": "0:01:30",
+    "command": "place",
+    "args": [
+      "burner-mining-drill",
+      "copper-ore",
+      1
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:01:30",
+    "command": "place",
+    "args": [
+      "stone-furnace",
+      "iron-plate",
+      4
+    ],
+    "kwargs": {},
+    "result": "failed to place 4 of stone-furnace, player has < 4 of stone-furnace in inventory"
+  },
+  {
+    "time": "0:01:30",
+    "command": "place",
+    "args": [
+      "stone-furnace",
+      "copper-plate",
+      2
+    ],
+    "kwargs": {},
+    "result": "failed to place 2 of stone-furnace, player has < 2 of stone-furnace in inventory"
+  },
+  {
+    "time": "0:01:30",
+    "command": "production",
+    "args": [],
+    "kwargs": {},
+    "result": "[[\"copper-ore\",15.0,15.0,20,\"\"]]\n"
+  },
+  {
+    "time": "0:01:30",
+    "command": "next",
+    "args": [
+      1
+    ],
+    "kwargs": {},
+    "result": null
+  },
+  {
+    "time": "0:02:30",
+    "command": "production",
+    "args": [],
+    "kwargs": {},
+    "result": "[[\"copper-ore\",15.0,15.0,35,\"\"]]\n"
+  },
+  {
+    "time": "0:02:30",
+    "command": "get_inventory",
+    "args": [],
+    "kwargs": {},
+    "result": "{'burner-mining-drill': 0, 'coal': 15, 'copper-ore': 35, 'iron-ore': 30, 'iron-plate': 5, 'stone': 25, 'stone-furnace': 1, 'water': 1000000000}"
+  },
+  {
+    "time": "0:02:30",
+    "command": "production",
+    "args": [],
+    "kwargs": {},
+    "result": "[[\"copper-ore\",15.0,15.0,35,\"\"]]\n"
+  },
+  {
+    "time": "0:02:30",
+    "command": "mine",
+    "args": [
+      "stone",
+      20
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:02:50",
+    "command": "mine",
+    "args": [
+      "iron-ore",
+      40
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:03:30",
+    "command": "mine",
+    "args": [
+      "coal",
+      20
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:03:50",
+    "command": "craft",
+    "args": [
+      "iron-plate",
+      20
+    ],
+    "kwargs": {},
+    "result": "something went wrong, iron-plate does not have a crafting recipe"
+  },
+  {
+    "time": "0:03:50",
+    "command": "craft",
+    "args": [
+      "stone-furnace",
+      4
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:03:52",
+    "command": "craft",
+    "args": [
+      "iron-gear-wheel",
+      6
+    ],
+    "kwargs": {},
+    "result": "crafting 6 iron-gear-wheel failed, can not craft iron-plate"
+  },
+  {
+    "time": "0:03:52",
+    "command": "craft",
+    "args": [
+      "burner-mining-drill",
+      2
+    ],
+    "kwargs": {},
+    "result": "crafting 2 burner-mining-drill failed, can not craft iron-plate"
+  },
+  {
+    "time": "0:03:52",
+    "command": "place",
+    "args": [
+      "burner-mining-drill",
+      "iron-ore",
+      2
+    ],
+    "kwargs": {},
+    "result": "failed to place 2 of burner-mining-drill, player has < 2 of burner-mining-drill in inventory"
+  },
+  {
+    "time": "0:03:52",
+    "command": "place",
+    "args": [
+      "stone-furnace",
+      "iron-plate",
+      4
+    ],
+    "kwargs": {},
+    "result": "pog"
+  },
+  {
+    "time": "0:03:52",
+    "command": "next",
+    "args": [
+      2
+    ],
+    "kwargs": {},
+    "result": null
+  },
+  {
+    "time": "0:05:52",
+    "command": "production",
+    "args": [],
+    "kwargs": {},
+    "result": "[[\"copper-ore\",15.0,15.0,85,\"\"],[\"iron-plate\",0,72.0,75,\"\"]]\n"
+  },
+  {
+    "time": "0:05:52",
+    "command": "get_inventory",
+    "args": [],
+    "kwargs": {},
+    "result": "{'burner-mining-drill': 0, 'coal': 35, 'copper-ore': 85, 'iron-ore': 0, 'iron-plate': 75, 'stone': 25, 'stone-furnace': 1, 'water': 1000000000}"
+  },
+  {
+    "time": "0:05:52",
+    "command": "next",
+    "args": [
+      1
+    ],
+    "kwargs": {},
+    "result": null
+  },
+  {
+    "time": "0:06:52",
+    "command": "production",
+    "args": [],
+    "kwargs": {},
+    "result": "[[\"copper-ore\",15.0,15.0,100,\"\"],[\"iron-plate\",0,72.0,75,\"\"]]\n"
+  },
+  {
+    "time": "0:06:52",
+    "command": "get_inventory",
+    "args": [],
+    "kwargs": {},
+    "result": "{'burner-mining-drill': 0, 'coal': 35, 'copper-ore': 100, 'iron-ore': 0, 'iron-plate': 75, 'stone': 25, 'stone-furnace': 1, 'water': 1000000000}"
+  }
+]

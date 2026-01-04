@@ -1,0 +1,80 @@
+================================================================================
+TESTING 10 IRON PLATES PER MINUTE PRODUCTION
+================================================================================
+
+Current inventory:
+{
+  "burner-mining-drill": 0,
+  "coal": 30,
+  "copper-ore": 150,
+  "copper-plate": 200,
+  "iron-gear-wheel": 0,
+  "iron-ore": 540,
+  "iron-plate": 110,
+  "stone": 10,
+  "stone-furnace": 0,
+  "water": 1000000000
+}
+
+Current production:
+[["iron-plate",0,126.0,110,10],["copper-plate",54.0,54.0,200,""],["iron-ore",60.0,60.0,540,""],["copper-ore",30.0,30.0,150,""]]
+
+
+================================================================================
+Removing production limit to allow free production...
+================================================================================
+
+Running for 1 minute with no limit...
+
+Production after 1 minute:
+  Iron plates: 126.0/min actual, 126.0/min potential
+  Inventory: 236
+
+================================================================================
+Setting limit to 10 iron plates/min...
+================================================================================
+
+Production with 10/min limit:
+  Iron plates: 0.0/min actual, 126.0/min potential
+  Inventory: 236
+  Limit: 10
+
+================================================================================
+Running for 3 minutes to observe limited production...
+================================================================================
+Initial iron plates: 236
+Final iron plates: 236
+Change over 3 minutes: 0 plates
+Average rate: 0.0 plates/min
+
+Final production stats:
+
+================================================================================
+PRODUCTION TABLE
+================================================================================
+Item                        Actual/min   Potential/min    Inventory      Limit
+--------------------------------------------------------------------------------
+iron-plate                         0.0           126.0          236         10
+copper-plate                      54.0            54.0          380          -
+iron-ore                          60.0            60.0          654          -
+copper-ore                        30.0            30.0           90          -
+
+================================================================================
+CONCLUSION
+================================================================================
+
+The factory is set up with:
+  • 4 burner mining drills on iron-ore (60 ore/min)
+  • 6 stone furnaces for iron-plate (126 plates/min potential)
+  • Production limit set to 10 iron plates/min
+
+The limit system controls the maximum production rate, but actual
+production depends on whether there's demand (inventory consumption).
+
+When inventory is full, production may stop even with a limit set.
+The limit ensures we don't produce MORE than 10/min, but if there's
+no consumption, we won't produce at all.
+
+For true steady-state 10/min production, we would need to continuously
+consume iron plates (e.g., by crafting other items).
+

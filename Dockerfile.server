@@ -1,0 +1,37 @@
+# Game Server Container
+# Contains all game code and data - NOT exposed to LLM
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy ALL game code and data (hidden from LLM)
+COPY sim.py .
+COPY server.py .
+COPY client.py .
+COPY craft.py .
+COPY data.py .
+COPY errors.py .
+COPY files.py .
+COPY init.py .
+COPY shortcuts.py .
+COPY utils.py .
+COPY data/ ./data/
+COPY templates/ ./templates/
+COPY static/ ./static/
+
+# Flask configuration
+ENV FLASK_APP=server.py
+ENV FLASK_ENV=production
+
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD curl -f http://localhost:5000/time || exit 1
+
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]

@@ -14,6 +14,7 @@ from collections import defaultdict
 from sim import Sim
 from files import load_files
 from utils import shopping_list, tech_needed, get_potion_list
+from restricted_bash import RestrictedBash, BashConfig, SecurityLevel, BashResult
 
 
 @dataclass
@@ -106,11 +107,14 @@ class FactorioHarness:
         "limit <item> <amount>",
         "prio <machine> <item> <old_prio> <new_prio>",
         "launch",
+        "bash <command>",
+        "info <item>",
     ]
 
     MINEABLE_RESOURCES = ['stone', 'coal', 'iron-ore', 'copper-ore']
 
-    def __init__(self, data_dict: Optional[dict] = None):
+    def __init__(self, data_dict: Optional[dict] = None, enable_bash: bool = True,
+                 bash_security: SecurityLevel = SecurityLevel.MODERATE):
         """Initialize the harness with game data."""
         if data_dict is None:
             data_dict = load_files()
@@ -118,6 +122,24 @@ class FactorioHarness:
         self.sim = Sim(data_dict)
         self.action_history: List[ActionResult] = []
         self.turn_count = 0
+
+        # Initialize restricted bash if enabled
+        self.bash_enabled = enable_bash
+        if enable_bash:
+            import os
+            project_dir = os.path.dirname(os.path.abspath(__file__))
+            bash_config = BashConfig(
+                security_level=bash_security,
+                timeout=5.0,
+                allowed_paths=[
+                    os.path.join(project_dir, "data"),
+                    os.path.join(project_dir, "docs"),
+                ],
+                working_dir=project_dir,
+            )
+            self.bash = RestrictedBash(bash_config)
+        else:
+            self.bash = None
 
     def reset(self) -> GameObservation:
         """Reset the simulation to initial state."""
@@ -165,11 +187,28 @@ class FactorioHarness:
             "LIMITS (control production):",
             "  limit <item> <amount>  - Cap production of an item",
             "",
+            "INFORMATION:",
+            "  info <item>  - Get recipe/research requirements for an item",
+        ]
+
+        if self.bash_enabled:
+            lines.extend([
+                "",
+                "BASH (read game data files):",
+                "  bash <command>  - Run restricted shell command",
+                "    Examples:",
+                "      bash cat data/recipe.json | head -20",
+                "      bash grep iron data/recipe.json",
+                "      bash ls data/",
+            ])
+
+        lines.extend([
+            "",
             "GOAL:",
             "  launch  - Launch rocket (requires 100 rocket-parts)",
             "",
             "Respond with a single action in the format shown above.",
-        ]
+        ])
         return "\n".join(lines)
 
     def execute_action(self, action_str: str) -> ActionResult:
@@ -182,7 +221,7 @@ class FactorioHarness:
         state_before = json.loads(self.sim.serialize_state())
         time_before = self.sim.game_time
 
-        action_str = action_str.strip().lower()
+        action_str = action_str.strip()
 
         # Parse the action
         parts = action_str.split()
@@ -194,8 +233,12 @@ class FactorioHarness:
                 state_before=state_before,
             )
 
-        cmd = parts[0]
-        args = parts[1:]
+        cmd = parts[0].lower()
+        # For bash commands, preserve case in arguments
+        if cmd == "bash":
+            args = parts[1:]
+        else:
+            args = [a.lower() for a in parts[1:]]
 
         try:
             result = self._execute_command(cmd, args)
@@ -275,6 +318,30 @@ class FactorioHarness:
             if success:
                 return ActionResult(True, cmd, "ROCKET LAUNCHED! YOU WIN!")
             return ActionResult(False, cmd, "Not enough rocket parts (need 100)")
+
+        elif cmd == "bash":
+            if not self.bash_enabled:
+                return ActionResult(False, cmd, "Bash access is disabled")
+            if not args:
+                return ActionResult(False, cmd, "Usage: bash <command>")
+            # Rejoin args since bash command might have spaces
+            bash_cmd = " ".join(args)
+            result = self.bash.execute(bash_cmd)
+            if result.blocked:
+                return ActionResult(False, cmd, f"Blocked: {result.block_reason}")
+            elif result.success:
+                output = result.stdout.strip() or "(no output)"
+                return ActionResult(True, cmd, output)
+            else:
+                error = result.stderr.strip() or f"Command failed with code {result.return_code}"
+                return ActionResult(False, cmd, error)
+
+        elif cmd == "info":
+            if not args:
+                return ActionResult(False, cmd, "Usage: info <item>")
+            item = args[0]
+            info = self.get_helper_info(item)
+            return ActionResult(True, cmd, info)
 
         else:
             return ActionResult(False, cmd, f"Unknown command: {cmd}")

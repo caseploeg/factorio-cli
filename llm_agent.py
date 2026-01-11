@@ -43,10 +43,19 @@ STRATEGY TIPS:
 5. Build up science pack production to research more technology
 6. Eventually produce rocket-parts and launch!
 
+TOOLS AVAILABLE:
+- info <item>: Get recipe requirements for any item
+- bash <command>: Read game data files (read-only, restricted)
+  Examples:
+    bash cat data/recipe.json
+    bash grep automation data/technology.json
+    bash ls data/
+
 IMPORTANT:
 - Each turn, respond with EXACTLY ONE action
 - Use the exact syntax shown (e.g., "mine iron-ore 50" not "mine 50 iron ore")
 - Check your inventory before crafting - you need the ingredients
+- Use "info" or "bash" to look up recipes when unsure
 - Place machines to automate production, then use "next" to let time pass
 - Research unlocks new recipes
 
@@ -158,6 +167,8 @@ class CohereAgent(BaseAgent):
             r"^(limit\s+\S+\s+\d+)",
             r"^(prio\s+\S+\s+\S+\s+\d+\s+\d+)",
             r"^(launch)",
+            r"^(bash\s+.+)",
+            r"^(info\s+\S+)",
         ]
 
         # First, try to match from start of response

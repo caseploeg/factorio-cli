@@ -19,6 +19,7 @@ from pathlib import Path
 
 from llm_harness import FactorioHarness, GameObservation, ActionResult, create_harness
 from llm_agent import BaseAgent, AgentConfig, CohereAgent, RandomAgent, ScriptedAgent
+from metrics import MetricsCollector, create_collector
 
 
 @dataclass

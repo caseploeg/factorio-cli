@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # Main evaluation runner
+  eval:
+    build: .
+    environment:
+      - COHERE_API_KEY=${COHERE_API_KEY}
+    volumes:
+      - ./results:/app/results
+      - ./checkpoints:/app/checkpoints
+      - ./logs:/app/logs
+    command:
+      - "--agent"
+      - "${EVAL_AGENT:-random}"
+      - "--max-turns"
+      - "${EVAL_MAX_TURNS:-200}"
+      - "--episodes"
+      - "${EVAL_EPISODES:-1}"
+      - "--output-dir"
+      - "/app/results"
+
+  # Flask web UI (optional)
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=server.py
+      - FLASK_ENV=development
+    entrypoint: ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+    profiles:
+      - web
+
+  # Run comparison between agents
+  compare:
+    build: .
+    environment:
+      - COHERE_API_KEY=${COHERE_API_KEY}
+    volumes:
+      - ./results:/app/results
+    command:
+      - "--compare"
+      - "--max-turns"
+      - "${EVAL_MAX_TURNS:-200}"
+      - "--episodes"
+      - "${EVAL_EPISODES:-3}"
+    profiles:
+      - compare

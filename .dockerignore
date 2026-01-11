@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.eggs
+*.egg-info
+.pytest_cache
+
+# Output directories
+checkpoints/
+logs/
+results/
+eval_output/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment and secrets
+.env
+.env.*
+*.key
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation (optional - comment out if needed in container)
+# docs/
+*.md
+!README.md
+
+# Test outputs
+expected/
+testcases/

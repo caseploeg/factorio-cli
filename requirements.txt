@@ -3,3 +3,4 @@ Flask==2.2.2
 Flask_Limiter==3.5.0
 matplotlib==3.7.0
 Requests==2.31.0
+cohere>=5.0.0

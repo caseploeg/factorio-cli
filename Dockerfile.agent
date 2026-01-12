@@ -1,0 +1,307 @@
+# LLM Agent Container (Isolated)
+# ONLY contains agent code - NO game files or data
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install only what the agent needs
+RUN pip install --no-cache-dir \
+    cohere>=5.0.0 \
+    requests>=2.31.0
+
+# Copy ONLY agent-related code (no game internals)
+COPY agent_client.py .
+COPY metrics.py .
+
+# Create isolated agent module
+COPY <<EOF /app/isolated_agent.py
+"""
+Isolated LLM Agent for Factorio Evaluation
+
+This agent runs in a container WITHOUT access to game source code or data files.
+It must learn through interaction with the game server API only.
+"""
+
+import os
+import re
+import time
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from typing import Optional, List, Dict, Any
+
+try:
+    import cohere
+    COHERE_AVAILABLE = True
+except ImportError:
+    COHERE_AVAILABLE = False
+
+from agent_client import GameClient, GameState, ActionResult
+
+
+@dataclass
+class AgentConfig:
+    model: str = "command-r-plus"
+    temperature: float = 0.3
+    max_tokens: int = 256
+    max_retries: int = 3
+
+
+# System prompt - agent must DISCOVER how to play through interaction
+SYSTEM_PROMPT = """You are playing Factorio, a factory automation game.
+
+GOAL: Launch a rocket. You need 100 rocket-parts.
+
+AVAILABLE COMMANDS:
+- mine <resource> <amount>: Mine resources (iron-ore, copper-ore, stone, coal)
+- craft <item> [amount]: Craft items (requires materials in inventory)
+- place <machine> <item> [amount]: Set up automated production
+- research <technology>: Unlock new recipes (requires science packs)
+- next [minutes]: Advance time (machines produce while time passes)
+- limit <item> <amount>: Cap production rate
+- launch: Attempt to launch rocket
+- info <item>: Get information about an item
+- recipes: List available recipes
+
+HINTS:
+- Start by mining raw resources
+- Craft machines to automate production
+- Error messages tell you what you're missing
+- Use 'info' to learn about items
+- Research unlocks new recipes
+
+Respond with EXACTLY ONE command per turn.
+"""
+
+
+class BaseAgent(ABC):
+    def __init__(self, config: AgentConfig):
+        self.config = config
+        self.history: List[Dict] = []
+
+    @abstractmethod
+    def get_action(self, state: GameState, last_result: Optional[ActionResult] = None) -> str:
+        pass
+
+    def reset(self):
+        self.history = []
+
+
+class CohereAgent(BaseAgent):
+    def __init__(self, config: AgentConfig, api_key: Optional[str] = None):
+        super().__init__(config)
+        if not COHERE_AVAILABLE:
+            raise ImportError("cohere not installed")
+
+        self.api_key = api_key or os.environ.get("COHERE_API_KEY")
+        if not self.api_key:
+            raise ValueError("COHERE_API_KEY required")
+
+        self.client = cohere.ClientV2(api_key=self.api_key)
+
+    def get_action(self, state: GameState, last_result: Optional[ActionResult] = None) -> str:
+        # Build message
+        parts = []
+        if last_result:
+            status = "OK" if last_result.success else "FAILED"
+            parts.append(f"Last action: {last_result.action}")
+            parts.append(f"Result: {status} - {last_result.message}")
+            parts.append("")
+
+        parts.append(state.to_prompt_string())
+        parts.append("")
+        parts.append("What is your next action?")
+
+        user_msg = "\\n".join(parts)
+
+        messages = [
+            {"role": "system", "content": SYSTEM_PROMPT},
+        ]
+        for h in self.history[-10:]:
+            messages.append(h)
+        messages.append({"role": "user", "content": user_msg})
+
+        for attempt in range(self.config.max_retries):
+            try:
+                response = self.client.chat(
+                    model=self.config.model,
+                    messages=messages,
+                    temperature=self.config.temperature,
+                    max_tokens=self.config.max_tokens,
+                )
+                text = response.message.content[0].text
+                action = self._extract_action(text)
+
+                self.history.append({"role": "user", "content": user_msg})
+                self.history.append({"role": "assistant", "content": text})
+
+                return action
+
+            except Exception as e:
+                if attempt < self.config.max_retries - 1:
+                    time.sleep(1.0 * (attempt + 1))
+                else:
+                    raise
+
+    def _extract_action(self, text: str) -> str:
+        text = text.strip()
+        patterns = [
+            r"^(mine\\s+\\S+\\s+\\d+)",
+            r"^(craft\\s+\\S+(?:\\s+\\d+)?)",
+            r"^(place\\s+\\S+\\s+\\S+(?:\\s+\\d+)?)",
+            r"^(research\\s+\\S+)",
+            r"^(next(?:\\s+\\d+)?)",
+            r"^(limit\\s+\\S+\\s+\\d+)",
+            r"^(launch)",
+            r"^(info\\s+\\S+)",
+            r"^(recipes)",
+            r"^(help)",
+        ]
+
+        for pattern in patterns:
+            match = re.match(pattern, text, re.IGNORECASE)
+            if match:
+                return match.group(1).lower()
+
+        for line in text.split("\\n"):
+            line = line.strip()
+            if not line:
+                continue
+            for pattern in patterns:
+                match = re.match(pattern, line, re.IGNORECASE)
+                if match:
+                    return match.group(1).lower()
+
+        return text.split("\\n")[0].strip().lower() if text else "next"
+
+
+class RandomAgent(BaseAgent):
+    def get_action(self, state: GameState, last_result: Optional[ActionResult] = None) -> str:
+        import random
+        actions = [
+            f"mine iron-ore {random.randint(10, 50)}",
+            f"mine copper-ore {random.randint(10, 50)}",
+            f"mine stone {random.randint(10, 30)}",
+            f"mine coal {random.randint(10, 30)}",
+            "next",
+            "next 5",
+            "recipes",
+        ]
+        if state.available_recipes:
+            for r in random.sample(state.available_recipes, min(3, len(state.available_recipes))):
+                actions.append(f"craft {r}")
+        return random.choice(actions)
+EOF
+
+# Create evaluation runner
+COPY <<EOF /app/run_eval.py
+#!/usr/bin/env python3
+"""Run LLM evaluation in isolated container."""
+
+import argparse
+import os
+import sys
+from datetime import datetime
+
+from agent_client import GameClient
+from isolated_agent import CohereAgent, RandomAgent, AgentConfig
+from metrics import MetricsCollector
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--agent", choices=["cohere", "random"], default="random")
+    parser.add_argument("--max-turns", type=int, default=200)
+    parser.add_argument("--server", default=os.environ.get("GAME_SERVER_URL", "http://game-server:5000"))
+    parser.add_argument("--model", default="command-r-plus")
+    parser.add_argument("--temperature", type=float, default=0.3)
+    args = parser.parse_args()
+
+    print(f"Connecting to game server: {args.server}")
+
+    # Create client and agent
+    client = GameClient(args.server)
+    config = AgentConfig(model=args.model, temperature=args.temperature)
+
+    if args.agent == "cohere":
+        agent = CohereAgent(config)
+        print(f"Using Cohere agent (model: {args.model})")
+    else:
+        agent = RandomAgent(config)
+        print("Using random agent")
+
+    # Setup metrics
+    collector = MetricsCollector(output_dir="/app/results")
+    collector.set_agent_info(args.agent, args.model)
+
+    # Run evaluation
+    print(f"Starting evaluation: max {args.max_turns} turns")
+    print("-" * 50)
+
+    state = client.reset()
+    agent.reset()
+    last_result = None
+
+    for turn in range(1, args.max_turns + 1):
+        # Get action
+        try:
+            action = agent.get_action(state, last_result)
+        except Exception as e:
+            print(f"Agent error: {e}")
+            collector.record_error(str(e))
+            continue
+
+        # Execute
+        result = client.execute_action(action)
+        last_result = result
+
+        # Record
+        collector.record_turn(
+            turn=turn,
+            action=action,
+            success=result.success,
+            message=result.message,
+            game_time=result.game_time,
+        )
+
+        # Log
+        status = "OK" if result.success else "FAIL"
+        if turn % 10 == 0:
+            print(f"Turn {turn}: {action} -> {status}")
+
+        # Check win
+        if client.is_game_won():
+            print("GAME WON!")
+            collector.record_win()
+            break
+
+        # Update state
+        state = client.get_state()
+
+    # Final metrics
+    metrics = client.get_metrics()
+    collector.record_game_state(
+        tech_count=metrics["tech_researched"],
+        machines=metrics["machines_placed"],
+        rocket_parts=metrics["rocket_parts"],
+        unique_items=0,
+    )
+
+    print()
+    print(collector.get_summary())
+
+
+if __name__ == "__main__":
+    main()
+EOF
+
+# Create directories
+RUN mkdir -p /app/scratch /app/results
+
+# Non-root user
+RUN useradd -m -s /bin/bash agent && chown -R agent:agent /app
+USER agent
+
+# Entry point
+ENTRYPOINT ["python", "run_eval.py"]
+CMD ["--help"]

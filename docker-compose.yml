@@ -1,0 +1,66 @@
+version: '3.8'
+
+# Isolated LLM Evaluation Setup
+# - Game server: Contains all game code/data (hidden from LLM)
+# - LLM agent: Only has client code, communicates via HTTP
+
+services:
+  # ===========================================
+  # GAME SERVER - Contains game implementation
+  # ===========================================
+  game-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    networks:
+      - game-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/time"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    # NOT exposed to host - only accessible within game-net
+
+  # ===========================================
+  # LLM AGENT - Isolated, no game file access
+  # ===========================================
+  llm-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    environment:
+      - COHERE_API_KEY=${COHERE_API_KEY}
+      - GAME_SERVER_URL=http://game-server:5000
+    networks:
+      - game-net
+    volumes:
+      - ./results:/app/results
+    depends_on:
+      game-server:
+        condition: service_healthy
+    command:
+      - "--agent"
+      - "${EVAL_AGENT:-random}"
+      - "--max-turns"
+      - "${EVAL_MAX_TURNS:-200}"
+      - "--server"
+      - "http://game-server:5000"
+
+  # ===========================================
+  # WEB UI - Optional, for debugging
+  # ===========================================
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "5000:5000"
+    networks:
+      - game-net
+    profiles:
+      - web
+
+networks:
+  game-net:
+    driver: bridge
+    # Isolated network - only game-server and llm-agent can communicate

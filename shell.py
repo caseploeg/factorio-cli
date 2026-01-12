@@ -16,7 +16,7 @@ import utils
 
 
 class FactorioShell(cmd2.Cmd):
-    intro = "Welcome to factorio-cli. Type help or ? to list cmds \n"
+    intro = "Welcome to factorio-cli. Type help or ? to list cmds \nUse 'join <name>' to connect to multiplayer.\n"
     prompt = "(0:00:00) "
 
     # todo: this is sus, move or refactor out of here
@@ -34,7 +34,11 @@ class FactorioShell(cmd2.Cmd):
     def update_prompt(self, data: cmd2.plugin.PostcommandData) -> cmd2.plugin.PostcommandData:
         """Update shell prompt with the amount of time elapsed in the simulation"""
         game_time = client.get_game_time()
-        self.prompt = f'({datetime.timedelta(0, game_time)})'
+        player_info = client.get_player_info()
+        if player_info['name']:
+            self.prompt = f'[{player_info["name"]}] ({datetime.timedelta(0, game_time)}) '
+        else:
+            self.prompt = f'({datetime.timedelta(0, game_time)}) '
         return data
 
     def arg_alias_hook(self, params: cmd2.plugin.PostparsingData) -> cmd2.plugin.PostparsingData:
@@ -254,3 +258,70 @@ class FactorioShell(cmd2.Cmd):
         with open(args.file, 'w') as save_file:
             cur_state = client.state()
             save_file.write(cur_state)
+
+    # MULTIPLAYER COMMANDS
+    join_parser = cmd2.Cmd2ArgumentParser()
+    join_parser.add_argument('name', nargs='?', default='Player', help='your player name')
+
+    @cmd2.with_argparser(join_parser)
+    def do_join(self, args):
+        """Join the multiplayer game with a player name"""
+        if client.is_connected():
+            self.poutput(f"Already connected as {client.get_player_info()['name']}")
+            return
+        result = client.join(args.name)
+        self.poutput(f"Joined as {result['name']} (ID: {result['player_id']})")
+
+    def do_leave(self, args):
+        """Leave the multiplayer game"""
+        if not client.is_connected():
+            self.poutput("Not connected to multiplayer")
+            return
+        client.leave()
+        self.poutput("Left the game")
+
+    def do_players(self, args):
+        """Show list of connected players"""
+        players = client.get_players()
+        if not players:
+            self.poutput("No players connected")
+            return
+        self.poutput("Connected players:")
+        for p in players:
+            self.poutput(f"  - {p['name']} (ID: {p['player_id']}, joined: {p['joined_at'][:19]})")
+
+    def do_actions(self, args):
+        """Show recent player actions"""
+        actions = client.get_actions()
+        if not actions:
+            self.poutput("No recent actions")
+            return
+        self.poutput("Recent actions:")
+        for a in actions[-10:]:
+            details_str = ', '.join(f'{k}={v}' for k, v in a.get('details', {}).items())
+            timestamp = a['timestamp'][:19] if a.get('timestamp') else ''
+            self.poutput(f"  [{timestamp}] {a['player_name']}: {a['action']} {details_str}")
+
+    rename_parser = cmd2.Cmd2ArgumentParser()
+    rename_parser.add_argument('name', help='new player name')
+
+    @cmd2.with_argparser(rename_parser)
+    def do_rename(self, args):
+        """Change your player name"""
+        if not client.is_connected():
+            self.poutput("Not connected to multiplayer. Use 'join' first.")
+            return
+        result = client.rename(args.name)
+        if result:
+            self.poutput(f"Renamed to {result['name']}")
+        else:
+            self.poutput("Failed to rename")
+
+    def do_whoami(self, args):
+        """Show your current player info"""
+        info = client.get_player_info()
+        if info['player_id']:
+            self.poutput(f"Name: {info['name']}")
+            self.poutput(f"ID: {info['player_id']}")
+        else:
+            self.poutput("Not connected to multiplayer. Use 'join <name>' to connect.")
